@@ -52,30 +52,14 @@ export const ExperimentalSettings = ({
 			<Section>
 				{Object.entries(experimentConfigsMap)
 					.filter(([key]) => key in EXPERIMENT_IDS)
-					.map((config) => {
-						if (config[0] === "MULTI_FILE_APPLY_DIFF") {
-							return (
-								<ExperimentalFeature
-									key={config[0]}
-									experimentKey={config[0]}
-									enabled={experiments[EXPERIMENT_IDS.MULTI_FILE_APPLY_DIFF] ?? false}
-									onChange={(enabled) =>
-										setExperimentEnabled(EXPERIMENT_IDS.MULTI_FILE_APPLY_DIFF, enabled)
-									}
-								/>
-							)
-						}
+					.map(([key]) => {
+						const experimentId = EXPERIMENT_IDS[key as keyof typeof EXPERIMENT_IDS]
 						return (
 							<ExperimentalFeature
-								key={config[0]}
-								experimentKey={config[0]}
-								enabled={experiments[EXPERIMENT_IDS[config[0] as keyof typeof EXPERIMENT_IDS]] ?? false}
-								onChange={(enabled) =>
-									setExperimentEnabled(
-										EXPERIMENT_IDS[config[0] as keyof typeof EXPERIMENT_IDS],
-										enabled,
-									)
-								}
+								key={key}
+								experimentKey={key}
+								enabled={experiments[experimentId] ?? false}
+								onChange={(enabled) => setExperimentEnabled(experimentId, enabled)}
 							/>
 						)
 					})}
