@@ -24,6 +24,8 @@ import { getNewTaskDescription } from "./new-task"
 import { getCodebaseSearchDescription } from "./codebase-search"
 import { getReferenceSearchDescription } from "./reference-search"
 import { getReadReferenceFileDescription } from "./read-reference-file"
+import { getAddMemoryDescription } from "./add-memory"
+import { getSearchMemoriesDescription } from "./search-memories"
 import { CodeIndexManager } from "../../../services/code-index/manager"
 
 // Map of tool names to their description functions
@@ -47,6 +49,8 @@ const toolDescriptionMap: Record<string, (args: ToolArgs) => string | undefined>
 	new_task: (args) => getNewTaskDescription(args),
 	insert_content: (args) => getInsertContentDescription(args),
 	search_and_replace: (args) => getSearchAndReplaceDescription(args),
+	add_memory: () => getAddMemoryDescription(),
+	search_memories: () => getSearchMemoriesDescription(),
 	apply_diff: (args) =>
 		args.diffStrategy ? args.diffStrategy.getToolDescription({ cwd: args.cwd, toolOptions: args.toolOptions }) : "",
 }
@@ -147,4 +151,6 @@ export {
 	getCodebaseSearchDescription,
 	getReferenceSearchDescription,
 	getReadReferenceFileDescription,
+	getAddMemoryDescription,
+	getSearchMemoriesDescription,
 }
