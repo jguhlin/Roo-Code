@@ -78,7 +78,7 @@ export class QdrantVectorStore implements IVectorStore {
 		// Generate collection name from workspace path
 		const hash = createHash("sha256").update(workspacePath).digest("hex")
 		this.vectorSize = vectorSize
-		this.collectionName = `ws-${hash.substring(0, 16)}`
+		this.collectionName = `ws-${hash.substring(0, 16)}-v2`
 	}
 
 	/**
@@ -196,6 +196,26 @@ export class QdrantVectorStore implements IVectorStore {
 					}
 				}
 			}
+
+			// Create payload indexes for notebook fields
+			try {
+				await this.client.createPayloadIndex(this.collectionName, {
+					field_name: "cell_type",
+					field_schema: "keyword",
+				})
+				await this.client.createPayloadIndex(this.collectionName, {
+					field_name: "cell_index",
+					field_schema: "integer",
+				})
+			} catch (indexError: any) {
+				const errorMessage = (indexError?.message || "").toLowerCase()
+				if (!errorMessage.includes("already exists")) {
+					console.warn(
+						`[QdrantVectorStore] Could not create payload index for notebook fields on ${this.collectionName}. Details:`,
+						indexError?.message || indexError,
+					)
+				}
+			}
 			return created
 		} catch (error: any) {
 			const errorMessage = error?.message || error
@@ -263,9 +283,15 @@ export class QdrantVectorStore implements IVectorStore {
 		if (!payload) {
 			return false
 		}
-		const validKeys = ["filePath", "codeChunk", "startLine", "endLine"]
-		const hasValidKeys = validKeys.every((key) => key in payload)
-		return hasValidKeys
+		const isNotebook = typeof payload.filePath === "string" && payload.filePath.endsWith(".ipynb")
+		const baseKeys = ["filePath", "codeChunk", "startLine", "endLine"]
+		const notebookKeys = ["cell_type", "cell_index"]
+
+		if (isNotebook) {
+			return [...baseKeys, ...notebookKeys].every((key) => key in payload)
+		}
+
+		return baseKeys.every((key) => key in payload)
 	}
 
 	/**
@@ -306,7 +332,15 @@ export class QdrantVectorStore implements IVectorStore {
 					exact: false,
 				},
 				with_payload: {
-					include: ["filePath", "codeChunk", "startLine", "endLine", "pathSegments"],
+					include: [
+						"filePath",
+						"codeChunk",
+						"startLine",
+						"endLine",
+						"pathSegments",
+						"cell_type",
+						"cell_index",
+					],
 				},
 			}
 

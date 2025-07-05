@@ -5,7 +5,10 @@ import { OpenAICompatibleEmbedder } from "./embedders/openai-compatible"
 import { GeminiEmbedder } from "./embedders/gemini"
 import { EmbedderProvider, getDefaultModelId, getModelDimension } from "../../shared/embeddingModels"
 import { QdrantVectorStore } from "./vector-store/qdrant-client"
-import { codeParser, DirectoryScanner, FileWatcher } from "./processors"
+import { DirectoryScanner, FileWatcher } from "./processors"
+import { codeParser } from "./processors/parser"
+import { jupyterProcessor } from "./processors/jupyter-processor"
+import { CompositeCodeParser } from "./processors/composite-parser"
 import { ICodeParser, IEmbedder, IFileWatcher, IVectorStore } from "./interfaces"
 import { CodeIndexConfigManager } from "./config-manager"
 import { CacheManager } from "./cache-manager"
@@ -125,16 +128,24 @@ export class CodeIndexServiceFactory {
 	}
 
 	/**
+	 * Creates a composite parser instance.
+	 */
+	public createParser(): ICodeParser {
+		return new CompositeCodeParser([codeParser, jupyterProcessor])
+	}
+
+	/**
 	 * Creates a file watcher instance with its required dependencies.
 	 */
 	public createFileWatcher(
 		context: vscode.ExtensionContext,
 		embedder: IEmbedder,
 		vectorStore: IVectorStore,
+		parser: ICodeParser,
 		cacheManager: CacheManager,
 		ignoreInstance: Ignore,
 	): IFileWatcher {
-		return new FileWatcher(this.workspacePath, context, cacheManager, embedder, vectorStore, ignoreInstance)
+		return new FileWatcher(this.workspacePath, context, cacheManager, embedder, vectorStore, parser, ignoreInstance)
 	}
 
 	/**
@@ -158,9 +169,9 @@ export class CodeIndexServiceFactory {
 
 		const embedder = this.createEmbedder()
 		const vectorStore = this.createVectorStore()
-		const parser = codeParser
+		const parser = this.createParser()
 		const scanner = this.createDirectoryScanner(embedder, vectorStore, parser, ignoreInstance)
-		const fileWatcher = this.createFileWatcher(context, embedder, vectorStore, cacheManager, ignoreInstance)
+		const fileWatcher = this.createFileWatcher(context, embedder, vectorStore, parser, cacheManager, ignoreInstance)
 
 		return {
 			embedder,

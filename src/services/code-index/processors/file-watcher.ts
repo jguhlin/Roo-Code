@@ -18,8 +18,9 @@ import {
 	IVectorStore,
 	PointStruct,
 	BatchProcessingSummary,
+	ICodeParser,
+	CodeBlock,
 } from "../interfaces"
-import { codeParser } from "./parser"
 import { CacheManager } from "../cache-manager"
 import { generateNormalizedAbsolutePath, generateRelativeFilePath } from "../shared/get-relative-path"
 import { isPathInIgnoredDirectory } from "../../glob/ignore-utils"
@@ -73,6 +74,7 @@ export class FileWatcher implements IFileWatcher {
 		private readonly cacheManager: CacheManager,
 		private embedder?: IEmbedder,
 		private vectorStore?: IVectorStore,
+		private parser?: ICodeParser,
 		ignoreInstance?: Ignore,
 		ignoreController?: RooIgnoreController,
 	) {
@@ -503,7 +505,13 @@ export class FileWatcher implements IFileWatcher {
 			}
 
 			// Parse file
-			const blocks = await codeParser.parseFile(filePath, { content, fileHash: newHash })
+			if (!this.parser) {
+				throw new Error("FileWatcher: Parser not initialized")
+			}
+			if (!this.parser) {
+				throw new Error("FileWatcher: Parser not initialized")
+			}
+			const blocks: CodeBlock[] = await this.parser.parseFile(filePath, { content, fileHash: newHash })
 
 			// Prepare points for batch processing
 			let pointsToUpsert: PointStruct[] = []
