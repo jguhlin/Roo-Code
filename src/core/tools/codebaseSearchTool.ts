@@ -7,6 +7,7 @@ import { formatResponse } from "../prompts/responses"
 import { VectorStoreSearchResult } from "../../services/code-index/interfaces"
 import { AskApproval, HandleError, PushToolResult, RemoveClosingTag, ToolUse } from "../../shared/tools"
 import path from "path"
+import { store_memory } from "../../services/mem0"
 
 export async function codebaseSearchTool(
 	cline: Task,
@@ -138,7 +139,50 @@ Code Chunk: ${result.codeChunk}
 	.join("\n")}`
 
 		pushToolResult(output)
+
+		const state = await cline.providerRef.deref()?.getState()
+		if (state?.mem0Enabled && state.mem0ApiServerUrl) {
+			await store_memory(
+				[
+					{
+						role: "system",
+						content: [{ type: "text", text: `[tool:codebase_search] ${query}` }],
+					},
+					{
+						role: "assistant",
+						content: [{ type: "text", text: output }],
+					},
+				],
+				state.machineId ?? "",
+				cline.taskId,
+				{ category: "codebase_search", query, path: directoryPrefix, status: "success" },
+			)
+		}
 	} catch (error: any) {
 		await handleError(toolName, error) // Use the standard error handler
+
+		const state = await cline.providerRef.deref()?.getState()
+		if (state?.mem0Enabled && state.mem0ApiServerUrl) {
+			await store_memory(
+				[
+					{
+						role: "system",
+						content: [{ type: "text", text: `[tool:codebase_search] ${query}` }],
+					},
+					{
+						role: "assistant",
+						content: [
+							{
+								type: "text",
+								text: `Error codebase search: ${error instanceof Error ? error.message : String(error)}`,
+							},
+						],
+					},
+				],
+				state.machineId ?? "",
+				cline.taskId,
+				{ category: "codebase_search", query, path: directoryPrefix, status: "error" },
+			)
+		}
 	}
 }

@@ -14,6 +14,7 @@ import { readLines } from "../../integrations/misc/read-lines"
 import { extractTextFromFile, addLineNumbers, getSupportedBinaryFormats } from "../../integrations/misc/extract-text"
 import { parseSourceCodeDefinitionsForFile } from "../../services/tree-sitter"
 import { parseXml } from "../../utils/xml"
+import { store_memory } from "../../services/mem0"
 
 export function getReadFileToolDescription(blockName: string, blockParams: any): string {
 	// Handle both single path and multiple files via args
@@ -585,9 +586,60 @@ export async function readFileTool(
 				const textBlock = { type: "text" as const, text: filesXml }
 				pushToolResult([...result, textBlock])
 			}
+
+			const state = await cline.providerRef.deref()?.getState()
+			if (state?.mem0Enabled && state.mem0ApiServerUrl) {
+				const allPaths = fileEntries.map((f) => f.path).join(",")
+				const resultText = typeof result === "string" ? `${result}\n${filesXml}` : filesXml
+				await store_memory(
+					[
+						{
+							role: "system",
+							content: [
+								{
+									type: "text",
+									text: `[tool:read_file] ${allPaths}`,
+								},
+							],
+						},
+						{
+							role: "assistant",
+							content: [{ type: "text", text: resultText }],
+						},
+					],
+					state.machineId ?? "",
+					cline.taskId,
+					{ category: "read_file", path: allPaths, status: "success" },
+				)
+			}
 		} else {
 			// No status message, just push the files XML
 			pushToolResult(filesXml)
+
+			const state = await cline.providerRef.deref()?.getState()
+			if (state?.mem0Enabled && state.mem0ApiServerUrl) {
+				const allPaths = fileEntries.map((f) => f.path).join(",")
+				await store_memory(
+					[
+						{
+							role: "system",
+							content: [
+								{
+									type: "text",
+									text: `[tool:read_file] ${allPaths}`,
+								},
+							],
+						},
+						{
+							role: "assistant",
+							content: [{ type: "text", text: filesXml }],
+						},
+					],
+					state.machineId ?? "",
+					cline.taskId,
+					{ category: "read_file", path: allPaths, status: "success" },
+				)
+			}
 		}
 	} catch (error) {
 		// Handle all errors using per-file format for consistency
@@ -608,6 +660,27 @@ export async function readFileTool(
 		// Generate final XML result from all file results
 		const xmlResults = fileResults.filter((result) => result.xmlContent).map((result) => result.xmlContent)
 
-		pushToolResult(`<files>\n${xmlResults.join("\n")}\n</files>`)
+		const errorResult = `<files>\n${xmlResults.join("\n")}\n</files>`
+		pushToolResult(errorResult)
+
+		const state = await cline.providerRef.deref()?.getState()
+		if (state?.mem0Enabled && state.mem0ApiServerUrl) {
+			const allPaths = fileEntries.map((f) => f.path).join(",")
+			await store_memory(
+				[
+					{
+						role: "system",
+						content: [{ type: "text", text: `[tool:read_file] ${allPaths}` }],
+					},
+					{
+						role: "assistant",
+						content: [{ type: "text", text: errorResult }],
+					},
+				],
+				state.machineId ?? "",
+				cline.taskId,
+				{ category: "read_file", path: allPaths, status: "error" },
+			)
+		}
 	}
 }

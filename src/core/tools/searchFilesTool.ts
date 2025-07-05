@@ -6,6 +6,7 @@ import { ClineSayTool } from "../../shared/ExtensionMessage"
 import { getReadablePath } from "../../utils/path"
 import { isPathOutsideWorkspace } from "../../utils/pathUtils"
 import { regexSearchFiles } from "../../services/ripgrep"
+import { store_memory } from "../../services/mem0"
 
 export async function searchFilesTool(
 	cline: Task,
@@ -69,10 +70,58 @@ export async function searchFilesTool(
 
 			pushToolResult(results)
 
+			const state = await cline.providerRef.deref()?.getState()
+			if (state?.mem0Enabled && state.mem0ApiServerUrl) {
+				await store_memory(
+					[
+						{
+							role: "system",
+							content: [{ type: "text", text: `[tool:search_files] ${relDirPath} ${regex}` }],
+						},
+						{
+							role: "assistant",
+							content: [{ type: "text", text: results }],
+						},
+					],
+					state.machineId ?? "",
+					cline.taskId,
+					{ category: "search_files", path: relDirPath, regex, status: "success" },
+				)
+			}
+
 			return
 		}
 	} catch (error) {
 		await handleError("searching files", error)
+
+		const state = await cline.providerRef.deref()?.getState()
+		if (state?.mem0Enabled && state.mem0ApiServerUrl) {
+			await store_memory(
+				[
+					{
+						role: "system",
+						content: [
+							{
+								type: "text",
+								text: `[tool:search_files] ${relDirPath} ${regex}`,
+							},
+						],
+					},
+					{
+						role: "assistant",
+						content: [
+							{
+								type: "text",
+								text: `Error searching files: ${error instanceof Error ? error.message : String(error)}`,
+							},
+						],
+					},
+				],
+				state.machineId ?? "",
+				cline.taskId,
+				{ category: "search_files", path: relDirPath, regex, status: "error" },
+			)
+		}
 		return
 	}
 }

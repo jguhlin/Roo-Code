@@ -7,6 +7,7 @@ import { listFiles } from "../../services/glob/list-files"
 import { getReadablePath } from "../../utils/path"
 import { isPathOutsideWorkspace } from "../../utils/pathUtils"
 import { ToolUse, AskApproval, HandleError, PushToolResult, RemoveClosingTag } from "../../shared/tools"
+import { store_memory } from "../../services/mem0"
 
 /**
  * Implements the list_files tool.
@@ -80,6 +81,30 @@ export async function listFilesTool(
 			}
 
 			pushToolResult(result)
+
+			const state = await cline.providerRef.deref()?.getState()
+			if (state?.mem0Enabled && state.mem0ApiServerUrl) {
+				await store_memory(
+					[
+						{
+							role: "system",
+							content: [
+								{
+									type: "text",
+									text: `[tool:list_files] ${relDirPath}`,
+								},
+							],
+						},
+						{
+							role: "assistant",
+							content: [{ type: "text", text: result }],
+						},
+					],
+					state.machineId ?? "",
+					cline.taskId,
+					{ category: "list_files", path: relDirPath, status: "success" },
+				)
+			}
 		}
 	} catch (error) {
 		await handleError("listing files", error)
