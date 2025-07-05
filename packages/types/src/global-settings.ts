@@ -56,9 +56,12 @@ export const globalSettingsSchema = z.object({
 	browserToolEnabled: z.boolean().optional(),
 	browserViewportSize: z.string().optional(),
 	screenshotQuality: z.number().optional(),
-	remoteBrowserEnabled: z.boolean().optional(),
-	remoteBrowserHost: z.string().optional(),
-	cachedChromeHostUrl: z.string().optional(),
+        remoteBrowserEnabled: z.boolean().optional(),
+        remoteBrowserHost: z.string().optional(),
+        cachedChromeHostUrl: z.string().optional(),
+
+        mem0Enabled: z.boolean().optional(),
+        mem0ApiServerUrl: z.string().optional(),
 
 	enableCheckpoints: z.boolean().optional(),
 
@@ -201,7 +204,9 @@ export const EVALS_SETTINGS: RooCodeSettings = {
 	browserToolEnabled: false,
 	browserViewportSize: "900x600",
 	screenshotQuality: 75,
-	remoteBrowserEnabled: false,
+        remoteBrowserEnabled: false,
+
+        mem0Enabled: false,
 
 	ttsEnabled: false,
 	ttsSpeed: 1,

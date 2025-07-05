@@ -770,17 +770,25 @@ export const webviewMessageHandler = async (
 			await updateGlobalState("remoteBrowserHost", message.text)
 			await provider.postStateToWebview()
 			break
-		case "remoteBrowserEnabled":
-			// Store the preference in global state
-			// remoteBrowserEnabled now means "enable remote browser connection"
-			await updateGlobalState("remoteBrowserEnabled", message.bool ?? false)
-			// If disabling remote browser connection, clear the remoteBrowserHost
-			if (!message.bool) {
-				await updateGlobalState("remoteBrowserHost", undefined)
-			}
-			await provider.postStateToWebview()
-			break
-		case "testBrowserConnection":
+                case "remoteBrowserEnabled":
+                        // Store the preference in global state
+                        // remoteBrowserEnabled now means "enable remote browser connection"
+                        await updateGlobalState("remoteBrowserEnabled", message.bool ?? false)
+                        // If disabling remote browser connection, clear the remoteBrowserHost
+                        if (!message.bool) {
+                                await updateGlobalState("remoteBrowserHost", undefined)
+                        }
+                        await provider.postStateToWebview()
+                        break
+                case "mem0Enabled":
+                        await updateGlobalState("mem0Enabled", message.bool ?? false)
+                        await provider.postStateToWebview()
+                        break
+                case "mem0ApiServerUrl":
+                        await updateGlobalState("mem0ApiServerUrl", message.text)
+                        await provider.postStateToWebview()
+                        break
+                case "testBrowserConnection":
 			// If no text is provided, try auto-discovery
 			if (!message.text) {
 				// Use testBrowserConnection for auto-discovery
