@@ -14,6 +14,7 @@ import { unescapeHtmlEntities } from "../../utils/text-normalization"
 import { ExitCodeDetails, RooTerminalCallbacks, RooTerminalProcess } from "../../integrations/terminal/types"
 import { TerminalRegistry } from "../../integrations/terminal/TerminalRegistry"
 import { Terminal } from "../../integrations/terminal/Terminal"
+import { store_memory } from "../../services/mem0"
 
 class ShellIntegrationError extends Error {}
 
@@ -28,6 +29,8 @@ export async function executeCommandTool(
 	let command: string | undefined = block.params.command
 	const customCwd: string | undefined = block.params.cwd
 
+	const state = await cline.providerRef.deref()?.getState()
+
 	try {
 		if (block.partial) {
 			await cline.ask("command", removeClosingTag("command", command), block.partial).catch(() => {})
@@ -36,7 +39,23 @@ export async function executeCommandTool(
 			if (!command) {
 				cline.consecutiveMistakeCount++
 				cline.recordToolError("execute_command")
-				pushToolResult(await cline.sayAndCreateMissingParamError("execute_command", "command"))
+				const missingMsg = await cline.sayAndCreateMissingParamError("execute_command", "command")
+				pushToolResult(missingMsg)
+
+				if (state?.mem0Enabled && state.mem0ApiServerUrl) {
+					await store_memory(
+						[
+							{
+								role: "system",
+								content: [{ type: "text", text: `[tool:execute_command] missing command` }],
+							},
+							{ role: "assistant", content: [{ type: "text", text: missingMsg }] },
+						],
+						state.machineId ?? "",
+						cline.taskId,
+						{ category: "execute_command", status: "error" },
+					)
+				}
 				return
 			}
 
@@ -44,7 +63,20 @@ export async function executeCommandTool(
 
 			if (ignoredFileAttemptedToAccess) {
 				await cline.say("rooignore_error", ignoredFileAttemptedToAccess)
-				pushToolResult(formatResponse.toolError(formatResponse.rooIgnoreError(ignoredFileAttemptedToAccess)))
+				const ignoreMsg = formatResponse.toolError(formatResponse.rooIgnoreError(ignoredFileAttemptedToAccess))
+				pushToolResult(ignoreMsg)
+
+				if (state?.mem0Enabled && state.mem0ApiServerUrl) {
+					await store_memory(
+						[
+							{ role: "system", content: [{ type: "text", text: `[tool:execute_command] rooignore` }] },
+							{ role: "assistant", content: [{ type: "text", text: ignoreMsg }] },
+						],
+						state.machineId ?? "",
+						cline.taskId,
+						{ category: "execute_command", status: "error" },
+					)
+				}
 				return
 			}
 
@@ -78,6 +110,22 @@ export async function executeCommandTool(
 				}
 
 				pushToolResult(result)
+
+				if (state?.mem0Enabled && state.mem0ApiServerUrl) {
+					const resultText =
+						typeof result === "string"
+							? result
+							: result.map((b) => (typeof b === "string" ? b : (b as any).text || "")).join("\n")
+					await store_memory(
+						[
+							{ role: "system", content: [{ type: "text", text: `[tool:execute_command] ${command}` }] },
+							{ role: "assistant", content: [{ type: "text", text: resultText }] },
+						],
+						state.machineId ?? "",
+						cline.taskId,
+						{ category: "execute_command", command, status: rejected ? "denied" : "success" },
+					)
+				}
 			} catch (error: unknown) {
 				const status: CommandExecutionStatus = { executionId, status: "fallback" }
 				clineProvider?.postMessageToWebview({ type: "commandExecutionStatus", text: JSON.stringify(status) })
@@ -94,8 +142,43 @@ export async function executeCommandTool(
 					}
 
 					pushToolResult(result)
+
+					if (state?.mem0Enabled && state.mem0ApiServerUrl) {
+						const resultText =
+							typeof result === "string"
+								? result
+								: result.map((b) => (typeof b === "string" ? b : (b as any).text || "")).join("\n")
+						await store_memory(
+							[
+								{
+									role: "system",
+									content: [{ type: "text", text: `[tool:execute_command] ${command}` }],
+								},
+								{ role: "assistant", content: [{ type: "text", text: resultText }] },
+							],
+							state.machineId ?? "",
+							cline.taskId,
+							{ category: "execute_command", command, status: rejected ? "denied" : "success" },
+						)
+					}
 				} else {
-					pushToolResult(`Command failed to execute in terminal due to a shell integration error.`)
+					const errorMsg = `Command failed to execute in terminal due to a shell integration error.`
+					pushToolResult(errorMsg)
+
+					if (state?.mem0Enabled && state.mem0ApiServerUrl) {
+						await store_memory(
+							[
+								{
+									role: "system",
+									content: [{ type: "text", text: `[tool:execute_command] ${command}` }],
+								},
+								{ role: "assistant", content: [{ type: "text", text: errorMsg }] },
+							],
+							state.machineId ?? "",
+							cline.taskId,
+							{ category: "execute_command", command, status: "error" },
+						)
+					}
 				}
 			}
 
@@ -103,6 +186,29 @@ export async function executeCommandTool(
 		}
 	} catch (error) {
 		await handleError("executing command", error)
+
+		if (state?.mem0Enabled && state.mem0ApiServerUrl) {
+			await store_memory(
+				[
+					{
+						role: "system",
+						content: [{ type: "text", text: `[tool:execute_command] ${command}` }],
+					},
+					{
+						role: "assistant",
+						content: [
+							{
+								type: "text",
+								text: `Error executing command: ${error instanceof Error ? error.message : String(error)}`,
+							},
+						],
+					},
+				],
+				state.machineId ?? "",
+				cline.taskId,
+				{ category: "execute_command", command, status: "error" },
+			)
+		}
 		return
 	}
 }
