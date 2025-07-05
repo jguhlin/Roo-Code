@@ -18,6 +18,10 @@ import * as path from "path"
 import * as vscode from "vscode"
 import { z } from "zod"
 import { t } from "../../i18n"
+import { editNotebookTool } from "../../integrations/jupyter/tools/edit-notebook"
+import { executeCellTool } from "../../integrations/jupyter/tools/execute-cell"
+import { readCellOutputTool } from "../../integrations/jupyter/tools/read-cell-output"
+import { summarizeNotebookTool } from "../../integrations/jupyter/tools/summarize-notebook"
 
 import { ClineProvider } from "../../core/webview/ClineProvider"
 import { GlobalFileNames } from "../../shared/globalFileNames"
@@ -567,7 +571,9 @@ export class McpHub {
 					version: this.providerRef.deref()?.context.extension?.packageJSON?.version ?? "1.0.0",
 				},
 				{
-					capabilities: {},
+					capabilities: {
+						tools: [editNotebookTool, executeCellTool, readCellOutputTool, summarizeNotebookTool],
+					},
 				},
 			)
 
@@ -802,7 +808,7 @@ export class McpHub {
 	 * @param source Optional source to filter by (global or project)
 	 * @returns The matching connection or undefined if not found
 	 */
-	private findConnection(serverName: string, source?: "global" | "project"): McpConnection | undefined {
+	public findConnection(serverName: string, source?: "global" | "project"): McpConnection | undefined {
 		// If source is specified, only find servers with that source
 		if (source !== undefined) {
 			return this.connections.find((conn) => conn.server.name === serverName && conn.server.source === source)
@@ -1172,7 +1178,7 @@ export class McpHub {
 		}
 	}
 
-	private async notifyWebviewOfServerChanges(): Promise<void> {
+	public async notifyWebviewOfServerChanges(): Promise<void> {
 		// Get global server order from settings file
 		const settingsPath = await this.getMcpSettingsFilePath()
 		const content = await fs.readFile(settingsPath, "utf-8")

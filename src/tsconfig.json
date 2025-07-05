@@ -21,6 +21,6 @@
 		"useDefineForClassFields": true,
 		"useUnknownInCatchVariables": false
 	},
-	"include": ["."],
+	"include": ["**/*"],
 	"exclude": ["node_modules"]
 }

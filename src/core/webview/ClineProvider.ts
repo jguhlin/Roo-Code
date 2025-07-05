@@ -47,6 +47,7 @@ import { Terminal } from "../../integrations/terminal/Terminal"
 import { downloadTask } from "../../integrations/misc/export-markdown"
 import { getTheme } from "../../integrations/theme/getTheme"
 import WorkspaceTracker from "../../integrations/workspace/WorkspaceTracker"
+import JupyterActivationStrategy from "../../integrations/jupyter/activation-strategy"
 import { McpHub } from "../../services/mcp/McpHub"
 import { McpServerManager } from "../../services/mcp/McpServerManager"
 import { MarketplaceManager } from "../../services/marketplace"
@@ -110,6 +111,7 @@ export class ClineProvider
 	protected mcpHub?: McpHub // Change from private to protected
 	private marketplaceManager: MarketplaceManager
 	private mdmService?: MdmService
+	private jupyterActivationStrategy?: JupyterActivationStrategy
 
 	public isViewLaunched = false
 	public settingsImportedAt?: number
@@ -156,6 +158,7 @@ export class ClineProvider
 			.then((hub) => {
 				this.mcpHub = hub
 				this.mcpHub.registerClient()
+				this.jupyterActivationStrategy = new JupyterActivationStrategy(this.mcpHub)
 			})
 			.catch((error) => {
 				this.log(`Failed to initialize MCP Hub: ${error}`)
@@ -283,6 +286,7 @@ export class ClineProvider
 		this._workspaceTracker = undefined
 		await this.mcpHub?.unregisterClient()
 		this.mcpHub = undefined
+		this.jupyterActivationStrategy?.dispose()
 		this.marketplaceManager?.cleanup()
 		this.customModesManager?.dispose()
 		this.log("Disposed all disposables")
