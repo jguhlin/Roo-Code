@@ -164,8 +164,10 @@ const SettingsView = forwardRef<SettingsViewRef, SettingsViewProps>(({ onDone, t
 		terminalZdotdir,
 		writeDelayMs,
 		showRooIgnoredFiles,
-		remoteBrowserEnabled,
-		maxReadFileLine,
+                remoteBrowserEnabled,
+                mem0Enabled,
+                mem0ApiServerUrl,
+                maxReadFileLine,
 		terminalCompressProgressBar,
 		maxConcurrentFileReads,
 		condensingApiConfigId,
@@ -286,9 +288,11 @@ const SettingsView = forwardRef<SettingsViewRef, SettingsViewProps>(({ onDone, t
 			vscode.postMessage({ type: "diffEnabled", bool: diffEnabled })
 			vscode.postMessage({ type: "enableCheckpoints", bool: enableCheckpoints })
 			vscode.postMessage({ type: "browserViewportSize", text: browserViewportSize })
-			vscode.postMessage({ type: "remoteBrowserHost", text: remoteBrowserHost })
-			vscode.postMessage({ type: "remoteBrowserEnabled", bool: remoteBrowserEnabled })
-			vscode.postMessage({ type: "fuzzyMatchThreshold", value: fuzzyMatchThreshold ?? 1.0 })
+                        vscode.postMessage({ type: "remoteBrowserHost", text: remoteBrowserHost })
+                        vscode.postMessage({ type: "remoteBrowserEnabled", bool: remoteBrowserEnabled })
+                        vscode.postMessage({ type: "mem0Enabled", bool: mem0Enabled })
+                        vscode.postMessage({ type: "mem0ApiServerUrl", text: mem0ApiServerUrl })
+                        vscode.postMessage({ type: "fuzzyMatchThreshold", value: fuzzyMatchThreshold ?? 1.0 })
 			vscode.postMessage({ type: "writeDelayMs", value: writeDelayMs })
 			vscode.postMessage({ type: "screenshotQuality", value: screenshotQuality ?? 75 })
 			vscode.postMessage({ type: "terminalOutputLineLimit", value: terminalOutputLineLimit ?? 500 })
@@ -688,15 +692,17 @@ const SettingsView = forwardRef<SettingsViewRef, SettingsViewProps>(({ onDone, t
 
 					{/* Experimental Section */}
 					{activeTab === "experimental" && (
-						<ExperimentalSettings
-							setExperimentEnabled={setExperimentEnabled}
-							experiments={experiments}
-							codebaseIndexModels={codebaseIndexModels}
-							codebaseIndexConfig={codebaseIndexConfig}
-							codebaseIndexEnabled={codebaseIndexConfig?.codebaseIndexEnabled}
-							setCachedStateField={setCachedStateField}
-						/>
-					)}
+                                                <ExperimentalSettings
+                                                        setExperimentEnabled={setExperimentEnabled}
+                                                        experiments={experiments}
+                                                        codebaseIndexModels={codebaseIndexModels}
+                                                        codebaseIndexConfig={codebaseIndexConfig}
+                                                        codebaseIndexEnabled={codebaseIndexConfig?.codebaseIndexEnabled}
+                                                        mem0Enabled={mem0Enabled}
+                                                        mem0ApiServerUrl={mem0ApiServerUrl}
+                                                        setCachedStateField={setCachedStateField}
+                                                />
+                                        )}
 
 					{/* Language Section */}
 					{activeTab === "language" && (

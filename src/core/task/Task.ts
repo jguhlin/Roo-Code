@@ -46,6 +46,7 @@ import { BrowserSession } from "../../services/browser/BrowserSession"
 import { McpHub } from "../../services/mcp/McpHub"
 import { McpServerManager } from "../../services/mcp/McpServerManager"
 import { RepoPerTaskCheckpointService } from "../../services/checkpoints"
+import { search_memories, store_memory } from "../../services/mem0"
 
 // integrations
 import { DiffViewProvider } from "../../integrations/editor/DiffViewProvider"
@@ -165,11 +166,13 @@ export class Task extends EventEmitter<ClineEvents> {
 	browserSession: BrowserSession
 
 	// Editing
-	diffViewProvider: DiffViewProvider
-	diffStrategy?: DiffStrategy
-	diffEnabled: boolean = false
-	fuzzyMatchThreshold: number
-	didEditFile: boolean = false
+        diffViewProvider: DiffViewProvider
+        diffStrategy?: DiffStrategy
+        diffEnabled: boolean = false
+        fuzzyMatchThreshold: number
+        didEditFile: boolean = false
+
+        initialTask?: string
 
 	// LLM Messages & Chat Messages
 	apiConversationHistory: ApiMessage[] = []
@@ -256,9 +259,10 @@ export class Task extends EventEmitter<ClineEvents> {
 		this.diffViewProvider = new DiffViewProvider(this.cwd)
 		this.enableCheckpoints = enableCheckpoints
 
-		this.rootTask = rootTask
-		this.parentTask = parentTask
-		this.taskNumber = taskNumber
+                this.rootTask = rootTask
+                this.parentTask = parentTask
+                this.taskNumber = taskNumber
+                this.initialTask = task ?? historyItem?.task
 
 		if (historyItem) {
 			TelemetryService.instance.captureTaskRestarted(this.taskId)
@@ -1511,7 +1515,19 @@ export class Task extends EventEmitter<ClineEvents> {
 					content: [{ type: "text", text: assistantMessage }],
 				})
 
-				TelemetryService.instance.captureConversationMessage(this.taskId, "assistant")
+                                TelemetryService.instance.captureConversationMessage(this.taskId, "assistant")
+
+                                if (state?.mem0Enabled && state.mem0ApiServerUrl) {
+                                        await store_memory(
+                                                [
+                                                        { role: "user", content: finalUserContent },
+                                                        { role: "assistant", content: [{ type: "text", text: assistantMessage }] },
+                                                ],
+                                                state.machineId ?? "",
+                                                this.taskId,
+                                                { category: "task", status: "success" },
+                                        )
+                                }
 
 				// NOTE: This comment is here for future reference - this was a
 				// workaround for `userMessageContent` not getting set to true.
@@ -1773,10 +1789,20 @@ export class Task extends EventEmitter<ClineEvents> {
 			}
 		}
 
-		const metadata: ApiHandlerCreateMessageMetadata = {
-			mode: mode,
-			taskId: this.taskId,
-		}
+                const metadata: ApiHandlerCreateMessageMetadata = {
+                        mode: mode,
+                        taskId: this.taskId,
+                }
+
+                if (state?.mem0Enabled && state.mem0ApiServerUrl && this.initialTask) {
+                        const memories = await search_memories(this.initialTask, state.machineId ?? "", this.taskId)
+                        if (memories && Array.isArray(memories) && memories.length > 0) {
+                                cleanConversationHistory.unshift({
+                                        role: "user",
+                                        content: [{ type: "text", text: `[memories]\n${memories.map((m: any) => m.text || m.memory).join("\n")}` }],
+                                })
+                        }
+                }
 
 		const stream = this.api.createMessage(systemPrompt, cleanConversationHistory, metadata)
 		const iterator = stream[Symbol.asyncIterator]()

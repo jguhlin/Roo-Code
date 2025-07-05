@@ -22,6 +22,7 @@ import { Package } from "../shared/package"
 import { getWorkspacePath } from "../utils/path"
 import { ClineProvider } from "../core/webview/ClineProvider"
 import { openClineInNewTab } from "../activate/registerCommands"
+import { store_memory } from "../services/mem0"
 
 export class API extends EventEmitter<RooCodeEvents> implements RooCodeAPI {
 	private readonly outputChannel: vscode.OutputChannel
@@ -221,18 +222,28 @@ export class API extends EventEmitter<RooCodeEvents> implements RooCodeAPI {
 				this.taskMap.delete(cline.taskId)
 			})
 
-			cline.on("taskCompleted", async (_, tokenUsage, toolUsage) => {
-				let isSubtask = false
-				if (cline.rootTask != undefined) {
-					isSubtask = true
-				}
-				this.emit(RooCodeEventName.TaskCompleted, cline.taskId, tokenUsage, toolUsage, { isSubtask: isSubtask })
-				this.taskMap.delete(cline.taskId)
+                        cline.on("taskCompleted", async (_, tokenUsage, toolUsage) => {
+                                let isSubtask = false
+                                if (cline.rootTask != undefined) {
+                                        isSubtask = true
+                                }
+                                this.emit(RooCodeEventName.TaskCompleted, cline.taskId, tokenUsage, toolUsage, { isSubtask: isSubtask })
+                                this.taskMap.delete(cline.taskId)
 
-				await this.fileLog(
-					`[${new Date().toISOString()}] taskCompleted -> ${cline.taskId} | ${JSON.stringify(tokenUsage, null, 2)} | ${JSON.stringify(toolUsage, null, 2)}\n`,
-				)
-			})
+                                await this.fileLog(
+                                        `[${new Date().toISOString()}] taskCompleted -> ${cline.taskId} | ${JSON.stringify(tokenUsage, null, 2)} | ${JSON.stringify(toolUsage, null, 2)}\n`,
+                                )
+
+                                const state = await provider.getState()
+                                if (state.mem0Enabled && state.mem0ApiServerUrl) {
+                                        await store_memory(
+                                                cline.apiConversationHistory,
+                                                state.machineId ?? "",
+                                                cline.taskId,
+                                                { category: "task", status: "success" },
+                                        )
+                                }
+                        })
 
 			cline.on("taskSpawned", (childTaskId) => this.emit(RooCodeEventName.TaskSpawned, cline.taskId, childTaskId))
 			cline.on("taskPaused", () => this.emit(RooCodeEventName.TaskPaused, cline.taskId))

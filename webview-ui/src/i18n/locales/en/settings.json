@@ -128,7 +128,7 @@
 				"description": "Allow Roo to create and edit protected files (like .rooignore and .roo/ configuration files) without requiring approval."
 			}
 		},
-		"browser": {
+        "browser": {
 			"label": "Browser",
 			"description": "Automatically perform browser actions without requiring approval. Note: Only applies when the model supports computer use"
 		},
@@ -381,8 +381,16 @@
 			"testingButton": "Testing...",
 			"instructions": "Enter the DevTools Protocol host address or leave empty to auto-discover Chrome local instances. The Test Connection button will try the custom URL if provided, or auto-discover if the field is empty."
 		}
-	},
-	"checkpoints": {
+        },
+        "mem0": {
+                "enable": {
+                        "label": "Enable Mem0",
+                        "description": "Store and recall task memories using a Mem0 server.",
+                        "urlLabel": "Mem0 API Server URL",
+                        "urlPlaceholder": "http://localhost:4321"
+                }
+        },
+        "checkpoints": {
 		"enable": {
 			"label": "Enable automatic checkpoints",
 			"description": "When enabled, Roo will automatically create checkpoints during task execution, making it easy to review changes or revert to earlier states. <0>Learn more</0>"
