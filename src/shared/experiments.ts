@@ -2,6 +2,7 @@ import type { AssertEqual, Equals, Keys, Values, ExperimentId, Experiments } fro
 
 export const EXPERIMENT_IDS = {
 	MULTI_FILE_APPLY_DIFF: "multiFileApplyDiff",
+	LLM_CONVERSATION_SAVING: "llmConversationSaving",
 	POWER_STEERING: "powerSteering",
 } as const satisfies Record<string, ExperimentId>
 
@@ -11,10 +12,27 @@ type ExperimentKey = Keys<typeof EXPERIMENT_IDS>
 
 interface ExperimentConfig {
 	enabled: boolean
+	settings?: {
+		[key: string]: {
+			type: string
+			default: any
+			description: string
+		}
+	}
 }
 
 export const experimentConfigsMap: Record<ExperimentKey, ExperimentConfig> = {
 	MULTI_FILE_APPLY_DIFF: { enabled: false },
+	LLM_CONVERSATION_SAVING: {
+		enabled: false,
+		settings: {
+			storagePath: {
+				type: "string",
+				default: ".roo/conversations",
+				description: "Directory to store LLM conversation logs",
+			},
+		},
+	},
 	POWER_STEERING: { enabled: false },
 }
 
