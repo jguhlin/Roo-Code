@@ -20,6 +20,7 @@ import { z } from "zod"
 import { t } from "../../i18n"
 import { editNotebookTool } from "../../integrations/jupyter/tools/edit-notebook"
 import { executeCellTool } from "../../integrations/jupyter/tools/execute-cell"
+import { runNotebookCellTool } from "../../integrations/jupyter/tools/run-notebook-cell"
 import { readCellOutputTool } from "../../integrations/jupyter/tools/read-cell-output"
 import { summarizeNotebookTool } from "../../integrations/jupyter/tools/summarize-notebook"
 
@@ -572,7 +573,13 @@ export class McpHub {
 				},
 				{
 					capabilities: {
-						tools: [editNotebookTool, executeCellTool, readCellOutputTool, summarizeNotebookTool],
+						tools: [
+							editNotebookTool,
+							executeCellTool,
+							runNotebookCellTool,
+							readCellOutputTool,
+							summarizeNotebookTool,
+						],
 					},
 				},
 			)

@@ -28,7 +28,13 @@ class JupyterActivationStrategy {
 	private async updateToolAvailability() {
 		const jupyterFiles = await vscode.workspace.findFiles("**/*.ipynb", "**/node_modules/**", 1)
 		const isToolAvailable = jupyterFiles.length > 0
-		const jupyterTools = ["editNotebookTool", "executeCellTool", "readCellOutputTool", "summarizeNotebookTool"]
+		const jupyterTools = [
+			"editNotebookTool",
+			"executeCellTool",
+			"runNotebookCellTool",
+			"readCellOutputTool",
+			"summarizeNotebookTool",
+		]
 
 		for (const tool of jupyterTools) {
 			const connection = this.mcpHub.findConnection(tool)
