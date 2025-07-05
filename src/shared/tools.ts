@@ -64,6 +64,7 @@ export const toolParamNames = [
 	"end_line",
 	"query",
 	"args",
+	"memory",
 ] as const
 
 export type ToolParamName = (typeof toolParamNames)[number]
@@ -167,6 +168,16 @@ export interface NewTaskToolUse extends ToolUse {
 	params: Partial<Pick<Record<ToolParamName, string>, "mode" | "message">>
 }
 
+export interface AddMemoryToolUse extends ToolUse {
+	name: "add_memory"
+	params: Partial<Pick<Record<ToolParamName, string>, "memory">>
+}
+
+export interface SearchMemoriesToolUse extends ToolUse {
+	name: "search_memories"
+	params: Partial<Pick<Record<ToolParamName, string>, "query">>
+}
+
 export interface SearchAndReplaceToolUse extends ToolUse {
 	name: "search_and_replace"
 	params: Required<Pick<Record<ToolParamName, string>, "path" | "search" | "replace">> &
@@ -200,6 +211,8 @@ export const TOOL_DISPLAY_NAMES: Record<ToolName, string> = {
 	codebase_search: "codebase search",
 	reference_search: "reference search",
 	read_reference_file: "read reference",
+	add_memory: "add memory",
+	search_memories: "search memories",
 } as const
 
 // Define available tool groups.
@@ -240,6 +253,8 @@ export const ALWAYS_AVAILABLE_TOOLS: ToolName[] = [
 	"attempt_completion",
 	"switch_mode",
 	"new_task",
+	"add_memory",
+	"search_memories",
 ] as const
 
 export type DiffResult =

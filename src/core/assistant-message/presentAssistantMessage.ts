@@ -33,6 +33,8 @@ import { Task } from "../task/Task"
 import { codebaseSearchTool } from "../tools/codebaseSearchTool"
 import { referenceSearchTool } from "../tools/referenceSearchTool"
 import { readReferenceFileTool } from "../tools/readReferenceFileTool"
+import { addMemoryTool } from "../tools/addMemoryTool"
+import { searchMemoriesTool } from "../tools/searchMemoriesTool"
 import { experiments, EXPERIMENT_IDS } from "../../shared/experiments"
 import { applyDiffToolLegacy } from "../tools/applyDiffTool"
 
@@ -211,6 +213,10 @@ export async function presentAssistantMessage(cline: Task) {
 						return `[${block.name} for '${block.params.query}']`
 					case "read_reference_file":
 						return `[${block.name} for '${block.params.path}']`
+					case "add_memory":
+						return `[${block.name}]`
+					case "search_memories":
+						return `[${block.name} for '${block.params.query}']`
 					case "new_task": {
 						const mode = block.params.mode ?? defaultModeSlug
 						const message = block.params.message ?? "(no message)"
@@ -484,6 +490,12 @@ export async function presentAssistantMessage(cline: Task) {
 						pushToolResult,
 						removeClosingTag,
 					)
+					break
+				case "add_memory":
+					await addMemoryTool(cline, block, askApproval, handleError, pushToolResult, removeClosingTag)
+					break
+				case "search_memories":
+					await searchMemoriesTool(cline, block, askApproval, handleError, pushToolResult, removeClosingTag)
 					break
 				case "search_files":
 					await searchFilesTool(cline, block, askApproval, handleError, pushToolResult, removeClosingTag)
