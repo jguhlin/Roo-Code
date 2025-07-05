@@ -1089,6 +1089,36 @@ export const ChatRowContent = ({
 					const { query = "", results = [] } = parsed?.content || {}
 
 					return <CodebaseSearchResultsDisplay query={query} results={results} />
+				case "reference_search_result":
+					let parsedRef: {
+						content: {
+							query: string
+							results: Array<{
+								filePath: string
+								score: number
+								startLine: number
+								endLine: number
+								codeChunk: string
+							}>
+						}
+					} | null = null
+
+					try {
+						if (message.text) {
+							parsedRef = JSON.parse(message.text)
+						}
+					} catch (error) {
+						console.error("Failed to parse referenceSearch content:", error)
+					}
+
+					if (parsedRef && !parsedRef?.content) {
+						console.error("Invalid referenceSearch content structure:", parsedRef.content)
+						return <div>Error displaying search results.</div>
+					}
+
+					const { query: refQuery = "", results: refResults = [] } = parsedRef?.content || {}
+
+					return <CodebaseSearchResultsDisplay query={refQuery} results={refResults} />
 				default:
 					return (
 						<>

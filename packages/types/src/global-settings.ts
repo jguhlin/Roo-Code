@@ -8,7 +8,14 @@ import {
 	providerSettingsSchema,
 } from "./provider-settings.js"
 import { historyItemSchema } from "./history.js"
-import { codebaseIndexModelsSchema, codebaseIndexConfigSchema } from "./codebase-index.js"
+import {
+        codebaseIndexModelsSchema,
+        codebaseIndexConfigSchema,
+} from "./codebase-index.js"
+import {
+        referenceIndexModelsSchema,
+        referenceIndexConfigSchema,
+} from "./reference-index.js"
 import { experimentsSchema } from "./experiment.js"
 import { telemetrySettingsSchema } from "./telemetry.js"
 import { modeConfigSchema } from "./mode.js"
@@ -86,10 +93,12 @@ export const globalSettingsSchema = z.object({
 	rateLimitSeconds: z.number().optional(),
 	diffEnabled: z.boolean().optional(),
 	fuzzyMatchThreshold: z.number().optional(),
-	experiments: experimentsSchema.optional(),
+        experiments: experimentsSchema.optional(),
 
-	codebaseIndexModels: codebaseIndexModelsSchema.optional(),
-	codebaseIndexConfig: codebaseIndexConfigSchema.optional(),
+        codebaseIndexModels: codebaseIndexModelsSchema.optional(),
+        codebaseIndexConfig: codebaseIndexConfigSchema.optional(),
+        referenceIndexModels: referenceIndexModelsSchema.optional(),
+        referenceIndexConfig: referenceIndexConfigSchema.optional(),
 
 	language: languagesSchema.optional(),
 
@@ -146,8 +155,10 @@ export const SECRET_STATE_KEYS = [
 	"litellmApiKey",
 	"codeIndexOpenAiKey",
 	"codeIndexQdrantApiKey",
-	"codebaseIndexOpenAiCompatibleApiKey",
-	"codebaseIndexGeminiApiKey",
+        "codebaseIndexOpenAiCompatibleApiKey",
+        "codebaseIndexGeminiApiKey",
+        "referenceIndexOpenAiCompatibleApiKey",
+        "referenceIndexGeminiApiKey",
 ] as const satisfies readonly (keyof ProviderSettings)[]
 export type SecretState = Pick<ProviderSettings, (typeof SECRET_STATE_KEYS)[number]>
 

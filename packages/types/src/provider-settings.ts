@@ -2,6 +2,7 @@ import { z } from "zod"
 
 import { reasoningEffortsSchema, modelInfoSchema } from "./model.js"
 import { codebaseIndexProviderSchema } from "./codebase-index.js"
+import { referenceIndexProviderSchema } from "./reference-index.js"
 
 /**
  * ProviderName
@@ -266,10 +267,11 @@ export const providerSettingsSchema = z.object({
 	...humanRelaySchema.shape,
 	...fakeAiSchema.shape,
 	...xaiSchema.shape,
-	...groqSchema.shape,
-	...chutesSchema.shape,
-	...litellmSchema.shape,
-	...codebaseIndexProviderSchema.shape,
+        ...groqSchema.shape,
+        ...chutesSchema.shape,
+        ...litellmSchema.shape,
+        ...codebaseIndexProviderSchema.shape,
+        ...referenceIndexProviderSchema.shape,
 })
 
 export type ProviderSettings = z.infer<typeof providerSettingsSchema>

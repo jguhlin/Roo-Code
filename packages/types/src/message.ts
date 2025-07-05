@@ -80,6 +80,7 @@ export type ClineAsk = z.infer<typeof clineAskSchema>
  * - `condense_context`: Context condensation/summarization has started
  * - `condense_context_error`: Error occurred during context condensation
  * - `codebase_search_result`: Results from searching the codebase
+ * - `reference_search_result`: Results from searching the reference index
  */
 export const clineSays = [
 	"error",
@@ -104,8 +105,9 @@ export const clineSays = [
 	"rooignore_error",
 	"diff_error",
 	"condense_context",
-	"condense_context_error",
-	"codebase_search_result",
+        "condense_context_error",
+        "codebase_search_result",
+        "reference_search_result",
 ] as const
 
 export const clineSaySchema = z.enum(clineSays)

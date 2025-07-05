@@ -31,6 +31,8 @@ import { formatResponse } from "../prompts/responses"
 import { validateToolUse } from "../tools/validateToolUse"
 import { Task } from "../task/Task"
 import { codebaseSearchTool } from "../tools/codebaseSearchTool"
+import { referenceSearchTool } from "../tools/referenceSearchTool"
+import { readReferenceFileTool } from "../tools/readReferenceFileTool"
 import { experiments, EXPERIMENT_IDS } from "../../shared/experiments"
 import { applyDiffToolLegacy } from "../tools/applyDiffTool"
 
@@ -205,6 +207,10 @@ export async function presentAssistantMessage(cline: Task) {
 						return `[${block.name} to '${block.params.mode_slug}'${block.params.reason ? ` because: ${block.params.reason}` : ""}]`
 					case "codebase_search": // Add case for the new tool
 						return `[${block.name} for '${block.params.query}']`
+					case "reference_search":
+						return `[${block.name} for '${block.params.query}']`
+					case "read_reference_file":
+						return `[${block.name} for '${block.params.path}']`
 					case "new_task": {
 						const mode = block.params.mode ?? defaultModeSlug
 						const message = block.params.message ?? "(no message)"
@@ -455,6 +461,19 @@ export async function presentAssistantMessage(cline: Task) {
 					break
 				case "codebase_search":
 					await codebaseSearchTool(cline, block, askApproval, handleError, pushToolResult, removeClosingTag)
+					break
+				case "reference_search":
+					await referenceSearchTool(cline, block, askApproval, handleError, pushToolResult, removeClosingTag)
+					break
+				case "read_reference_file":
+					await readReferenceFileTool(
+						cline,
+						block,
+						askApproval,
+						handleError,
+						pushToolResult,
+						removeClosingTag,
+					)
 					break
 				case "list_code_definition_names":
 					await listCodeDefinitionNamesTool(

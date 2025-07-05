@@ -26,6 +26,7 @@ import { DIFF_VIEW_URI_SCHEME } from "./integrations/editor/DiffViewProvider"
 import { TerminalRegistry } from "./integrations/terminal/TerminalRegistry"
 import { McpServerManager } from "./services/mcp/McpServerManager"
 import { CodeIndexManager } from "./services/code-index/manager"
+import { ReferenceIndexManager } from "./services/reference-index/manager"
 import { MdmService } from "./services/mdm/MdmService"
 import { migrateSettings } from "./utils/migrateSettings"
 import { autoImportSettings } from "./utils/autoImportSettings"
@@ -99,6 +100,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	const contextProxy = await ContextProxy.getInstance(context)
 	const codeIndexManager = CodeIndexManager.getInstance(context)
+	const referenceIndexManager = ReferenceIndexManager.getInstance(context)
 
 	try {
 		await codeIndexManager?.initialize(contextProxy)
@@ -108,11 +110,30 @@ export async function activate(context: vscode.ExtensionContext) {
 		)
 	}
 
-	const provider = new ClineProvider(context, outputChannel, "sidebar", contextProxy, codeIndexManager, mdmService)
+	try {
+		await referenceIndexManager?.initialize(contextProxy)
+	} catch (error) {
+		outputChannel.appendLine(
+			`[ReferenceIndexManager] Error during background ReferenceIndexManager configuration/indexing: ${error.message || error}`,
+		)
+	}
+
+	const provider = new ClineProvider(
+		context,
+		outputChannel,
+		"sidebar",
+		contextProxy,
+		codeIndexManager,
+		mdmService,
+		referenceIndexManager,
+	)
 	TelemetryService.instance.setProvider(provider)
 
 	if (codeIndexManager) {
 		context.subscriptions.push(codeIndexManager)
+	}
+	if (referenceIndexManager) {
+		context.subscriptions.push(referenceIndexManager)
 	}
 
 	context.subscriptions.push(

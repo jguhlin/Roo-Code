@@ -51,6 +51,7 @@ import { McpServerManager } from "../../services/mcp/McpServerManager"
 import { MarketplaceManager } from "../../services/marketplace"
 import { ShadowCheckpointService } from "../../services/checkpoints/ShadowCheckpointService"
 import { CodeIndexManager } from "../../services/code-index/manager"
+import { ReferenceIndexManager } from "../../services/reference-index/manager"
 import type { IndexProgressUpdate } from "../../services/code-index/interfaces/manager"
 import { MdmService } from "../../services/mdm/MdmService"
 import { fileExistsAtPath } from "../../utils/fs"
@@ -100,6 +101,7 @@ export class ClineProvider
 	private view?: vscode.WebviewView | vscode.WebviewPanel
 	private clineStack: Task[] = []
 	private codeIndexStatusSubscription?: vscode.Disposable
+	private referenceIndexStatusSubscription?: vscode.Disposable
 	private _workspaceTracker?: WorkspaceTracker // workSpaceTracker read-only for access outside this class
 	public get workspaceTracker(): WorkspaceTracker | undefined {
 		return this._workspaceTracker
@@ -121,6 +123,7 @@ export class ClineProvider
 		public readonly contextProxy: ContextProxy,
 		public readonly codeIndexManager?: CodeIndexManager,
 		mdmService?: MdmService,
+		public readonly referenceIndexManager?: ReferenceIndexManager,
 	) {
 		super()
 
@@ -128,6 +131,7 @@ export class ClineProvider
 		ClineProvider.activeInstances.add(this)
 
 		this.codeIndexManager = codeIndexManager
+		this.referenceIndexManager = referenceIndexManager
 		this.mdmService = mdmService
 		this.updateGlobalState("codebaseIndexModels", EMBEDDING_MODEL_PROFILES)
 
@@ -455,6 +459,17 @@ export class ClineProvider
 			})
 			this.webviewDisposables.push(this.codeIndexStatusSubscription)
 		}
+		if (this.referenceIndexManager) {
+			this.referenceIndexStatusSubscription = this.referenceIndexManager.onProgressUpdate(
+				(update: IndexProgressUpdate) => {
+					this.postMessageToWebview({
+						type: "referenceIndexingStatusUpdate",
+						values: update,
+					})
+				},
+			)
+			this.webviewDisposables.push(this.referenceIndexStatusSubscription)
+		}
 
 		// Logs show up in bottom panel > Debug Console
 		//console.log("registering listener")
@@ -492,6 +507,8 @@ export class ClineProvider
 					this.clearWebviewResources()
 					this.codeIndexStatusSubscription?.dispose()
 					this.codeIndexStatusSubscription = undefined
+					this.referenceIndexStatusSubscription?.dispose()
+					this.referenceIndexStatusSubscription = undefined
 				}
 			},
 			null,
