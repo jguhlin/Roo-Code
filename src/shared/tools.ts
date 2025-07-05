@@ -107,6 +107,16 @@ export interface CodebaseSearchToolUse extends ToolUse {
 	params: Partial<Pick<Record<ToolParamName, string>, "query" | "path">>
 }
 
+export interface ReferenceSearchToolUse extends ToolUse {
+	name: "reference_search"
+	params: Partial<Pick<Record<ToolParamName, string>, "query" | "path">>
+}
+
+export interface ReadReferenceFileToolUse extends ToolUse {
+	name: "read_reference_file"
+	params: Partial<Pick<Record<ToolParamName, string>, "path" | "start_line" | "end_line">>
+}
+
 export interface SearchFilesToolUse extends ToolUse {
 	name: "search_files"
 	params: Partial<Pick<Record<ToolParamName, string>, "path" | "regex" | "file_pattern">>
@@ -188,6 +198,8 @@ export const TOOL_DISPLAY_NAMES: Record<ToolName, string> = {
 	insert_content: "insert content",
 	search_and_replace: "search and replace",
 	codebase_search: "codebase search",
+	reference_search: "reference search",
+	read_reference_file: "read reference",
 } as const
 
 // Define available tool groups.
@@ -200,6 +212,8 @@ export const TOOL_GROUPS: Record<ToolGroup, ToolGroupConfig> = {
 			"list_files",
 			"list_code_definition_names",
 			"codebase_search",
+			"reference_search",
+			"read_reference_file",
 		],
 	},
 	edit: {
