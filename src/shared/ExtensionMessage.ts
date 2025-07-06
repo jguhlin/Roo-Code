@@ -229,6 +229,9 @@ export type ExtensionState = Pick<
 	| "customCondensingPrompt"
 	| "codebaseIndexConfig"
 	| "codebaseIndexModels"
+	| "referenceIndexConfig"
+	| "referenceIndexModels"
+	| "llmConversationStoragePath"
 	| "profileThresholds"
 > & {
 	version: string
