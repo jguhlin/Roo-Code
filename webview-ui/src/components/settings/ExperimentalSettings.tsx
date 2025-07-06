@@ -75,12 +75,26 @@ export const ExperimentalSettings = ({
 					.map(([key]) => {
 						const experimentId = EXPERIMENT_IDS[key as keyof typeof EXPERIMENT_IDS]
 						return (
-							<ExperimentalFeature
-								key={key}
-								experimentKey={key}
-								enabled={experiments[experimentId] ?? false}
-								onChange={(enabled) => setExperimentEnabled(experimentId, enabled)}
-							/>
+							<div key={key}>
+								<ExperimentalFeature
+									experimentKey={key}
+									enabled={experiments[experimentId] ?? false}
+									onChange={(enabled) => setExperimentEnabled(experimentId, enabled)}
+								/>
+								{experimentId === EXPERIMENT_IDS.LLM_CONVERSATION_SAVING &&
+									experiments.llmConversationSaving && (
+										<VSCodeTextField
+											value={llmConversationStoragePath ?? ""}
+											onChange={(e: any) =>
+												setCachedStateField &&
+												setCachedStateField("llmConversationStoragePath", e.target.value)
+											}
+											placeholder=".roo/conversations"
+											className="w-full ml-6 mt-2"
+											aria-label="Conversation Storage Path"
+										/>
+									)}
+							</div>
 						)
 					})}
 
@@ -187,21 +201,6 @@ export const ExperimentalSettings = ({
 						/>
 					)}
 				</div>
-
-				{/* Conversation Saving Path */}
-				{experiments.llmConversationSaving && (
-					<div className="mt-4 ml-6">
-						<VSCodeTextField
-							value={llmConversationStoragePath ?? ""}
-							onChange={(e: any) =>
-								setCachedStateField && setCachedStateField("llmConversationStoragePath", e.target.value)
-							}
-							placeholder=".roo/conversations"
-							className="w-full"
-							aria-label="Conversation Storage Path"
-						/>
-					</div>
-				)}
 			</Section>
 		</div>
 	)
