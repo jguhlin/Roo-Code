@@ -105,6 +105,10 @@
 		},
 		"close": "Close"
 	},
+	"referenceIndex": {
+		"enableLabel": "Enable Reference Indexing",
+		"enableDescription": "<0>Reference Indexing</0> builds a semantic index of your reference materials."
+	},
 	"autoApprove": {
 		"description": "Allow Roo to automatically perform operations without requiring approval. Enable these settings only if you fully trust the AI and understand the associated security risks.",
 		"readOnly": {
@@ -128,7 +132,7 @@
 				"description": "Allow Roo to create and edit protected files (like .rooignore and .roo/ configuration files) without requiring approval."
 			}
 		},
-        "browser": {
+		"browser": {
 			"label": "Browser",
 			"description": "Automatically perform browser actions without requiring approval. Note: Only applies when the model supports computer use"
 		},
@@ -381,16 +385,16 @@
 			"testingButton": "Testing...",
 			"instructions": "Enter the DevTools Protocol host address or leave empty to auto-discover Chrome local instances. The Test Connection button will try the custom URL if provided, or auto-discover if the field is empty."
 		}
-        },
-        "mem0": {
-                "enable": {
-                        "label": "Enable Mem0",
-                        "description": "Store and recall task memories using a Mem0 server.",
-                        "urlLabel": "Mem0 API Server URL",
-                        "urlPlaceholder": "http://localhost:4321"
-                }
-        },
-        "checkpoints": {
+	},
+	"mem0": {
+		"enable": {
+			"label": "Enable Mem0",
+			"description": "Store and recall task memories using a Mem0 server.",
+			"urlLabel": "Mem0 API Server URL",
+			"urlPlaceholder": "http://localhost:4321"
+		}
+	},
+	"checkpoints": {
 		"enable": {
 			"label": "Enable automatic checkpoints",
 			"description": "When enabled, Roo will automatically create checkpoints during task execution, making it easy to review changes or revert to earlier states. <0>Learn more</0>"
@@ -570,7 +574,8 @@
 		},
 		"LLM_CONVERSATION_SAVING": {
 			"name": "Save LLM Conversations",
-			"description": "When enabled, Roo will save the entire conversation with the LLM to a file. This can be used for fine-tuning models later."
+			"description": "When enabled, Roo will save the entire conversation with the LLM to a file. This can be used for fine-tuning models later.",
+			"pathLabel": "Storage Path"
 		},
 		"MULTI_FILE_APPLY_DIFF": {
 			"name": "Enable concurrent file edits",

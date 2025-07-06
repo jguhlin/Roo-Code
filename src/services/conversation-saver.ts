@@ -2,16 +2,21 @@ import { promises as fs } from "fs"
 import * as path from "path"
 import { EXPERIMENT_IDS, experiments, experimentConfigsMap } from "../shared/experiments"
 import type { Experiments } from "@roo-code/types"
+import { ContextProxy } from "../core/config/ContextProxy"
 import { getWorkspaceRoot } from "../core/environment"
 import { safeWriteJson } from "../utils/safeWriteJson"
 
 export class ConversationSaver {
 	private storagePath: string
 
-	constructor(private experiments: Experiments) {
-		// Get configuration from experimentConfigsMap instead of experiments object
+	constructor(
+		private experiments: Experiments,
+		private contextProxy: ContextProxy,
+	) {
 		const config = experimentConfigsMap.LLM_CONVERSATION_SAVING
-		this.storagePath = config.settings?.storagePath?.default || ".roo/conversations"
+		this.storagePath =
+			(this.contextProxy.getGlobalState("llmConversationStoragePath") as string | undefined) ??
+			(config.settings?.storagePath?.default || ".roo/conversations")
 	}
 
 	async saveConversation(conversation: any[], taskId: string) {

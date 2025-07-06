@@ -97,6 +97,8 @@ export const globalSettingsSchema = z.object({
 	referenceIndexModels: referenceIndexModelsSchema.optional(),
 	referenceIndexConfig: referenceIndexConfigSchema.optional(),
 
+	llmConversationStoragePath: z.string().optional(),
+
 	language: languagesSchema.optional(),
 
 	telemetrySetting: telemetrySettingsSchema.optional(),
@@ -206,6 +208,7 @@ export const EVALS_SETTINGS: RooCodeSettings = {
 	alwaysAllowExecute: true,
 	alwaysAllowFollowupQuestions: true,
 	followupAutoApproveTimeoutMs: 0,
+	llmConversationStoragePath: ".roo/conversations",
 	allowedCommands: ["*"],
 
 	browserToolEnabled: false,

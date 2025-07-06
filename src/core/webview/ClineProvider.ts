@@ -1451,6 +1451,7 @@ export class ClineProvider
 			profileThresholds,
 			alwaysAllowFollowupQuestions,
 			followupAutoApproveTimeoutMs,
+			llmConversationStoragePath,
 		} = await this.getState()
 
 		const telemetryKey = process.env.POSTHOG_API_KEY
@@ -1502,6 +1503,7 @@ export class ClineProvider
 			remoteBrowserEnabled: remoteBrowserEnabled ?? false,
 			mem0Enabled: mem0Enabled ?? false,
 			mem0ApiServerUrl,
+			llmConversationStoragePath,
 			cachedChromeHostUrl: cachedChromeHostUrl,
 			writeDelayMs: writeDelayMs ?? 1000,
 			terminalOutputLineLimit: terminalOutputLineLimit ?? 500,
@@ -1672,6 +1674,7 @@ export class ClineProvider
 			remoteBrowserEnabled: stateValues.remoteBrowserEnabled ?? false,
 			mem0Enabled: stateValues.mem0Enabled ?? false,
 			mem0ApiServerUrl: stateValues.mem0ApiServerUrl,
+			llmConversationStoragePath: stateValues.llmConversationStoragePath ?? ".roo/conversations",
 			cachedChromeHostUrl: stateValues.cachedChromeHostUrl as string | undefined,
 			fuzzyMatchThreshold: stateValues.fuzzyMatchThreshold ?? 1.0,
 			writeDelayMs: stateValues.writeDelayMs ?? 1000,

@@ -770,25 +770,29 @@ export const webviewMessageHandler = async (
 			await updateGlobalState("remoteBrowserHost", message.text)
 			await provider.postStateToWebview()
 			break
-                case "remoteBrowserEnabled":
-                        // Store the preference in global state
-                        // remoteBrowserEnabled now means "enable remote browser connection"
-                        await updateGlobalState("remoteBrowserEnabled", message.bool ?? false)
-                        // If disabling remote browser connection, clear the remoteBrowserHost
-                        if (!message.bool) {
-                                await updateGlobalState("remoteBrowserHost", undefined)
-                        }
-                        await provider.postStateToWebview()
-                        break
-                case "mem0Enabled":
-                        await updateGlobalState("mem0Enabled", message.bool ?? false)
-                        await provider.postStateToWebview()
-                        break
-                case "mem0ApiServerUrl":
-                        await updateGlobalState("mem0ApiServerUrl", message.text)
-                        await provider.postStateToWebview()
-                        break
-                case "testBrowserConnection":
+		case "remoteBrowserEnabled":
+			// Store the preference in global state
+			// remoteBrowserEnabled now means "enable remote browser connection"
+			await updateGlobalState("remoteBrowserEnabled", message.bool ?? false)
+			// If disabling remote browser connection, clear the remoteBrowserHost
+			if (!message.bool) {
+				await updateGlobalState("remoteBrowserHost", undefined)
+			}
+			await provider.postStateToWebview()
+			break
+		case "mem0Enabled":
+			await updateGlobalState("mem0Enabled", message.bool ?? false)
+			await provider.postStateToWebview()
+			break
+		case "mem0ApiServerUrl":
+			await updateGlobalState("mem0ApiServerUrl", message.text)
+			await provider.postStateToWebview()
+			break
+		case "llmConversationStoragePath":
+			await updateGlobalState("llmConversationStoragePath", message.text ?? ".roo/conversations")
+			await provider.postStateToWebview()
+			break
+		case "testBrowserConnection":
 			// If no text is provided, try auto-discovery
 			if (!message.text) {
 				// Use testBrowserConnection for auto-discovery
@@ -1911,6 +1915,81 @@ export const webviewMessageHandler = async (
 			break
 		}
 
+		case "saveReferenceIndexSettingsAtomic": {
+			if (!message.codeIndexSettings) {
+				break
+			}
+
+			const settings = message.codeIndexSettings
+
+			try {
+				const currentConfig = getGlobalState("referenceIndexConfig") || {}
+				const globalStateConfig = {
+					...currentConfig,
+					referenceIndexRootPath: settings.referenceIndexRootPath,
+					referenceIndexQdrantUrl: settings.referenceIndexQdrantUrl,
+					referenceIndexEmbedderProvider: settings.referenceIndexEmbedderProvider,
+					referenceIndexEmbedderBaseUrl: settings.referenceIndexEmbedderBaseUrl,
+					referenceIndexEmbedderModelId: settings.referenceIndexEmbedderModelId,
+					referenceIndexOpenAiCompatibleBaseUrl: settings.referenceIndexOpenAiCompatibleBaseUrl,
+					referenceIndexOpenAiCompatibleModelDimension: settings.referenceIndexOpenAiCompatibleModelDimension,
+					referenceIndexSearchMaxResults: settings.referenceIndexSearchMaxResults,
+					referenceIndexSearchMinScore: settings.referenceIndexSearchMinScore,
+				}
+
+				await updateGlobalState("referenceIndexConfig", globalStateConfig)
+
+				if (settings.codeIndexOpenAiKey !== undefined) {
+					await provider.contextProxy.storeSecret("codeIndexOpenAiKey", settings.codeIndexOpenAiKey)
+				}
+				if (settings.codeIndexQdrantApiKey !== undefined) {
+					await provider.contextProxy.storeSecret("codeIndexQdrantApiKey", settings.codeIndexQdrantApiKey)
+				}
+				if (settings.referenceIndexOpenAiCompatibleApiKey !== undefined) {
+					await provider.contextProxy.storeSecret(
+						"referenceIndexOpenAiCompatibleApiKey",
+						settings.referenceIndexOpenAiCompatibleApiKey,
+					)
+				}
+				if (settings.referenceIndexGeminiApiKey !== undefined) {
+					await provider.contextProxy.storeSecret(
+						"referenceIndexGeminiApiKey",
+						settings.referenceIndexGeminiApiKey,
+					)
+				}
+
+				if (provider.referenceIndexManager) {
+					await provider.referenceIndexManager.handleSettingsChange()
+					if (
+						provider.referenceIndexManager.isFeatureEnabled &&
+						provider.referenceIndexManager.isFeatureConfigured
+					) {
+						if (!provider.referenceIndexManager.isInitialized) {
+							await provider.referenceIndexManager.initialize(provider.contextProxy)
+						}
+						provider.referenceIndexManager.startIndexing()
+					}
+				}
+
+				await provider.postMessageToWebview({
+					type: "referenceIndexSettingsSaved",
+					success: true,
+					settings: globalStateConfig,
+				})
+
+				await provider.postStateToWebview()
+			} catch (error) {
+				provider.log(`Error saving reference index settings: ${error.message || error}`)
+				await provider.postMessageToWebview({
+					type: "referenceIndexSettingsSaved",
+					success: false,
+					error: error.message || "Failed to save settings",
+				})
+			}
+
+			break
+		}
+
 		case "requestIndexingStatus": {
 			const status = provider.codeIndexManager!.getCurrentStatus()
 			provider.postMessageToWebview({
@@ -1930,6 +2009,25 @@ export const webviewMessageHandler = async (
 
 			provider.postMessageToWebview({
 				type: "codeIndexSecretStatus",
+				values: {
+					hasOpenAiKey,
+					hasQdrantApiKey,
+					hasOpenAiCompatibleApiKey,
+					hasGeminiApiKey,
+				},
+			})
+			break
+		}
+		case "requestReferenceIndexSecretStatus": {
+			const hasOpenAiKey = !!(await provider.context.secrets.get("codeIndexOpenAiKey"))
+			const hasQdrantApiKey = !!(await provider.context.secrets.get("codeIndexQdrantApiKey"))
+			const hasOpenAiCompatibleApiKey = !!(await provider.context.secrets.get(
+				"referenceIndexOpenAiCompatibleApiKey",
+			))
+			const hasGeminiApiKey = !!(await provider.context.secrets.get("referenceIndexGeminiApiKey"))
+
+			provider.postMessageToWebview({
+				type: "referenceIndexSecretStatus",
 				values: {
 					hasOpenAiKey,
 					hasQdrantApiKey,
