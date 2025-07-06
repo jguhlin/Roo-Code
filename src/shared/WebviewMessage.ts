@@ -249,6 +249,22 @@ export interface WebviewMessage {
 		codeIndexQdrantApiKey?: string
 		codebaseIndexOpenAiCompatibleApiKey?: string
 		codebaseIndexGeminiApiKey?: string
+
+		// Reference index global state settings
+		referenceIndexEnabled?: boolean
+		referenceIndexRootPath?: string
+		referenceIndexQdrantUrl?: string
+		referenceIndexEmbedderProvider?: "openai" | "ollama" | "openai-compatible" | "gemini"
+		referenceIndexEmbedderBaseUrl?: string
+		referenceIndexEmbedderModelId?: string
+		referenceIndexOpenAiCompatibleBaseUrl?: string
+		referenceIndexOpenAiCompatibleModelDimension?: number
+		referenceIndexSearchMaxResults?: number
+		referenceIndexSearchMinScore?: number
+
+		// Reference index secret settings
+		referenceIndexOpenAiCompatibleApiKey?: string
+		referenceIndexGeminiApiKey?: string
 	}
 }
 
