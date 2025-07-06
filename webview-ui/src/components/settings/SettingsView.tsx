@@ -175,6 +175,8 @@ const SettingsView = forwardRef<SettingsViewRef, SettingsViewProps>(({ onDone, t
 		customCondensingPrompt,
 		codebaseIndexConfig,
 		codebaseIndexModels,
+		referenceIndexConfig,
+		referenceIndexModels,
 		customSupportPrompts,
 		profileThresholds,
 		alwaysAllowFollowupQuestions,
@@ -699,7 +701,10 @@ const SettingsView = forwardRef<SettingsViewRef, SettingsViewProps>(({ onDone, t
 							experiments={experiments}
 							codebaseIndexModels={codebaseIndexModels}
 							codebaseIndexConfig={codebaseIndexConfig}
+							referenceIndexModels={referenceIndexModels}
+							referenceIndexConfig={referenceIndexConfig}
 							codebaseIndexEnabled={codebaseIndexConfig?.codebaseIndexEnabled}
+							referenceIndexEnabled={referenceIndexConfig?.referenceIndexEnabled}
 							mem0Enabled={mem0Enabled}
 							mem0ApiServerUrl={mem0ApiServerUrl}
 							llmConversationStoragePath={llmConversationStoragePath}
