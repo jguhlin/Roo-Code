@@ -17,6 +17,7 @@ export interface ReferenceIndexConfig {
 	qdrantApiKey?: string
 	searchMinScore?: number
 	searchMaxResults?: number
+	rootPath?: string
 }
 
 /**
@@ -35,4 +36,5 @@ export type PreviousConfigSnapshot = {
 	geminiApiKey?: string
 	qdrantUrl?: string
 	qdrantApiKey?: string
+	rootPath?: string
 }

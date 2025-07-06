@@ -8,14 +8,8 @@ import {
 	providerSettingsSchema,
 } from "./provider-settings.js"
 import { historyItemSchema } from "./history.js"
-import {
-        codebaseIndexModelsSchema,
-        codebaseIndexConfigSchema,
-} from "./codebase-index.js"
-import {
-        referenceIndexModelsSchema,
-        referenceIndexConfigSchema,
-} from "./reference-index.js"
+import { codebaseIndexModelsSchema, codebaseIndexConfigSchema } from "./codebase-index.js"
+import { referenceIndexModelsSchema, referenceIndexConfigSchema } from "./reference-index.js"
 import { experimentsSchema } from "./experiment.js"
 import { telemetrySettingsSchema } from "./telemetry.js"
 import { modeConfigSchema } from "./mode.js"
@@ -63,12 +57,12 @@ export const globalSettingsSchema = z.object({
 	browserToolEnabled: z.boolean().optional(),
 	browserViewportSize: z.string().optional(),
 	screenshotQuality: z.number().optional(),
-        remoteBrowserEnabled: z.boolean().optional(),
-        remoteBrowserHost: z.string().optional(),
-        cachedChromeHostUrl: z.string().optional(),
+	remoteBrowserEnabled: z.boolean().optional(),
+	remoteBrowserHost: z.string().optional(),
+	cachedChromeHostUrl: z.string().optional(),
 
-        mem0Enabled: z.boolean().optional(),
-        mem0ApiServerUrl: z.string().optional(),
+	mem0Enabled: z.boolean().optional(),
+	mem0ApiServerUrl: z.string().optional(),
 
 	enableCheckpoints: z.boolean().optional(),
 
@@ -96,16 +90,18 @@ export const globalSettingsSchema = z.object({
 	rateLimitSeconds: z.number().optional(),
 	diffEnabled: z.boolean().optional(),
 	fuzzyMatchThreshold: z.number().optional(),
-        experiments: experimentsSchema.optional(),
+	experiments: experimentsSchema.optional(),
 
-        codebaseIndexModels: codebaseIndexModelsSchema.optional(),
-        codebaseIndexConfig: codebaseIndexConfigSchema.optional(),
-        referenceIndexModels: referenceIndexModelsSchema.optional(),
-        referenceIndexConfig: referenceIndexConfigSchema.optional(),
+	codebaseIndexModels: codebaseIndexModelsSchema.optional(),
+	codebaseIndexConfig: codebaseIndexConfigSchema.optional(),
+	referenceIndexModels: referenceIndexModelsSchema.optional(),
+	referenceIndexConfig: referenceIndexConfigSchema.optional(),
 
 	language: languagesSchema.optional(),
 
 	telemetrySetting: telemetrySettingsSchema.optional(),
+
+	machineId: z.string().optional(),
 
 	mcpEnabled: z.boolean().optional(),
 	enableMcpServerCreation: z.boolean().optional(),
@@ -158,10 +154,10 @@ export const SECRET_STATE_KEYS = [
 	"litellmApiKey",
 	"codeIndexOpenAiKey",
 	"codeIndexQdrantApiKey",
-        "codebaseIndexOpenAiCompatibleApiKey",
-        "codebaseIndexGeminiApiKey",
-        "referenceIndexOpenAiCompatibleApiKey",
-        "referenceIndexGeminiApiKey",
+	"codebaseIndexOpenAiCompatibleApiKey",
+	"codebaseIndexGeminiApiKey",
+	"referenceIndexOpenAiCompatibleApiKey",
+	"referenceIndexGeminiApiKey",
 ] as const satisfies readonly (keyof ProviderSettings)[]
 export type SecretState = Pick<ProviderSettings, (typeof SECRET_STATE_KEYS)[number]>
 
@@ -215,9 +211,9 @@ export const EVALS_SETTINGS: RooCodeSettings = {
 	browserToolEnabled: false,
 	browserViewportSize: "900x600",
 	screenshotQuality: 75,
-        remoteBrowserEnabled: false,
+	remoteBrowserEnabled: false,
 
-        mem0Enabled: false,
+	mem0Enabled: false,
 
 	ttsEnabled: false,
 	ttsSpeed: 1,
