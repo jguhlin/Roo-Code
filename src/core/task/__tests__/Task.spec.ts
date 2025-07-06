@@ -17,6 +17,7 @@ import { processUserContentMentions } from "../../mentions/processUserContentMen
 import { MultiSearchReplaceDiffStrategy } from "../../diff/strategies/multi-search-replace"
 import { MultiFileSearchReplaceDiffStrategy } from "../../diff/strategies/multi-file-search-replace"
 import { EXPERIMENT_IDS } from "../../../shared/experiments"
+import { safeWriteJson } from "../../../utils/safeWriteJson"
 
 // Mock delay before any imports that might use it
 vi.mock("delay", () => ({
@@ -163,6 +164,8 @@ vi.mock("../../../utils/fs", () => ({
 		return filePath.includes("ui_messages.json") || filePath.includes("api_conversation_history.json")
 	}),
 }))
+
+vi.mock("../../../utils/safeWriteJson")
 
 const mockMessages = [
 	{
@@ -1332,6 +1335,32 @@ describe("Cline", () => {
 
 				expect(task.diffEnabled).toBe(false)
 				expect(task.diffStrategy).toBeUndefined()
+			})
+		})
+
+		describe("Conversation Saver", () => {
+			it("writes conversation file when experiment enabled", async () => {
+				const task = new Task({
+					provider: mockProvider,
+					apiConfiguration: mockApiConfig,
+					task: "test task",
+					experiments: { [EXPERIMENT_IDS.LLM_CONVERSATION_SAVING]: true },
+					startTask: false,
+				})
+
+				await task.overwriteApiConversationHistory([
+					{
+						role: "user" as const,
+						content: [{ type: "text" as const, text: "hello" }],
+					},
+				])
+
+				const calls = (safeWriteJson as any).mock.calls
+				const savePath = calls.find((c: any[]) =>
+					(c[0] as string).includes(path.join(".roo", "conversations")),
+				)?.[0]
+				expect(savePath).toBeDefined()
+				expect(savePath).toContain(path.join("/mock/workspace/path", ".roo", "conversations"))
 			})
 		})
 	})

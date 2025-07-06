@@ -19,6 +19,7 @@ import {
 	type ClineSay,
 	type ToolProgressStatus,
 	type HistoryItem,
+	type Experiments,
 	TelemetryEventName,
 } from "@roo-code/types"
 import { TelemetryService } from "@roo-code/telemetry"
@@ -47,6 +48,7 @@ import { McpHub } from "../../services/mcp/McpHub"
 import { McpServerManager } from "../../services/mcp/McpServerManager"
 import { RepoPerTaskCheckpointService } from "../../services/checkpoints"
 import { search_memories, store_memory } from "../../services/mem0"
+import { ConversationSaver } from "../../services/conversation-saver"
 
 // integrations
 import { DiffViewProvider } from "../../integrations/editor/DiffViewProvider"
@@ -172,6 +174,9 @@ export class Task extends EventEmitter<ClineEvents> {
 	fuzzyMatchThreshold: number
 	didEditFile: boolean = false
 
+	experiments: Experiments = {}
+	conversationSaver: ConversationSaver
+
 	initialTask?: string
 
 	// LLM Messages & Chat Messages
@@ -218,6 +223,7 @@ export class Task extends EventEmitter<ClineEvents> {
 		task,
 		images,
 		historyItem,
+		experiments = {},
 		startTask = true,
 		rootTask,
 		parentTask,
@@ -258,6 +264,8 @@ export class Task extends EventEmitter<ClineEvents> {
 		this.globalStoragePath = provider.context.globalStorageUri.fsPath
 		this.diffViewProvider = new DiffViewProvider(this.cwd)
 		this.enableCheckpoints = enableCheckpoints
+		this.experiments = experiments
+		this.conversationSaver = new ConversationSaver(this.experiments)
 
 		this.rootTask = rootTask
 		this.parentTask = parentTask
@@ -343,6 +351,7 @@ export class Task extends EventEmitter<ClineEvents> {
 				taskId: this.taskId,
 				globalStoragePath: this.globalStoragePath,
 			})
+			await this.conversationSaver.saveConversation(this.apiConversationHistory, this.taskId)
 		} catch (error) {
 			// In the off chance this fails, we don't want to stop the task.
 			console.error("Failed to save API conversation history:", error)
