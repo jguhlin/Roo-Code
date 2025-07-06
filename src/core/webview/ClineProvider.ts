@@ -1449,6 +1449,8 @@ export class ClineProvider
 			customCondensingPrompt,
 			codebaseIndexConfig,
 			codebaseIndexModels,
+			referenceIndexConfig,
+			referenceIndexModels,
 			profileThresholds,
 			alwaysAllowFollowupQuestions,
 			followupAutoApproveTimeoutMs,
