@@ -169,6 +169,7 @@ export class DirectoryScanner implements IDirectoryScanner {
 												batchBlocks,
 												batchTexts,
 												batchFileInfos,
+												directoryPath,
 												onError,
 												onBlocksIndexed,
 											),
@@ -214,7 +215,7 @@ export class DirectoryScanner implements IDirectoryScanner {
 
 				// Queue final batch processing
 				const batchPromise = batchLimiter(() =>
-					this.processBatch(batchBlocks, batchTexts, batchFileInfos, onError, onBlocksIndexed),
+					this.processBatch(batchBlocks, batchTexts, batchFileInfos, directoryPath, onError, onBlocksIndexed),
 				)
 				activeBatchPromises.push(batchPromise)
 			} finally {
@@ -267,6 +268,7 @@ export class DirectoryScanner implements IDirectoryScanner {
 		batchBlocks: CodeBlock[],
 		batchTexts: string[],
 		batchFileInfos: { filePath: string; fileHash: string; isNew: boolean }[],
+		directory: string,
 		onError?: (error: Error) => void,
 		onBlocksIndexed?: (indexedCount: number) => void,
 	): Promise<void> {

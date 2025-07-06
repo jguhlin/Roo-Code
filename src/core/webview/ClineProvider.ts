@@ -8,7 +8,7 @@ import delay from "delay"
 import axios from "axios"
 import pWaitFor from "p-wait-for"
 import * as vscode from "vscode"
-import { configureMem0 } from "../../services/mem0"
+import { configureMem0, store_memory } from "../../services/mem0"
 
 import {
 	type GlobalState,
@@ -468,7 +468,7 @@ export class ClineProvider
 			this.referenceIndexStatusSubscription = this.referenceIndexManager.onProgressUpdate(
 				(update: IndexProgressUpdate) => {
 					this.postMessageToWebview({
-						type: "referenceIndexingStatusUpdate",
+						type: "indexingStatusUpdate",
 						values: update,
 					})
 				},
@@ -819,32 +819,32 @@ export class ClineProvider
 	 * Handle switching to a new mode, including updating the associated API configuration
 	 * @param newMode The mode to switch to
 	 */
-        public async handleModeSwitch(newMode: Mode) {
-                const cline = this.getCurrentCline()
+	public async handleModeSwitch(newMode: Mode) {
+		const cline = this.getCurrentCline()
 
-                if (cline) {
-                        TelemetryService.instance.captureModeSwitch(cline.taskId, newMode)
-                        cline.emit("taskModeSwitched", cline.taskId, newMode)
-                        const state = await this.getState()
-                        if (state.mem0Enabled && state.mem0ApiServerUrl) {
-                                store_memory(
-                                        [
-                                                {
-                                                        role: "system",
-                                                        content: [
-                                                                {
-                                                                        type: "text",
-                                                                        text: `Mode switched to ${newMode}`,
-                                                                },
-                                                        ],
-                                                },
-                                        ],
-                                        state.machineId ?? "",
-                                        cline.taskId,
-                                        { category: "mode-switch", mode: newMode },
-                                )
-                        }
-                }
+		if (cline) {
+			TelemetryService.instance.captureModeSwitch(cline.taskId, newMode)
+			cline.emit("taskModeSwitched", cline.taskId, newMode)
+			const state = await this.getState()
+			if (state.mem0Enabled && state.mem0ApiServerUrl) {
+				store_memory(
+					[
+						{
+							role: "system",
+							content: [
+								{
+									type: "text",
+									text: `Mode switched to ${newMode}`,
+								},
+							],
+						},
+					],
+					state.machineId ?? "",
+					cline.taskId,
+					{ category: "mode-switch", mode: newMode },
+				)
+			}
+		}
 
 		await this.updateGlobalState("mode", newMode)
 
@@ -1399,12 +1399,12 @@ export class ClineProvider
 			taskHistory,
 			soundVolume,
 			browserViewportSize,
-                        screenshotQuality,
-                        remoteBrowserHost,
-                        remoteBrowserEnabled,
-                        mem0Enabled,
-                        mem0ApiServerUrl,
-                        cachedChromeHostUrl,
+			screenshotQuality,
+			remoteBrowserHost,
+			remoteBrowserEnabled,
+			mem0Enabled,
+			mem0ApiServerUrl,
+			cachedChromeHostUrl,
 			writeDelayMs,
 			terminalOutputLineLimit,
 			terminalShellIntegrationTimeout,
@@ -1497,12 +1497,12 @@ export class ClineProvider
 			allowedCommands: mergedAllowedCommands,
 			soundVolume: soundVolume ?? 0.5,
 			browserViewportSize: browserViewportSize ?? "900x600",
-                        screenshotQuality: screenshotQuality ?? 75,
-                        remoteBrowserHost,
-                        remoteBrowserEnabled: remoteBrowserEnabled ?? false,
-                        mem0Enabled: mem0Enabled ?? false,
-                        mem0ApiServerUrl,
-                        cachedChromeHostUrl: cachedChromeHostUrl,
+			screenshotQuality: screenshotQuality ?? 75,
+			remoteBrowserHost,
+			remoteBrowserEnabled: remoteBrowserEnabled ?? false,
+			mem0Enabled: mem0Enabled ?? false,
+			mem0ApiServerUrl,
+			cachedChromeHostUrl: cachedChromeHostUrl,
 			writeDelayMs: writeDelayMs ?? 1000,
 			terminalOutputLineLimit: terminalOutputLineLimit ?? 500,
 			terminalShellIntegrationTimeout: terminalShellIntegrationTimeout ?? Terminal.defaultShellIntegrationTimeout,
@@ -1574,17 +1574,17 @@ export class ClineProvider
 	 * https://www.eliostruyf.com/devhack-code-extension-storage-options/
 	 */
 
-        async getState() {
-                const stateValues = this.contextProxy.getValues()
+	async getState() {
+		const stateValues = this.contextProxy.getValues()
 
-                const mem0EnabledEnv = process.env.MEM0_ENABLED === "true"
-                const mem0UrlEnv = process.env.MEM0_API_SERVER_URL
+		const mem0EnabledEnv = process.env.MEM0_ENABLED === "true"
+		const mem0UrlEnv = process.env.MEM0_API_SERVER_URL
 
-                const mem0Enabled = stateValues.mem0Enabled ?? mem0EnabledEnv
-                const mem0ApiServerUrl = stateValues.mem0ApiServerUrl ?? mem0UrlEnv
+		const mem0Enabled = stateValues.mem0Enabled ?? mem0EnabledEnv
+		const mem0ApiServerUrl = stateValues.mem0ApiServerUrl ?? mem0UrlEnv
 
-                configureMem0({ enabled: mem0Enabled ?? false, baseUrl: mem0ApiServerUrl })
-                const customModes = await this.customModesManager.getCustomModes()
+		configureMem0({ enabled: mem0Enabled ?? false, baseUrl: mem0ApiServerUrl })
+		const customModes = await this.customModesManager.getCustomModes()
 
 		// Determine apiProvider with the same logic as before.
 		const apiProvider: ProviderName = stateValues.apiProvider ? stateValues.apiProvider : "anthropic"
@@ -1667,12 +1667,12 @@ export class ClineProvider
 			enableCheckpoints: stateValues.enableCheckpoints ?? true,
 			soundVolume: stateValues.soundVolume,
 			browserViewportSize: stateValues.browserViewportSize ?? "900x600",
-                        screenshotQuality: stateValues.screenshotQuality ?? 75,
-                        remoteBrowserHost: stateValues.remoteBrowserHost,
-                        remoteBrowserEnabled: stateValues.remoteBrowserEnabled ?? false,
-                        mem0Enabled: stateValues.mem0Enabled ?? false,
-                        mem0ApiServerUrl: stateValues.mem0ApiServerUrl,
-                        cachedChromeHostUrl: stateValues.cachedChromeHostUrl as string | undefined,
+			screenshotQuality: stateValues.screenshotQuality ?? 75,
+			remoteBrowserHost: stateValues.remoteBrowserHost,
+			remoteBrowserEnabled: stateValues.remoteBrowserEnabled ?? false,
+			mem0Enabled: stateValues.mem0Enabled ?? false,
+			mem0ApiServerUrl: stateValues.mem0ApiServerUrl,
+			cachedChromeHostUrl: stateValues.cachedChromeHostUrl as string | undefined,
 			fuzzyMatchThreshold: stateValues.fuzzyMatchThreshold ?? 1.0,
 			writeDelayMs: stateValues.writeDelayMs ?? 1000,
 			terminalOutputLineLimit: stateValues.terminalOutputLineLimit ?? 500,

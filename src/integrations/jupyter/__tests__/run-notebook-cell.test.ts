@@ -25,23 +25,19 @@ const mockNotebook = {
 
 describe("runNotebookCell", () => {
 	beforeEach(() => {
-		;(vscode.Uri.file as vi.MockedFunction<typeof vscode.Uri.file>).mockImplementation((p: string) => ({
+		;(vscode.Uri.file as any).mockImplementation((p: string) => ({
 			fsPath: p,
 			path: p,
 		}))
-		;(
-			vscode.workspace.openTextDocument as vi.MockedFunction<typeof vscode.workspace.openTextDocument>
-		).mockResolvedValue({
+		;(vscode.workspace.openTextDocument as any).mockResolvedValue({
 			getText: () => JSON.stringify(mockNotebook),
 		} as any)
-		;(
-			vscode.NotebookCellOutputItem.text as vi.MockedFunction<typeof vscode.NotebookCellOutputItem.text>
-		).mockImplementation((value: string, mime: string) => ({
+		;(vscode.NotebookCellOutputItem.text as any).mockImplementation((value: string, mime: string) => ({
 			data: Buffer.from(value),
 			mime,
 		}))
-		;(fs.writeFile as vi.MockedFunction<typeof fs.writeFile>).mockResolvedValue(undefined)
-		;(fs.unlink as vi.MockedFunction<typeof fs.unlink>).mockResolvedValue(undefined)
+		;(fs.writeFile as any).mockResolvedValue(undefined)
+		;(fs.unlink as any).mockResolvedValue(undefined)
 	})
 
 	afterEach(() => {
