@@ -1,6 +1,6 @@
 import { HTMLAttributes } from "react"
 import { FlaskConical } from "lucide-react"
-import { VSCodeCheckbox, VSCodeLink, VSCodeTextField, VSCodeButton } from "@vscode/webview-ui-toolkit/react"
+import { VSCodeCheckbox, VSCodeLink, VSCodeTextField } from "@vscode/webview-ui-toolkit/react"
 import { Trans } from "react-i18next"
 
 import type {
@@ -111,14 +111,14 @@ export const ExperimentalSettings = ({
 					{codebaseIndexEnabled && (
 						<div className="ml-6 mt-2">
 							<CodeIndexPopover
+								inline
 								indexingStatus={{
 									systemStatus: "Standby",
 									processedItems: 0,
 									totalItems: 0,
 									currentItemUnit: "items",
-								}}>
-								<VSCodeButton>{t("settings:codeIndex.settingsTitle")}</VSCodeButton>
-							</CodeIndexPopover>
+								}}
+							/>
 						</div>
 					)}
 				</div>
@@ -150,14 +150,14 @@ export const ExperimentalSettings = ({
 					{referenceIndexEnabled && (
 						<div className="ml-6 mt-2">
 							<ReferenceIndexPopover
+								inline
 								indexingStatus={{
 									systemStatus: "Standby",
 									processedItems: 0,
 									totalItems: 0,
 									currentItemUnit: "items",
-								}}>
-								<VSCodeButton>{t("settings:codeIndex.settingsTitle")}</VSCodeButton>
-							</ReferenceIndexPopover>
+								}}
+							/>
 						</div>
 					)}
 				</div>
