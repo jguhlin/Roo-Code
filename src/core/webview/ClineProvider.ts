@@ -1593,11 +1593,12 @@ export class ClineProvider
 
 		const mem0EnabledEnv = process.env.MEM0_ENABLED === "true"
 		const mem0UrlEnv = process.env.MEM0_API_SERVER_URL
+		const mem0ApiKeyEnv = process.env.MEM0_API_KEY
 
 		const mem0Enabled = stateValues.mem0Enabled ?? mem0EnabledEnv
 		const mem0ApiServerUrl = stateValues.mem0ApiServerUrl ?? mem0UrlEnv
 
-		configureMem0({ enabled: mem0Enabled ?? false, baseUrl: mem0ApiServerUrl })
+		configureMem0({ enabled: mem0Enabled ?? false, baseUrl: mem0ApiServerUrl, apiKey: mem0ApiKeyEnv })
 		const customModes = await this.customModesManager.getCustomModes()
 
 		// Determine apiProvider with the same logic as before.
