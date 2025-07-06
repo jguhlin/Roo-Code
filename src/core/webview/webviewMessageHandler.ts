@@ -2054,13 +2054,26 @@ export const webviewMessageHandler = async (
 		}
 		case "startIndexing": {
 			try {
-				const manager = provider.codeIndexManager!
-				if (manager.isFeatureEnabled && manager.isFeatureConfigured) {
-					if (!manager.isInitialized) {
-						await manager.initialize(provider.contextProxy)
-					}
+				const managers = [provider.codeIndexManager, provider.referenceIndexManager].filter(
+					(
+						m,
+					): m is {
+						isFeatureEnabled: boolean
+						isFeatureConfigured: boolean
+						isInitialized: boolean
+						initialize: (contextProxy: ContextProxy) => Promise<any>
+						startIndexing: () => void
+					} => m !== undefined,
+				)
 
-					manager.startIndexing()
+				for (const manager of managers) {
+					if (manager.isFeatureEnabled && manager.isFeatureConfigured) {
+						if (!manager.isInitialized) {
+							await manager.initialize(provider.contextProxy)
+						}
+
+						manager.startIndexing()
+					}
 				}
 			} catch (error) {
 				provider.log(`Error starting indexing: ${error instanceof Error ? error.message : String(error)}`)
