@@ -38,6 +38,9 @@ import { TelemetrySetting } from "../../shared/TelemetrySetting"
 import { getWorkspacePath } from "../../utils/path"
 import { ensureSettingsDirectoryExists } from "../../utils/globalContext"
 import { Mode, defaultModeSlug } from "../../shared/modes"
+import { CodeIndexManager } from "../../services/code-index/manager"
+import { ReferenceIndexManager } from "../../services/reference-index/manager"
+import { ContextProxy } from "../config/ContextProxy"
 import { getModels, flushModels } from "../../api/providers/fetchers/modelCache"
 import { GetModelsOptions } from "../../shared/api"
 import { generateSystemPrompt } from "./generateSystemPrompt"
@@ -2055,15 +2058,7 @@ export const webviewMessageHandler = async (
 		case "startIndexing": {
 			try {
 				const managers = [provider.codeIndexManager, provider.referenceIndexManager].filter(
-					(
-						m,
-					): m is {
-						isFeatureEnabled: boolean
-						isFeatureConfigured: boolean
-						isInitialized: boolean
-						initialize: (contextProxy: ContextProxy) => Promise<any>
-						startIndexing: () => void
-					} => m !== undefined,
+					(m): m is CodeIndexManager | ReferenceIndexManager => m !== undefined,
 				)
 
 				for (const manager of managers) {

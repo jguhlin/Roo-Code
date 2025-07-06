@@ -13,6 +13,7 @@ import { focusPanel } from "../utils/focusPanel"
 import { registerHumanRelayCallback, unregisterHumanRelayCallback, handleHumanRelayResponse } from "./humanRelay"
 import { handleNewTask } from "./handleTask"
 import { CodeIndexManager } from "../services/code-index/manager"
+import { ReferenceIndexManager } from "../services/reference-index/manager"
 import { importSettingsWithFeedback } from "../core/config/importExport"
 import { t } from "../i18n"
 
