@@ -1142,6 +1142,21 @@ export const webviewMessageHandler = async (
 
 			await provider.postStateToWebview()
 			break
+		case "referenceIndexEnabled":
+			// Update the referenceIndexConfig with the new enabled state
+			const currentReferenceConfig = getGlobalState("referenceIndexConfig") || {}
+			await updateGlobalState("referenceIndexConfig", {
+				...currentReferenceConfig,
+				referenceIndexEnabled: message.bool ?? false,
+			})
+
+			// Notify the reference index manager about the change
+			if (provider.referenceIndexManager) {
+				await provider.referenceIndexManager.handleSettingsChange()
+			}
+
+			await provider.postStateToWebview()
+			break
 		case "language":
 			changeLanguage(message.text ?? "en")
 			await updateGlobalState("language", message.text as Language)

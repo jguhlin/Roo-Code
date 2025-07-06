@@ -331,6 +331,9 @@ const SettingsView = forwardRef<SettingsViewRef, SettingsViewProps>(({ onDone, t
 			if (codebaseIndexConfig) {
 				vscode.postMessage({ type: "codebaseIndexEnabled", bool: codebaseIndexConfig.codebaseIndexEnabled })
 			}
+			if (referenceIndexConfig) {
+				vscode.postMessage({ type: "referenceIndexEnabled", bool: referenceIndexConfig.referenceIndexEnabled })
+			}
 			vscode.postMessage({ type: "profileThresholds", values: profileThresholds })
 			setChangeDetected(false)
 		}
