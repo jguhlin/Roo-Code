@@ -19,11 +19,31 @@ describe("mem0 client", () => {
 		configureMem0({ enabled: true, baseUrl: "http://x" })
 		mockedAxios.post.mockResolvedValue({ data: [] })
 		await store_memory([], "u", "a")
-		expect(mockedAxios.post).toHaveBeenCalledWith("http://x/memories", {
-			messages: [],
-			user_id: "u",
-			agent_id: "a",
-			metadata: undefined,
-		})
+		expect(mockedAxios.post).toHaveBeenCalledWith(
+			"http://x/memories",
+			{
+				messages: [],
+				user_id: "u",
+				agent_id: "a",
+				metadata: undefined,
+			},
+			{ headers: {} },
+		)
+	})
+
+	it("store_memory includes api key when provided", async () => {
+		configureMem0({ enabled: true, baseUrl: "http://x", apiKey: "key" })
+		mockedAxios.post.mockResolvedValue({ data: [] })
+		await store_memory([], "u", "a")
+		expect(mockedAxios.post).toHaveBeenCalledWith(
+			"http://x/memories",
+			{
+				messages: [],
+				user_id: "u",
+				agent_id: "a",
+				metadata: undefined,
+			},
+			{ headers: { "api-key": "key", Authorization: "Bearer key" } },
+		)
 	})
 })
