@@ -106,8 +106,18 @@
 		"close": "Close"
 	},
 	"referenceIndex": {
+		"title": "Reference Indexing",
+		"description": "Reference Index builds a semantic index of your reference materials.",
+		"statusTitle": "Status",
 		"enableLabel": "Enable Reference Indexing",
-		"enableDescription": "<0>Reference Indexing</0> builds a semantic index of your reference materials."
+		"enableDescription": "<0>Reference Indexing</0> builds a semantic index of your reference materials.",
+		"settingsTitle": "Indexing Settings",
+		"disabledMessage": "Reference indexing is currently disabled. Enable it in the global settings to configure indexing options.",
+		"rootPathLabel": "Root Directory",
+		"rootPathPlaceholder": "Path to reference materials",
+		"saveError": "Failed to save settings",
+		"saving": "Saving...",
+		"saveSettings": "Save"
 	},
 	"autoApprove": {
 		"description": "Allow Roo to automatically perform operations without requiring approval. Enable these settings only if you fully trust the AI and understand the associated security risks.",
