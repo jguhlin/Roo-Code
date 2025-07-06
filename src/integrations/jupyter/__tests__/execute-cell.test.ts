@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest"
+import { describe, it, expect, vi, beforeEach, afterEach, type MockedFunction } from "vitest"
 import * as vscode from "vscode"
 import * as fs from "fs/promises"
 import * as child_process from "child_process"
@@ -32,25 +32,25 @@ const mockNotebook = {
 describe("executeNotebookCell", () => {
 	beforeEach(() => {
 		// Provide mock implementations for vscode APIs
-		;(vscode.Uri.file as vi.MockedFunction<typeof vscode.Uri.file>).mockImplementation((p: string) => ({
+		;(vscode.Uri.file as MockedFunction<typeof vscode.Uri.file>).mockImplementation((p: string) => ({
 			fsPath: p,
 			path: p,
 		}))
 		;(
-			vscode.workspace.openTextDocument as vi.MockedFunction<typeof vscode.workspace.openTextDocument>
+			vscode.workspace.openTextDocument as MockedFunction<typeof vscode.workspace.openTextDocument>
 		).mockResolvedValue({
 			getText: () => JSON.stringify(mockNotebook),
 		} as any)
 		;(
-			vscode.NotebookCellOutputItem.text as vi.MockedFunction<typeof vscode.NotebookCellOutputItem.text>
+			vscode.NotebookCellOutputItem.text as MockedFunction<typeof vscode.NotebookCellOutputItem.text>
 		).mockImplementation((value: string, mime: string) => ({
 			data: Buffer.from(value),
 			mime,
 		}))
 
 		// Mock file system operations
-		;(fs.writeFile as vi.MockedFunction<typeof fs.writeFile>).mockResolvedValue(undefined)
-		;(fs.unlink as vi.MockedFunction<typeof fs.unlink>).mockResolvedValue(undefined)
+		;(fs.writeFile as MockedFunction<typeof fs.writeFile>).mockResolvedValue(undefined)
+		;(fs.unlink as MockedFunction<typeof fs.unlink>).mockResolvedValue(undefined)
 	})
 
 	afterEach(() => {
