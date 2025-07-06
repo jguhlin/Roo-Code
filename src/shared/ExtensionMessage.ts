@@ -105,6 +105,8 @@ export interface ExtensionMessage {
 		| "shareTaskSuccess"
 		| "codeIndexSettingsSaved"
 		| "codeIndexSecretStatus"
+		| "referenceIndexSettingsSaved"
+		| "referenceIndexSecretStatus"
 	text?: string
 	payload?: any // Add a generic payload for now, can refine later
 	action?:
@@ -186,11 +188,11 @@ export type ExtensionState = Pick<
 	| "browserToolEnabled"
 	| "browserViewportSize"
 	| "screenshotQuality"
-        | "remoteBrowserEnabled"
-        | "remoteBrowserHost"
-        | "mem0Enabled"
-        | "mem0ApiServerUrl"
-        // | "enableCheckpoints" // Optional in GlobalSettings, required here.
+	| "remoteBrowserEnabled"
+	| "remoteBrowserHost"
+	| "mem0Enabled"
+	| "mem0ApiServerUrl"
+	// | "enableCheckpoints" // Optional in GlobalSettings, required here.
 	| "ttsEnabled"
 	| "ttsSpeed"
 	| "soundEnabled"

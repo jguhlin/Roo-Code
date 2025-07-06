@@ -8,6 +8,8 @@ import {
 	type ExperimentId,
 	type OrganizationAllowList,
 	ORGANIZATION_ALLOW_ALL,
+	type ReferenceIndexConfig,
+	type ReferenceIndexModels,
 } from "@roo-code/types"
 
 import { ExtensionMessage, ExtensionState, MarketplaceInstalledMetadata } from "@roo/ExtensionMessage"
@@ -111,14 +113,18 @@ export interface ExtensionStateContextType extends ExtensionState {
 	maxWorkspaceFiles: number
 	setMaxWorkspaceFiles: (value: number) => void
 	setTelemetrySetting: (value: TelemetrySetting) => void
-        remoteBrowserEnabled?: boolean
-        setRemoteBrowserEnabled: (value: boolean) => void
-        mem0Enabled?: boolean
-        setMem0Enabled: (value: boolean) => void
-        mem0ApiServerUrl?: string
-        setMem0ApiServerUrl: (value: string) => void
-        awsUsePromptCache?: boolean
-        setAwsUsePromptCache: (value: boolean) => void
+	remoteBrowserEnabled?: boolean
+	setRemoteBrowserEnabled: (value: boolean) => void
+	mem0Enabled?: boolean
+	setMem0Enabled: (value: boolean) => void
+	mem0ApiServerUrl?: string
+	setMem0ApiServerUrl: (value: string) => void
+	llmConversationStoragePath?: string
+	setLlmConversationStoragePath: (value: string) => void
+	referenceIndexConfig?: ReferenceIndexConfig
+	referenceIndexModels?: ReferenceIndexModels
+	awsUsePromptCache?: boolean
+	setAwsUsePromptCache: (value: boolean) => void
 	maxReadFileLine: number
 	setMaxReadFileLine: (value: number) => void
 	machineId?: string
@@ -214,10 +220,11 @@ export const ExtensionStateContextProvider: React.FC<{ children: React.ReactNode
 		organizationAllowList: ORGANIZATION_ALLOW_ALL,
 		autoCondenseContext: true,
 		autoCondenseContextPercent: 100,
-                profileThresholds: {},
-                mem0Enabled: false,
-                mem0ApiServerUrl: "",
-                codebaseIndexConfig: {
+		profileThresholds: {},
+		mem0Enabled: false,
+		mem0ApiServerUrl: "",
+		llmConversationStoragePath: ".roo/conversations",
+		codebaseIndexConfig: {
 			codebaseIndexEnabled: false,
 			codebaseIndexQdrantUrl: "http://localhost:6333",
 			codebaseIndexEmbedderProvider: "openai",
@@ -227,6 +234,17 @@ export const ExtensionStateContextProvider: React.FC<{ children: React.ReactNode
 			codebaseIndexSearchMinScore: undefined,
 		},
 		codebaseIndexModels: { ollama: {}, openai: {} },
+		referenceIndexConfig: {
+			referenceIndexEnabled: false,
+			referenceIndexRootPath: "",
+			referenceIndexQdrantUrl: "http://localhost:6333",
+			referenceIndexEmbedderProvider: "openai",
+			referenceIndexEmbedderBaseUrl: "",
+			referenceIndexEmbedderModelId: "",
+			referenceIndexSearchMaxResults: undefined,
+			referenceIndexSearchMinScore: undefined,
+		},
+		referenceIndexModels: { ollama: {}, openai: {} },
 	})
 
 	const [didHydrateState, setDidHydrateState] = useState(false)
@@ -434,10 +452,12 @@ export const ExtensionStateContextProvider: React.FC<{ children: React.ReactNode
 		setBrowserToolEnabled: (value) => setState((prevState) => ({ ...prevState, browserToolEnabled: value })),
 		setTelemetrySetting: (value) => setState((prevState) => ({ ...prevState, telemetrySetting: value })),
 		setShowRooIgnoredFiles: (value) => setState((prevState) => ({ ...prevState, showRooIgnoredFiles: value })),
-                setRemoteBrowserEnabled: (value) => setState((prevState) => ({ ...prevState, remoteBrowserEnabled: value })),
-                setMem0Enabled: (value) => setState((prevState) => ({ ...prevState, mem0Enabled: value })),
-                setMem0ApiServerUrl: (value) => setState((prevState) => ({ ...prevState, mem0ApiServerUrl: value })),
-                setAwsUsePromptCache: (value) => setState((prevState) => ({ ...prevState, awsUsePromptCache: value })),
+		setRemoteBrowserEnabled: (value) => setState((prevState) => ({ ...prevState, remoteBrowserEnabled: value })),
+		setMem0Enabled: (value) => setState((prevState) => ({ ...prevState, mem0Enabled: value })),
+		setMem0ApiServerUrl: (value) => setState((prevState) => ({ ...prevState, mem0ApiServerUrl: value })),
+		setLlmConversationStoragePath: (value) =>
+			setState((prevState) => ({ ...prevState, llmConversationStoragePath: value })),
+		setAwsUsePromptCache: (value) => setState((prevState) => ({ ...prevState, awsUsePromptCache: value })),
 		setMaxReadFileLine: (value) => setState((prevState) => ({ ...prevState, maxReadFileLine: value })),
 		setPinnedApiConfigs: (value) => setState((prevState) => ({ ...prevState, pinnedApiConfigs: value })),
 		setTerminalCompressProgressBar: (value) =>
