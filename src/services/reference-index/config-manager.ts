@@ -127,6 +127,7 @@ export class ReferenceIndexConfigManager {
 			qdrantUrl?: string
 			qdrantApiKey?: string
 			searchMinScore?: number
+			rootPath?: string
 		}
 		requiresRestart: boolean
 	}> {

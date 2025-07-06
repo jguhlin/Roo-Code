@@ -1727,6 +1727,7 @@ export class ClineProvider
 				codebaseIndexEmbedderModelId: "",
 			},
 			profileThresholds: stateValues.profileThresholds ?? {},
+			machineId: vscode.env.machineId,
 		}
 	}
 
