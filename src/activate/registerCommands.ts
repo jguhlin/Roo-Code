@@ -226,7 +226,16 @@ export const openClineInNewTab = async ({ context, outputChannel }: Omit<Registe
 	// https://github.com/microsoft/vscode-extension-samples/blob/main/webview-sample/src/extension.ts
 	const contextProxy = await ContextProxy.getInstance(context)
 	const codeIndexManager = CodeIndexManager.getInstance(context)
-	const tabProvider = new ClineProvider(context, outputChannel, "editor", contextProxy, codeIndexManager)
+	const referenceIndexManager = ReferenceIndexManager.getInstance(context)
+	const tabProvider = new ClineProvider(
+		context,
+		outputChannel,
+		"editor",
+		contextProxy,
+		codeIndexManager,
+		undefined,
+		referenceIndexManager,
+	)
 	const lastCol = Math.max(...vscode.window.visibleTextEditors.map((editor) => editor.viewColumn || 0))
 
 	// Check if there are any visible text editors, otherwise open a new group
