@@ -39,7 +39,7 @@ import { getApiMetrics } from "../../shared/getApiMetrics"
 import { ClineAskResponse } from "../../shared/WebviewMessage"
 import { defaultModeSlug } from "../../shared/modes"
 import { DiffStrategy } from "../../shared/tools"
-import { EXPERIMENT_IDS, experiments } from "../../shared/experiments"
+import { EXPERIMENT_IDS, experiments as experimentUtils } from "../../shared/experiments"
 
 // services
 import { UrlContentFetcher } from "../../services/browser/UrlContentFetcher"
@@ -265,7 +265,7 @@ export class Task extends EventEmitter<ClineEvents> {
 		this.diffViewProvider = new DiffViewProvider(this.cwd)
 		this.enableCheckpoints = enableCheckpoints
 		this.experiments = experiments
-		this.conversationSaver = new ConversationSaver(this.experiments)
+		this.conversationSaver = new ConversationSaver(this.experiments, provider.contextProxy)
 
 		this.rootTask = rootTask
 		this.parentTask = parentTask
@@ -285,7 +285,7 @@ export class Task extends EventEmitter<ClineEvents> {
 
 			// Check experiment asynchronously and update strategy if needed
 			provider.getState().then((state) => {
-				const isMultiFileApplyDiffEnabled = experiments.isEnabled(
+				const isMultiFileApplyDiffEnabled = experimentUtils.isEnabled(
 					state.experiments ?? {},
 					EXPERIMENT_IDS.MULTI_FILE_APPLY_DIFF,
 				)
