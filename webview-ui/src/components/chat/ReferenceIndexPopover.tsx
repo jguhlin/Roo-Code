@@ -47,6 +47,7 @@ interface ReferenceIndexPopoverProps {
 
 interface LocalReferenceIndexSettings {
 	// Global state settings
+	referenceIndexRootPath: string
 	referenceIndexEnabled: boolean
 	referenceIndexQdrantUrl: string
 	referenceIndexEmbedderProvider: EmbedderProvider
@@ -83,6 +84,7 @@ export const ReferenceIndexPopover: React.FC<ReferenceIndexPopoverProps> = ({
 	// Default settings template
 	const getDefaultSettings = (): LocalReferenceIndexSettings => ({
 		referenceIndexEnabled: false,
+		referenceIndexRootPath: "",
 		referenceIndexQdrantUrl: "",
 		referenceIndexEmbedderProvider: "openai",
 		referenceIndexEmbedderBaseUrl: "",
@@ -113,6 +115,7 @@ export const ReferenceIndexPopover: React.FC<ReferenceIndexPopoverProps> = ({
 		if (referenceIndexConfig) {
 			const settings = {
 				referenceIndexEnabled: referenceIndexConfig.referenceIndexEnabled || false,
+				referenceIndexRootPath: referenceIndexConfig.referenceIndexRootPath || "",
 				referenceIndexQdrantUrl: referenceIndexConfig.referenceIndexQdrantUrl || "",
 				referenceIndexEmbedderProvider: referenceIndexConfig.referenceIndexEmbedderProvider || "openai",
 				referenceIndexEmbedderBaseUrl: referenceIndexConfig.referenceIndexEmbedderBaseUrl || "",
@@ -169,7 +172,7 @@ export const ReferenceIndexPopover: React.FC<ReferenceIndexPopoverProps> = ({
 					}, 3000)
 				} else {
 					setSaveStatus("error")
-					setSaveError(event.data.error || t("settings:codeIndex.saveError"))
+					setSaveError(event.data.error || t("settings:referenceIndex.saveError"))
 					// Clear error message after 5 seconds
 					setTimeout(() => {
 						setSaveStatus("idle")
@@ -306,11 +309,11 @@ export const ReferenceIndexPopover: React.FC<ReferenceIndexPopoverProps> = ({
 	const content = (
 		<>
 			<div className="mb-4">
-				<h3 className="text-base font-medium mb-2">{t("settings:codeIndex.title")}</h3>
+				<h3 className="text-base font-medium mb-2">{t("settings:referenceIndex.title")}</h3>
 				<p className="text-sm text-vscode-descriptionForeground">
-					<Trans i18nKey="settings:codeIndex.description">
+					<Trans i18nKey="settings:referenceIndex.description">
 						<VSCodeLink
-							href={buildDocLink("features/experimental/codebase-indexing", "settings")}
+							href={buildDocLink("features/experimental/reference-indexing", "settings")}
 							style={{ display: "inline" }}
 						/>
 					</Trans>
@@ -320,7 +323,7 @@ export const ReferenceIndexPopover: React.FC<ReferenceIndexPopoverProps> = ({
 			<div className="space-y-4">
 				{/* Status Section */}
 				<div className="space-y-2">
-					<h4 className="text-sm font-medium">{t("settings:codeIndex.statusTitle")}</h4>
+					<h4 className="text-sm font-medium">{t("settings:referenceIndex.statusTitle")}</h4>
 					<div className="text-sm text-vscode-descriptionForeground">
 						<span
 							className={cn("inline-block w-3 h-3 rounded-full mr-2", {
@@ -330,7 +333,7 @@ export const ReferenceIndexPopover: React.FC<ReferenceIndexPopoverProps> = ({
 								"bg-red-500": indexingStatus.systemStatus === "Error",
 							})}
 						/>
-						{t(`settings:codeIndex.indexingStatuses.${indexingStatus.systemStatus.toLowerCase()}`)}
+						{t(`settings:referenceIndex.indexingStatuses.${indexingStatus.systemStatus.toLowerCase()}`)}
 						{indexingStatus.message ? ` - ${indexingStatus.message}` : ""}
 					</div>
 
@@ -348,6 +351,17 @@ export const ReferenceIndexPopover: React.FC<ReferenceIndexPopoverProps> = ({
 							</ProgressPrimitive.Root>
 						</div>
 					)}
+				</div>
+
+				{/* Root Path */}
+				<div className="space-y-2">
+					<label className="text-sm font-medium">{t("settings:referenceIndex.rootPathLabel")}</label>
+					<VSCodeTextField
+						value={currentSettings.referenceIndexRootPath || ""}
+						onInput={(e: any) => updateSetting("referenceIndexRootPath", e.target.value)}
+						placeholder={t("settings:referenceIndex.rootPathPlaceholder")}
+						className="w-full"
+					/>
 				</div>
 
 				{/* Embedder Provider Section */}
@@ -720,8 +734,8 @@ export const ReferenceIndexPopover: React.FC<ReferenceIndexPopoverProps> = ({
 
 					<VSCodeButton onClick={handleSaveSettings} disabled={!hasUnsavedChanges || saveStatus === "saving"}>
 						{saveStatus === "saving"
-							? t("settings:codeIndex.saving")
-							: t("settings:codeIndex.saveSettings")}
+							? t("settings:referenceIndex.saving")
+							: t("settings:referenceIndex.saveSettings")}
 					</VSCodeButton>
 				</div>
 
@@ -729,7 +743,7 @@ export const ReferenceIndexPopover: React.FC<ReferenceIndexPopoverProps> = ({
 				{saveStatus === "error" && (
 					<div className="mt-2">
 						<span className="text-sm text-red-600 block">
-							{saveError || t("settings:codeIndex.saveError")}
+							{saveError || t("settings:referenceIndex.saveError")}
 						</span>
 					</div>
 				)}
