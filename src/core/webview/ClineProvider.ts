@@ -137,6 +137,7 @@ export class ClineProvider
 		this.referenceIndexManager = referenceIndexManager
 		this.mdmService = mdmService
 		this.updateGlobalState("codebaseIndexModels", EMBEDDING_MODEL_PROFILES)
+		this.updateGlobalState("referenceIndexModels", EMBEDDING_MODEL_PROFILES)
 
 		// Start configuration loading (which might trigger indexing) in the background.
 		// Don't await, allowing activation to continue immediately.
@@ -1561,6 +1562,15 @@ export class ClineProvider
 				codebaseIndexEmbedderBaseUrl: "",
 				codebaseIndexEmbedderModelId: "",
 			},
+			referenceIndexModels: referenceIndexModels ?? EMBEDDING_MODEL_PROFILES,
+			referenceIndexConfig: referenceIndexConfig ?? {
+				referenceIndexEnabled: false,
+				referenceIndexRootPath: "",
+				referenceIndexQdrantUrl: "http://localhost:6333",
+				referenceIndexEmbedderProvider: "openai",
+				referenceIndexEmbedderBaseUrl: "",
+				referenceIndexEmbedderModelId: "",
+			},
 			mdmCompliant: this.checkMdmCompliance(),
 			profileThresholds: profileThresholds ?? {},
 			cloudApiUrl: getRooCodeApiUrl(),
@@ -1728,6 +1738,15 @@ export class ClineProvider
 				codebaseIndexEmbedderProvider: "openai",
 				codebaseIndexEmbedderBaseUrl: "",
 				codebaseIndexEmbedderModelId: "",
+			},
+			referenceIndexModels: stateValues.referenceIndexModels ?? EMBEDDING_MODEL_PROFILES,
+			referenceIndexConfig: stateValues.referenceIndexConfig ?? {
+				referenceIndexEnabled: false,
+				referenceIndexRootPath: "",
+				referenceIndexQdrantUrl: "http://localhost:6333",
+				referenceIndexEmbedderProvider: "openai",
+				referenceIndexEmbedderBaseUrl: "",
+				referenceIndexEmbedderModelId: "",
 			},
 			profileThresholds: stateValues.profileThresholds ?? {},
 			machineId: vscode.env.machineId,
