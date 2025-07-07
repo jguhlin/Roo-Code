@@ -853,6 +853,9 @@ importers:
       glob:
         specifier: ^11.0.1
         version: 11.0.2
+      globals:
+        specifier: ^16.1.0
+        version: 16.1.0
       mkdirp:
         specifier: ^3.0.1
         version: 3.0.1
