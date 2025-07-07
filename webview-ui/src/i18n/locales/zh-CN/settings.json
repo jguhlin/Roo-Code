@@ -531,7 +531,34 @@
 			}
 		}
 	},
+	"referenceIndex": {
+		"title": "参考索引",
+		"description": "参考索引为你的参考资料构建语义索引。",
+		"statusTitle": "状态",
+		"enableLabel": "启用参考索引",
+		"enableDescription": "<0>参考索引</0>为你的参考资料构建语义索引。",
+		"settingsTitle": "索引设置",
+		"disabledMessage": "参考索引当前已禁用。请在全局设置中启用以配置索引选项。",
+		"rootPathLabel": "根目录",
+		"rootPathPlaceholder": "参考资料路径",
+		"saveError": "保存设置失败",
+		"saving": "保存中...",
+		"saveSettings": "保存"
+	},
+	"mem0": {
+		"enable": {
+			"label": "启用 Mem0",
+			"description": "使用 Mem0 服务存储和检索任务记忆。",
+			"urlLabel": "Mem0 API 服务 URL",
+			"urlPlaceholder": "http://localhost:4321"
+		}
+	},
 	"experimental": {
+		"LLM_CONVERSATION_SAVING": {
+			"name": "保存 LLM 对话",
+			"description": "启用后，Roo 会将与 LLM 的完整对话保存到文件中。这可用于后续的模型微调。",
+			"pathLabel": "保存路径"
+		},
 		"DIFF_STRATEGY_UNIFIED": {
 			"name": "启用diff更新工具",
 			"description": "可减少因模型错误导致的重复尝试，但可能引发意外操作。启用前请确保理解风险并会仔细检查所有修改。"

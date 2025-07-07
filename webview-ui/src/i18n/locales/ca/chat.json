@@ -314,6 +314,13 @@
 		"error": "Error d'índex",
 		"status": "Estat de l'índex"
 	},
+	"referenceIndexStatus": {
+		"ready": "Índex de referència llest",
+		"indexing": "Indexant referències {{percentage}}%",
+		"indexed": "Referències indexades",
+		"error": "Error de l'índex de referència",
+		"status": "Estat de l'índex de referència"
+	},
 	"versionIndicator": {
 		"ariaLabel": "Versió {{version}} - Feu clic per veure les notes de llançament"
 	}

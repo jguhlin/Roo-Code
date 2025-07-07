@@ -535,7 +535,34 @@
 			}
 		}
 	},
+	"referenceIndex": {
+		"title": "Index Referensi",
+		"description": "Index Referensi membangun index semantik dari materi referensi kamu.",
+		"statusTitle": "Status",
+		"enableLabel": "Aktifkan indexing referensi",
+		"enableDescription": "<0>Indexing referensi</0> membangun index semantik dari materi referensi kamu.",
+		"settingsTitle": "Pengaturan Indexing",
+		"disabledMessage": "Indexing referensi saat ini dinonaktifkan. Aktifkan di pengaturan global untuk mengkonfigurasi opsi indexing.",
+		"rootPathLabel": "Direktori Root",
+		"rootPathPlaceholder": "Path ke materi referensi",
+		"saveError": "Error menyimpan pengaturan",
+		"saving": "Menyimpan...",
+		"saveSettings": "Simpan"
+	},
+	"mem0": {
+		"enable": {
+			"label": "Aktifkan Mem0",
+			"description": "Menyimpan dan mengingat memori task menggunakan server Mem0.",
+			"urlLabel": "URL server API Mem0",
+			"urlPlaceholder": "http://localhost:4321"
+		}
+	},
 	"experimental": {
+		"LLM_CONVERSATION_SAVING": {
+			"name": "Simpan conversation LLM",
+			"description": "Ketika diaktifkan, Roo akan menyimpan seluruh conversation dengan LLM ke dalam file. Ini dapat digunakan untuk fine-tune model nantinya.",
+			"pathLabel": "Path penyimpanan"
+		},
 		"warning": "⚠️",
 		"autoCondenseContextPercent": {
 			"label": "Ambang batas untuk memicu kondensasi konteks cerdas",

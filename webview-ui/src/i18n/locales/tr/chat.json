@@ -314,6 +314,13 @@
 		"error": "İndeks hatası",
 		"status": "İndeks durumu"
 	},
+	"referenceIndexStatus": {
+		"ready": "Referans indeksi hazır",
+		"indexing": "Referans indeksleniyor {{percentage}}%",
+		"indexed": "Referans indekslendi",
+		"error": "Referans indeksi hatası",
+		"status": "Referans indeksi durumu"
+	},
 	"versionIndicator": {
 		"ariaLabel": "Sürüm {{version}} - Sürüm notlarını görüntülemek için tıklayın"
 	}

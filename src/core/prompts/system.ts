@@ -9,6 +9,7 @@ import { formatLanguage } from "../../shared/language"
 
 import { McpHub } from "../../services/mcp/McpHub"
 import { CodeIndexManager } from "../../services/code-index/manager"
+import { ReferenceIndexManager } from "../../services/reference-index/manager"
 
 import { PromptVariables, loadSystemPromptFile } from "./sections/custom-system-prompt"
 
@@ -64,6 +65,7 @@ async function generatePrompt(
 	])
 
 	const codeIndexManager = CodeIndexManager.getInstance(context)
+	const referenceIndexManager = ReferenceIndexManager.getInstance(context)
 
 	const basePrompt = `${roleDefinition}
 
@@ -89,7 +91,7 @@ ${getToolUseGuidelinesSection(codeIndexManager)}
 
 ${mcpServersSection}
 
-${getCapabilitiesSection(cwd, supportsComputerUse, mcpHub, effectiveDiffStrategy, codeIndexManager)}
+${getCapabilitiesSection(cwd, supportsComputerUse, mcpHub, effectiveDiffStrategy, codeIndexManager, referenceIndexManager)}
 
 ${modesSection}
 
@@ -97,7 +99,7 @@ ${getRulesSection(cwd, supportsComputerUse, effectiveDiffStrategy, codeIndexMana
 
 ${getSystemInfoSection(cwd)}
 
-${getObjectiveSection(codeIndexManager, experiments)}
+${getObjectiveSection(codeIndexManager, referenceIndexManager, experiments)}
 
 ${await addCustomInstructions(baseInstructions, globalCustomInstructions || "", cwd, mode, { language: language ?? formatLanguage(vscode.env.language), rooIgnoreInstructions })}`
 

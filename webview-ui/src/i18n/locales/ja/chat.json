@@ -314,6 +314,13 @@
 		"error": "インデックスエラー",
 		"status": "インデックス状態"
 	},
+	"referenceIndexStatus": {
+		"ready": "参照インデックス準備完了",
+		"indexing": "参照インデックス作成中 {{percentage}}%",
+		"indexed": "参照インデックス完了",
+		"error": "参照インデックスエラー",
+		"status": "参照インデックス状態"
+	},
 	"versionIndicator": {
 		"ariaLabel": "バージョン {{version}} - クリックしてリリースノートを表示"
 	}

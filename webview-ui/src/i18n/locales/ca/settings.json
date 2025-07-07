@@ -531,7 +531,34 @@
 			}
 		}
 	},
+	"referenceIndex": {
+		"title": "Indexació de referència",
+		"description": "L'Índex de referència construeix un índex semàntic dels teus materials de referència.",
+		"statusTitle": "Estat",
+		"enableLabel": "Activar indexació de referència",
+		"enableDescription": "<0>L'indexació de referència</0> construeix un índex semàntic dels teus materials de referència.",
+		"settingsTitle": "Configuració d'indexació",
+		"disabledMessage": "L'indexació de referència està desactivada actualment. Activa-la a la configuració global per configurar les opcions d'indexació.",
+		"rootPathLabel": "Directori arrel",
+		"rootPathPlaceholder": "Ruta als materials de referència",
+		"saveError": "Error en desar la configuració",
+		"saving": "Desant...",
+		"saveSettings": "Desar"
+	},
+	"mem0": {
+		"enable": {
+			"label": "Activar Mem0",
+			"description": "Emmagatzema i recupera memòries de tasques utilitzant un servidor Mem0.",
+			"urlLabel": "URL del servidor API Mem0",
+			"urlPlaceholder": "http://localhost:4321"
+		}
+	},
 	"experimental": {
+		"LLM_CONVERSATION_SAVING": {
+			"name": "Desar converses LLM",
+			"description": "Quan s'activa, Roo desarà tota la conversa amb el LLM en un fitxer. Això es pot utilitzar per ajustar models més tard.",
+			"pathLabel": "Ruta d'emmagatzematge"
+		},
 		"DIFF_STRATEGY_UNIFIED": {
 			"name": "Utilitzar estratègia diff unificada experimental",
 			"description": "Activar l'estratègia diff unificada experimental. Aquesta estratègia podria reduir el nombre de reintents causats per errors del model, però pot causar comportaments inesperats o edicions incorrectes. Activeu-la només si enteneu els riscos i esteu disposats a revisar acuradament tots els canvis."

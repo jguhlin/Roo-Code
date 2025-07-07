@@ -531,7 +531,34 @@
 			}
 		}
 	},
+	"referenceIndex": {
+		"title": "Referentie Index",
+		"description": "De Referentie Index bouwt een semantische index van je referentiemateriaal.",
+		"statusTitle": "Status",
+		"enableLabel": "Referentie-indexering inschakelen",
+		"enableDescription": "<0>Referentie-indexering</0> bouwt een semantische index van je referentiemateriaal.",
+		"settingsTitle": "Indexering Instellingen",
+		"disabledMessage": "Referentie-indexering is momenteel uitgeschakeld. Schakel het in via de globale instellingen om indexeringsopties te configureren.",
+		"rootPathLabel": "Root Directory",
+		"rootPathPlaceholder": "Pad naar referentiemateriaal",
+		"saveError": "Fout bij het opslaan van instellingen",
+		"saving": "Opslaan...",
+		"saveSettings": "Opslaan"
+	},
+	"mem0": {
+		"enable": {
+			"label": "Mem0 inschakelen",
+			"description": "Slaat taakgeheugens op en roept ze op met behulp van een Mem0-server.",
+			"urlLabel": "Mem0 API server URL",
+			"urlPlaceholder": "http://localhost:4321"
+		}
+	},
 	"experimental": {
+		"LLM_CONVERSATION_SAVING": {
+			"name": "LLM-gesprekken opslaan",
+			"description": "Wanneer ingeschakeld, slaat Roo het hele gesprek met de LLM op in een bestand. Dit kan later worden gebruikt voor het fine-tunen van modellen.",
+			"pathLabel": "Opslagpad"
+		},
 		"DIFF_STRATEGY_UNIFIED": {
 			"name": "Experimentele unified diff-strategie gebruiken",
 			"description": "Schakel de experimentele unified diff-strategie in. Deze strategie kan het aantal herhalingen door model fouten verminderen, maar kan onverwacht gedrag of onjuiste bewerkingen veroorzaken. Alleen inschakelen als je de risico's begrijpt en wijzigingen zorgvuldig wilt controleren."

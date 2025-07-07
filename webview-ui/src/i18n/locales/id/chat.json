@@ -320,6 +320,13 @@
 		"error": "Error indeks",
 		"status": "Status indeks"
 	},
+	"referenceIndexStatus": {
+		"ready": "Indeks referensi siap",
+		"indexing": "Mengindeks referensi {{percentage}}%",
+		"indexed": "Referensi diindeks",
+		"error": "Error indeks referensi",
+		"status": "Status indeks referensi"
+	},
 	"versionIndicator": {
 		"ariaLabel": "Versi {{version}} - Klik untuk melihat catatan rilis"
 	}

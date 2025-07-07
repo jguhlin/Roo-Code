@@ -193,6 +193,7 @@ export interface WebviewMessage {
 		| "requestCodeIndexSecretStatus"
 		| "saveReferenceIndexSettingsAtomic"
 		| "requestReferenceIndexSecretStatus"
+		| "requestReferenceIndexStatus"
 	text?: string
 	tab?: "settings" | "history" | "mcp" | "modes" | "chat" | "marketplace" | "account"
 	disabled?: boolean

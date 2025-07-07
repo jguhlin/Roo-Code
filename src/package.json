@@ -1,5 +1,6 @@
 {
 	"name": "roo-cline",
+	"type": "module",
 	"displayName": "%extension.displayName%",
 	"description": "%extension.description%",
 	"publisher": "RooVeterinaryInc",

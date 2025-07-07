@@ -531,7 +531,34 @@
 			}
 		}
 	},
+	"referenceIndex": {
+		"title": "Indice di Riferimento",
+		"description": "L'Indice di Riferimento costruisce un indice semantico dei tuoi materiali di riferimento.",
+		"statusTitle": "Stato",
+		"enableLabel": "Abilita indicizzazione di riferimento",
+		"enableDescription": "<0>L'indicizzazione di riferimento</0> costruisce un indice semantico dei tuoi materiali di riferimento.",
+		"settingsTitle": "Impostazioni di Indicizzazione",
+		"disabledMessage": "L'indicizzazione di riferimento è attualmente disabilitata. Abilitala nelle impostazioni globali per configurare le opzioni di indicizzazione.",
+		"rootPathLabel": "Directory Root",
+		"rootPathPlaceholder": "Percorso ai materiali di riferimento",
+		"saveError": "Errore nel salvare le impostazioni",
+		"saving": "Salvataggio...",
+		"saveSettings": "Salva"
+	},
+	"mem0": {
+		"enable": {
+			"label": "Abilita Mem0",
+			"description": "Memorizza e richiama le memorie dei task utilizzando un server Mem0.",
+			"urlLabel": "URL del server API Mem0",
+			"urlPlaceholder": "http://localhost:4321"
+		}
+	},
 	"experimental": {
+		"LLM_CONVERSATION_SAVING": {
+			"name": "Salva conversazioni LLM",
+			"description": "Quando abilitato, Roo salverà l'intera conversazione con il LLM in un file. Questo può essere utilizzato per fare fine-tuning dei modelli in seguito.",
+			"pathLabel": "Percorso di memorizzazione"
+		},
 		"DIFF_STRATEGY_UNIFIED": {
 			"name": "Usa strategia diff unificata sperimentale",
 			"description": "Abilita la strategia diff unificata sperimentale. Questa strategia potrebbe ridurre il numero di tentativi causati da errori del modello, ma può causare comportamenti imprevisti o modifiche errate. Abilitala solo se comprendi i rischi e sei disposto a rivedere attentamente tutte le modifiche."

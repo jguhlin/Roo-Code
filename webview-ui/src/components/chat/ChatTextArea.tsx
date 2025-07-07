@@ -28,6 +28,7 @@ import ContextMenu from "./ContextMenu"
 import { VolumeX, Pin, Check } from "lucide-react"
 import { IconButton } from "./IconButton"
 import { IndexingStatusDot } from "./IndexingStatusBadge"
+import { ReferenceIndexStatusDot } from "./ReferenceIndexStatusBadge"
 import { cn } from "@/lib/utils"
 import { usePromptHistory } from "./hooks/usePromptHistory"
 
@@ -1134,6 +1135,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 
 					<div className={cn("flex", "items-center", "gap-0.5", "shrink-0")}>
 						{codebaseIndexConfig?.codebaseIndexEnabled && <IndexingStatusDot />}
+						<ReferenceIndexStatusDot />
 						<IconButton
 							iconClass={isEnhancingPrompt ? "codicon-loading" : "codicon-sparkle"}
 							title={t("chat:enhancePrompt")}

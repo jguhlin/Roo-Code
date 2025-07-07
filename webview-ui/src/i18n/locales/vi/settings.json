@@ -531,7 +531,34 @@
 			}
 		}
 	},
+	"referenceIndex": {
+		"title": "Chỉ mục Tham khảo",
+		"description": "Chỉ mục Tham khảo xây dựng một chỉ mục ngữ nghĩa của tài liệu tham khảo của bạn.",
+		"statusTitle": "Trạng thái",
+		"enableLabel": "Bật lập chỉ mục tham khảo",
+		"enableDescription": "<0>Lập chỉ mục tham khảo</0> xây dựng một chỉ mục ngữ nghĩa của tài liệu tham khảo của bạn.",
+		"settingsTitle": "Cài đặt Lập chỉ mục",
+		"disabledMessage": "Lập chỉ mục tham khảo hiện đang bị tắt. Hãy bật nó trong cài đặt toàn cục để cấu hình các tùy chọn lập chỉ mục.",
+		"rootPathLabel": "Thư mục Gốc",
+		"rootPathPlaceholder": "Đường dẫn đến tài liệu tham khảo",
+		"saveError": "Lỗi lưu cài đặt",
+		"saving": "Đang lưu...",
+		"saveSettings": "Lưu"
+	},
+	"mem0": {
+		"enable": {
+			"label": "Bật Mem0",
+			"description": "Lưu trữ và truy xuất bộ nhớ tác vụ bằng máy chủ Mem0.",
+			"urlLabel": "URL máy chủ API Mem0",
+			"urlPlaceholder": "http://localhost:4321"
+		}
+	},
 	"experimental": {
+		"LLM_CONVERSATION_SAVING": {
+			"name": "Lưu cuộc trò chuyện LLM",
+			"description": "Khi được bật, Roo sẽ lưu toàn bộ cuộc trò chuyện với LLM vào một tệp. Điều này có thể được sử dụng sau này để tinh chỉnh các mô hình.",
+			"pathLabel": "Đường dẫn lưu"
+		},
 		"DIFF_STRATEGY_UNIFIED": {
 			"name": "Sử dụng chiến lược diff thống nhất thử nghiệm",
 			"description": "Bật chiến lược diff thống nhất thử nghiệm. Chiến lược này có thể giảm số lần thử lại do lỗi mô hình nhưng có thể gây ra hành vi không mong muốn hoặc chỉnh sửa không chính xác. Chỉ bật nếu bạn hiểu rõ các rủi ro và sẵn sàng xem xét cẩn thận tất cả các thay đổi."

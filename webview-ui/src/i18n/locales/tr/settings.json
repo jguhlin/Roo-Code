@@ -531,7 +531,34 @@
 			}
 		}
 	},
+	"referenceIndex": {
+		"title": "Referans İndeksi",
+		"description": "Referans İndeksi referans materyalinizin semantik indeksini oluşturur.",
+		"statusTitle": "Durum",
+		"enableLabel": "Referans indekslemesini etkinleştir",
+		"enableDescription": "<0>Referans indekslemesi</0> referans materyalinizin semantik indeksini oluşturur.",
+		"settingsTitle": "İndeksleme Ayarları",
+		"disabledMessage": "Referans indekslemesi şu anda devre dışı. İndeksleme seçeneklerini yapılandırmak için global ayarlardan etkinleştirin.",
+		"rootPathLabel": "Kök Dizin",
+		"rootPathPlaceholder": "Referans materyali yolu",
+		"saveError": "Ayarları kaydetme hatası",
+		"saving": "Kaydediliyor...",
+		"saveSettings": "Kaydet"
+	},
+	"mem0": {
+		"enable": {
+			"label": "Mem0'ı etkinleştir",
+			"description": "Mem0 sunucusu kullanarak görev anılarını saklar ve geri alır.",
+			"urlLabel": "Mem0 API sunucu URL'si",
+			"urlPlaceholder": "http://localhost:4321"
+		}
+	},
 	"experimental": {
+		"LLM_CONVERSATION_SAVING": {
+			"name": "LLM konuşmalarını kaydetme",
+			"description": "Etkinleştirildiğinde, Roo tüm LLM konuşmasını bir dosyaya kaydeder. Bu daha sonra modellerin ince ayarlanması için kullanılabilir.",
+			"pathLabel": "Kayıt yolu"
+		},
 		"DIFF_STRATEGY_UNIFIED": {
 			"name": "Deneysel birleştirilmiş diff stratejisini kullan",
 			"description": "Deneysel birleştirilmiş diff stratejisini etkinleştir. Bu strateji, model hatalarından kaynaklanan yeniden deneme sayısını azaltabilir, ancak beklenmeyen davranışlara veya hatalı düzenlemelere neden olabilir. Yalnızca riskleri anlıyorsanız ve tüm değişiklikleri dikkatlice incelemeye istekliyseniz etkinleştirin."

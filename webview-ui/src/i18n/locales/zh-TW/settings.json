@@ -531,7 +531,34 @@
 			}
 		}
 	},
+	"referenceIndex": {
+		"title": "參考索引",
+		"description": "參考索引為你的參考資料建立語義索引。",
+		"statusTitle": "狀態",
+		"enableLabel": "啟用參考索引",
+		"enableDescription": "<0>參考索引</0>為你的參考資料建立語義索引。",
+		"settingsTitle": "索引設定",
+		"disabledMessage": "參考索引目前已停用。請在全域設定中啟用以設定索引選項。",
+		"rootPathLabel": "根目錄",
+		"rootPathPlaceholder": "參考資料路徑",
+		"saveError": "儲存設定失敗",
+		"saving": "儲存中...",
+		"saveSettings": "儲存"
+	},
+	"mem0": {
+		"enable": {
+			"label": "啟用 Mem0",
+			"description": "使用 Mem0 服務儲存和擷取工作記憶。",
+			"urlLabel": "Mem0 API 服務 URL",
+			"urlPlaceholder": "http://localhost:4321"
+		}
+	},
 	"experimental": {
+		"LLM_CONVERSATION_SAVING": {
+			"name": "儲存 LLM 對話",
+			"description": "啟用後，Roo 會將與 LLM 的完整對話儲存到檔案中。這可用於後續的模型微調。",
+			"pathLabel": "儲存路徑"
+		},
 		"DIFF_STRATEGY_UNIFIED": {
 			"name": "使用實驗性統一差異比對策略",
 			"description": "啟用實驗性的統一差異比對策略。此策略可能減少因模型錯誤而導致的重試次數，但也可能導致意外行為或錯誤的編輯。請務必了解風險，並願意仔細檢查所有變更後再啟用。"

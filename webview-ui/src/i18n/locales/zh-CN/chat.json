@@ -314,7 +314,14 @@
 		"error": "索引错误",
 		"status": "索引状态"
 	},
+	"referenceIndexStatus": {
+		"ready": "参考索引准备就绪",
+		"indexing": "正在索引参考资料 {{percentage}}%",
+		"indexed": "参考资料已索引",
+		"error": "参考索引错误",
+		"status": "参考索引状态"
+	},
 	"versionIndicator": {
-		"ariaLabel": "版本 {{version}} - 点击查看发布说明"
+		"ariaLabel": "版本 {{version}} - 点击查看发行说明"
 	}
 }

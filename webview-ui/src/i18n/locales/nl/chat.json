@@ -314,6 +314,13 @@
 		"error": "Index fout",
 		"status": "Index status"
 	},
+	"referenceIndexStatus": {
+		"ready": "Referentie-index gereed",
+		"indexing": "Referentie indexeren {{percentage}}%",
+		"indexed": "Referentie geïndexeerd",
+		"error": "Referentie-index fout",
+		"status": "Referentie-index status"
+	},
 	"versionIndicator": {
 		"ariaLabel": "Versie {{version}} - Klik om release notes te bekijken"
 	}

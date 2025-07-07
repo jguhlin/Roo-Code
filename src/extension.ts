@@ -99,23 +99,33 @@ export async function activate(context: vscode.ExtensionContext) {
 	}
 
 	const contextProxy = await ContextProxy.getInstance(context)
-	const codeIndexManager = CodeIndexManager.getInstance(context)
-	const referenceIndexManager = ReferenceIndexManager.getInstance(context)
+	let codeIndexManager: CodeIndexManager | undefined
+	let referenceIndexManager: ReferenceIndexManager | undefined
 
+	// Initialize CodeIndexManager with proper error handling
 	try {
-		await codeIndexManager?.initialize(contextProxy)
+		codeIndexManager = CodeIndexManager.getInstance(context)
+		if (codeIndexManager) {
+			await codeIndexManager.initialize(contextProxy)
+		}
 	} catch (error) {
 		outputChannel.appendLine(
-			`[CodeIndexManager] Error during background CodeIndexManager configuration/indexing: ${error.message || error}`,
+			`[CodeIndexManager] Error during CodeIndexManager initialization: ${error.message || error}. CodeIndex functionality will be disabled.`,
 		)
+		codeIndexManager = undefined // Disable the manager on initialization failure
 	}
 
+	// Initialize ReferenceIndexManager with proper error handling
 	try {
-		await referenceIndexManager?.initialize(contextProxy)
+		referenceIndexManager = ReferenceIndexManager.getInstance(context)
+		if (referenceIndexManager) {
+			await referenceIndexManager.initialize(contextProxy)
+		}
 	} catch (error) {
 		outputChannel.appendLine(
-			`[ReferenceIndexManager] Error during background ReferenceIndexManager configuration/indexing: ${error.message || error}`,
+			`[ReferenceIndexManager] Error during ReferenceIndexManager initialization: ${error.message || error}. ReferenceIndex functionality will be disabled.`,
 		)
+		referenceIndexManager = undefined // Disable the manager on initialization failure
 	}
 
 	const provider = new ClineProvider(

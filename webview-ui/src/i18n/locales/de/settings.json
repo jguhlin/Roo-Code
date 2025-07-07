@@ -531,7 +531,34 @@
 			}
 		}
 	},
+	"referenceIndex": {
+		"title": "Referenz-Indexierung",
+		"description": "Der Referenz-Index erstellt einen semantischen Index deiner Referenzmaterialien.",
+		"statusTitle": "Status",
+		"enableLabel": "Referenz-Indexierung aktivieren",
+		"enableDescription": "<0>Referenz-Indexierung</0> erstellt einen semantischen Index deiner Referenzmaterialien.",
+		"settingsTitle": "Indexierungs-Einstellungen",
+		"disabledMessage": "Die Referenz-Indexierung ist derzeit deaktiviert. Aktiviere sie in den globalen Einstellungen, um Indexierungsoptionen zu konfigurieren.",
+		"rootPathLabel": "Stammverzeichnis",
+		"rootPathPlaceholder": "Pfad zu Referenzmaterialien",
+		"saveError": "Fehler beim Speichern der Einstellungen",
+		"saving": "Speichern...",
+		"saveSettings": "Speichern"
+	},
+	"mem0": {
+		"enable": {
+			"label": "Mem0 aktivieren",
+			"description": "Speichere und rufe Aufgaben-Erinnerungen mit einem Mem0-Server ab.",
+			"urlLabel": "Mem0 API-Server-URL",
+			"urlPlaceholder": "http://localhost:4321"
+		}
+	},
 	"experimental": {
+		"LLM_CONVERSATION_SAVING": {
+			"name": "LLM-Gespräche speichern",
+			"description": "Wenn aktiviert, speichert Roo das gesamte Gespräch mit dem LLM in einer Datei. Das kann später zum Feintuning von Modellen verwendet werden.",
+			"pathLabel": "Speicherpfad"
+		},
 		"DIFF_STRATEGY_UNIFIED": {
 			"name": "Experimentelle einheitliche Diff-Strategie verwenden",
 			"description": "Aktiviert die experimentelle einheitliche Diff-Strategie. Diese Strategie könnte die Anzahl der durch Modellfehler verursachten Wiederholungen reduzieren, kann aber unerwartetes Verhalten oder falsche Bearbeitungen verursachen. Nur aktivieren, wenn du die Risiken verstehst und bereit bist, alle Änderungen sorgfältig zu überprüfen."

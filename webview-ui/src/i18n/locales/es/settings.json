@@ -531,7 +531,34 @@
 			}
 		}
 	},
+	"referenceIndex": {
+		"title": "Indexación de referencia",
+		"description": "El Índice de referencia construye un índice semántico de tus materiales de referencia.",
+		"statusTitle": "Estado",
+		"enableLabel": "Activar indexación de referencia",
+		"enableDescription": "<0>La indexación de referencia</0> construye un índice semántico de tus materiales de referencia.",
+		"settingsTitle": "Configuración de indexación",
+		"disabledMessage": "La indexación de referencia está desactivada. Actívala en la configuración global para configurar las opciones de indexación.",
+		"rootPathLabel": "Directorio raíz",
+		"rootPathPlaceholder": "Ruta a materiales de referencia",
+		"saveError": "Error al guardar la configuración",
+		"saving": "Guardando...",
+		"saveSettings": "Guardar"
+	},
+	"mem0": {
+		"enable": {
+			"label": "Activar Mem0",
+			"description": "Almacena y recupera memorias de tareas usando un servidor Mem0.",
+			"urlLabel": "URL del servidor API Mem0",
+			"urlPlaceholder": "http://localhost:4321"
+		}
+	},
 	"experimental": {
+		"LLM_CONVERSATION_SAVING": {
+			"name": "Guardar conversaciones LLM",
+			"description": "Cuando esté activado, Roo guardará toda la conversación con el LLM en un archivo. Esto se puede usar para ajustar modelos más tarde.",
+			"pathLabel": "Ruta de almacenamiento"
+		},
 		"DIFF_STRATEGY_UNIFIED": {
 			"name": "Usar estrategia de diff unificada experimental",
 			"description": "Habilitar la estrategia de diff unificada experimental. Esta estrategia podría reducir el número de reintentos causados por errores del modelo, pero puede causar comportamientos inesperados o ediciones incorrectas. Habilítela solo si comprende los riesgos y está dispuesto a revisar cuidadosamente todos los cambios."

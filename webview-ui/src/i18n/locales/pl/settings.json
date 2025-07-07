@@ -531,7 +531,34 @@
 			}
 		}
 	},
+	"referenceIndex": {
+		"title": "Indeks Referencyjny",
+		"description": "Indeks Referencyjny buduje semantyczny indeks twojego materiału referencyjnego.",
+		"statusTitle": "Status",
+		"enableLabel": "Włącz indeksowanie referencyjne",
+		"enableDescription": "<0>Indeksowanie referencyjne</0> buduje semantyczny indeks twojego materiału referencyjnego.",
+		"settingsTitle": "Ustawienia Indeksowania",
+		"disabledMessage": "Indeksowanie referencyjne jest obecnie wyłączone. Włącz je w ustawieniach globalnych, aby skonfigurować opcje indeksowania.",
+		"rootPathLabel": "Katalog Główny",
+		"rootPathPlaceholder": "Ścieżka do materiału referencyjnego",
+		"saveError": "Błąd podczas zapisywania ustawień",
+		"saving": "Zapisywanie...",
+		"saveSettings": "Zapisz"
+	},
+	"mem0": {
+		"enable": {
+			"label": "Włącz Mem0",
+			"description": "Przechowuje i przywołuje pamięć zadań przy użyciu serwera Mem0.",
+			"urlLabel": "URL serwera API Mem0",
+			"urlPlaceholder": "http://localhost:4321"
+		}
+	},
 	"experimental": {
+		"LLM_CONVERSATION_SAVING": {
+			"name": "Zapisywanie rozmów LLM",
+			"description": "Gdy włączone, Roo zapisuje całą rozmowę z LLM do pliku. Może to być później użyte do fine-tuningu modeli.",
+			"pathLabel": "Ścieżka zapisu"
+		},
 		"DIFF_STRATEGY_UNIFIED": {
 			"name": "Użyj eksperymentalnej ujednoliconej strategii diff",
 			"description": "Włącz eksperymentalną ujednoliconą strategię diff. Ta strategia może zmniejszyć liczbę ponownych prób spowodowanych błędami modelu, ale może powodować nieoczekiwane zachowanie lub nieprawidłowe edycje. Włącz tylko jeśli rozumiesz ryzyko i jesteś gotów dokładnie przeglądać wszystkie zmiany."

@@ -531,7 +531,34 @@
 			}
 		}
 	},
+	"referenceIndex": {
+		"title": "リファレンスインデックス",
+		"description": "リファレンスインデックスは、リファレンス資料のセマンティックインデックスを構築します。",
+		"statusTitle": "ステータス",
+		"enableLabel": "リファレンスインデックスを有効化",
+		"enableDescription": "<0>リファレンスインデックス</0>は、リファレンス資料のセマンティックインデックスを構築します。",
+		"settingsTitle": "インデックス設定",
+		"disabledMessage": "リファレンスインデックスは現在無効です。インデックスオプションを設定するには、グローバル設定で有効化してください。",
+		"rootPathLabel": "ルートディレクトリ",
+		"rootPathPlaceholder": "リファレンス資料へのパス",
+		"saveError": "設定の保存中にエラーが発生しました",
+		"saving": "保存中...",
+		"saveSettings": "保存"
+	},
+	"mem0": {
+		"enable": {
+			"label": "Mem0を有効化",
+			"description": "Mem0サーバーを使用してタスクメモリを保存・呼び出しします。",
+			"urlLabel": "Mem0 APIサーバーURL",
+			"urlPlaceholder": "http://localhost:4321"
+		}
+	},
 	"experimental": {
+		"LLM_CONVERSATION_SAVING": {
+			"name": "LLM会話を保存",
+			"description": "有効にすると、RooはLLMとの会話全体をファイルに保存します。これは後でモデルのfine-tuningに使用できます。",
+			"pathLabel": "保存パス"
+		},
 		"DIFF_STRATEGY_UNIFIED": {
 			"name": "実験的な統合diff戦略を使用する",
 			"description": "実験的な統合diff戦略を有効にします。この戦略はモデルエラーによる再試行の回数を減らす可能性がありますが、予期しない動作や不正確な編集を引き起こす可能性があります。リスクを理解し、すべての変更を注意深く確認する準備がある場合にのみ有効にしてください。"

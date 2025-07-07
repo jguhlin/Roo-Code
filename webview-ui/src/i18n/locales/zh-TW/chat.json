@@ -314,7 +314,14 @@
 		"error": "索引錯誤",
 		"status": "索引狀態"
 	},
+	"referenceIndexStatus": {
+		"ready": "參考索引準備就緒",
+		"indexing": "正在索引參考資料 {{percentage}}%",
+		"indexed": "參考資料已索引",
+		"error": "參考索引錯誤",
+		"status": "參考索引狀態"
+	},
 	"versionIndicator": {
-		"ariaLabel": "版本 {{version}} - 點擊查看發布說明"
+		"ariaLabel": "版本 {{version}} - 點擊查看發行說明"
 	}
 }

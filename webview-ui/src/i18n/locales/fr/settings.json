@@ -531,7 +531,34 @@
 			}
 		}
 	},
+	"referenceIndex": {
+		"title": "Indexation de référence",
+		"description": "L'Index de référence construit un index sémantique de tes matériaux de référence.",
+		"statusTitle": "Statut",
+		"enableLabel": "Activer l'indexation de référence",
+		"enableDescription": "<0>L'indexation de référence</0> construit un index sémantique de tes matériaux de référence.",
+		"settingsTitle": "Paramètres d'indexation",
+		"disabledMessage": "L'indexation de référence est actuellement désactivée. Active-la dans les paramètres globaux pour configurer les options d'indexation.",
+		"rootPathLabel": "Répertoire racine",
+		"rootPathPlaceholder": "Chemin vers les matériaux de référence",
+		"saveError": "Erreur lors de la sauvegarde des paramètres",
+		"saving": "Sauvegarde...",
+		"saveSettings": "Sauvegarder"
+	},
+	"mem0": {
+		"enable": {
+			"label": "Activer Mem0",
+			"description": "Stocke et rappelle les mémoires de tâches en utilisant un serveur Mem0.",
+			"urlLabel": "URL du serveur API Mem0",
+			"urlPlaceholder": "http://localhost:4321"
+		}
+	},
 	"experimental": {
+		"LLM_CONVERSATION_SAVING": {
+			"name": "Sauvegarder les conversations LLM",
+			"description": "Quand activé, Roo sauvegardera toute la conversation avec le LLM dans un fichier. Cela peut être utilisé pour affiner des modèles plus tard.",
+			"pathLabel": "Chemin de stockage"
+		},
 		"DIFF_STRATEGY_UNIFIED": {
 			"name": "Utiliser la stratégie diff unifiée expérimentale",
 			"description": "Activer la stratégie diff unifiée expérimentale. Cette stratégie pourrait réduire le nombre de tentatives causées par des erreurs de modèle, mais peut provoquer des comportements inattendus ou des modifications incorrectes. Activez-la uniquement si vous comprenez les risques et êtes prêt à examiner attentivement tous les changements."

@@ -314,6 +314,13 @@
 		"error": "Index-Fehler",
 		"status": "Index-Status"
 	},
+	"referenceIndexStatus": {
+		"ready": "Referenz-Index bereit",
+		"indexing": "Indiziere Referenzen {{percentage}}%",
+		"indexed": "Referenzen indiziert",
+		"error": "Referenz-Index Fehler",
+		"status": "Referenz-Index Status"
+	},
 	"versionIndicator": {
 		"ariaLabel": "Version {{version}} - Klicken Sie, um die Versionshinweise anzuzeigen"
 	}

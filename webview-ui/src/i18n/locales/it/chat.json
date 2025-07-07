@@ -314,6 +314,13 @@
 		"error": "Errore indice",
 		"status": "Stato indice"
 	},
+	"referenceIndexStatus": {
+		"ready": "Indice di riferimento pronto",
+		"indexing": "Indicizzazione riferimenti {{percentage}}%",
+		"indexed": "Riferimenti indicizzati",
+		"error": "Errore indice di riferimento",
+		"status": "Stato indice di riferimento"
+	},
 	"versionIndicator": {
 		"ariaLabel": "Versione {{version}} - Clicca per visualizzare le note di rilascio"
 	}

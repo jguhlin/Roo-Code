@@ -95,6 +95,16 @@ export class ReferenceIndexManager {
 		}
 	}
 
+	public get isReadyForUse(): boolean {
+		if (!this.isFeatureEnabled || !this.isFeatureConfigured || !this.isInitialized) {
+			return false
+		}
+		// Only return true if services are created AND indexing is ready/completed/standby
+		return this._orchestrator
+			? this._orchestrator.state === "Indexed" || this._orchestrator.state === "Standby"
+			: false
+	}
+
 	/**
 	 * Initializes the manager with configuration and dependent services.
 	 * Must be called before using any other methods.
@@ -138,7 +148,11 @@ export class ReferenceIndexManager {
 			(needsServiceRecreation && (!this._orchestrator || this._orchestrator.state !== "Indexing"))
 
 		if (shouldStartOrRestartIndexing) {
-			this._orchestrator?.startIndexing() // This method is async, but we don't await it here
+			// Start indexing in background but don't block initialization
+			// The isInitialized check will properly reflect when indexing is ready
+			this._orchestrator?.startIndexing().catch((error) => {
+				console.error(`[ReferenceIndexManager] Error during background indexing: ${error.message || error}`)
+			})
 		}
 
 		return { requiresRestart }
@@ -210,10 +224,15 @@ export class ReferenceIndexManager {
 	 * Used by both initialize() and handleSettingsChange().
 	 */
 	private async _recreateServices(): Promise<void> {
-		// Stop watcher if it exists
+		// Properly dispose of existing services
 		if (this._orchestrator) {
 			this.stopWatcher()
 		}
+
+		// Clear references to old services to ensure proper cleanup
+		this._orchestrator = undefined
+		this._searchService = undefined
+		this._serviceFactory = undefined
 
 		// (Re)Initialize service factory
 		const rootPath = this._configManager!.currentRootPath ?? this.workspacePath

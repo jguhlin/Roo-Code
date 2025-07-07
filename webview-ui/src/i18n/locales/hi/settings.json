@@ -531,7 +531,34 @@
 			}
 		}
 	},
+	"referenceIndex": {
+		"title": "रेफरेंस इंडेक्स",
+		"description": "रेफरेंस इंडेक्स तुम्हारी reference materials का semantic index बनाता है।",
+		"statusTitle": "स्थिति",
+		"enableLabel": "रेफरेंस इंडेक्सिंग सक्षम करें",
+		"enableDescription": "<0>रेफरेंस इंडेक्सिंग</0> तुम्हारी reference materials का semantic index बनाता है।",
+		"settingsTitle": "इंडेक्सिंग सेटिंग्स",
+		"disabledMessage": "रेफरेंस इंडेक्सिंग वर्तमान में अक्षम है। इंडेक्सिंग विकल्प कॉन्फ़िगर करने के लिए इसे global settings में सक्षम करो।",
+		"rootPathLabel": "रूट डायरेक्टरी",
+		"rootPathPlaceholder": "reference materials का path",
+		"saveError": "सेटिंग्स सेव करने में त्रुटि",
+		"saving": "सेव कर रहे हैं...",
+		"saveSettings": "सेव करें"
+	},
+	"mem0": {
+		"enable": {
+			"label": "Mem0 सक्षम करें",
+			"description": "Mem0 server का उपयोग करके task memories स्टोर और recall करता है।",
+			"urlLabel": "Mem0 API server URL",
+			"urlPlaceholder": "http://localhost:4321"
+		}
+	},
 	"experimental": {
+		"LLM_CONVERSATION_SAVING": {
+			"name": "LLM conversations सेव करें",
+			"description": "सक्षम होने पर, Roo पूरी LLM conversation को एक file में सेव करेगा। इसका उपयोग बाद में models को fine-tune करने के लिए किया जा सकता है।",
+			"pathLabel": "स्टोरेज path"
+		},
 		"DIFF_STRATEGY_UNIFIED": {
 			"name": "प्रायोगिक एकीकृत diff रणनीति का उपयोग करें",
 			"description": "प्रायोगिक एकीकृत diff रणनीति सक्षम करें। यह रणनीति मॉडल त्रुटियों के कारण पुनः प्रयासों की संख्या को कम कर सकती है, लेकिन अप्रत्याशित व्यवहार या गलत संपादन का कारण बन सकती है। केवल तभी सक्षम करें जब आप जोखिमों को समझते हों और सभी परिवर्तनों की सावधानीपूर्वक समीक्षा करने के लिए तैयार हों।"
