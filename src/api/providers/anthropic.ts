@@ -39,11 +39,11 @@ export class AnthropicHandler extends BaseProvider implements SingleCompletionHa
 	async *createMessage(
 		systemPrompt: string,
 		messages: Anthropic.Messages.MessageParam[],
-		metadata?: ApiHandlerCreateMessageMetadata,
+		_metadata?: ApiHandlerCreateMessageMetadata,
 	): ApiStream {
 		let stream: AnthropicStream<Anthropic.Messages.RawMessageStreamEvent>
 		const cacheControl: CacheControlEphemeral = { type: "ephemeral" }
-		let { id: modelId, betas = [], maxTokens, temperature, reasoning: thinking } = this.getModel()
+		const { id: modelId, betas = [], maxTokens, temperature, reasoning: thinking } = this.getModel()
 
 		switch (modelId) {
 			case "claude-sonnet-4-20250514":
@@ -128,7 +128,7 @@ export class AnthropicHandler extends BaseProvider implements SingleCompletionHa
 					system: [{ text: systemPrompt, type: "text" }],
 					messages,
 					stream: true,
-				})) as any
+				})) as unknown as AnthropicStream<Anthropic.Messages.RawMessageStreamEvent>
 				break
 			}
 		}
@@ -233,7 +233,7 @@ export class AnthropicHandler extends BaseProvider implements SingleCompletionHa
 
 	getModel() {
 		const modelId = this.options.apiModelId
-		let id = modelId && modelId in anthropicModels ? (modelId as AnthropicModelId) : anthropicDefaultModelId
+		const id = modelId && modelId in anthropicModels ? (modelId as AnthropicModelId) : anthropicDefaultModelId
 		const info: ModelInfo = anthropicModels[id]
 
 		const params = getModelParams({
@@ -256,7 +256,7 @@ export class AnthropicHandler extends BaseProvider implements SingleCompletionHa
 	}
 
 	async completePrompt(prompt: string) {
-		let { id: model, temperature } = this.getModel()
+		const { id: model, temperature } = this.getModel()
 
 		const message = await this.client.messages.create({
 			model,
