@@ -1,0 +1,52 @@
+{
+	"tools": {
+		"notebookEdit": {
+			"description": "Bearbeite Zellen in einer Jupyter-Notebook-Datei.",
+			"parameters": {
+				"path": "Pfad zur Notebook-Datei.",
+				"cellRange": "Zu bearbeitender Zellbereich (z. B. 0-2).",
+				"content": "Neuer Zellinhalt als JSON."
+			},
+			"errors": {
+				"pathRequired": "Pfad zur Notebook-Datei ist erforderlich.",
+				"cellRangeRequired": "Zellbereich ist erforderlich.",
+				"contentRequired": "Zellinhalt ist erforderlich.",
+				"invalidRange": "Ungültiger Zellbereich.",
+				"invalidContent": "Ungültiger Zellinhalt.",
+				"jsonParseError": "Konnte Zellinhalt nicht als JSON parsen."
+			},
+			"success": "{{count}} Zelle(n) erfolgreich bearbeitet."
+		},
+		"notebookExecute": {
+			"description": "Führe Codezellen in einer Jupyter-Notebook-Datei aus.",
+			"parameters": {
+				"path": "Pfad zur Notebook-Datei.",
+				"cellRange": "Zu ausführender Zellbereich (z. B. 0-2)."
+			},
+			"errors": {
+				"pathRequired": "Pfad zur Notebook-Datei ist erforderlich.",
+				"cellRangeRequired": "Zellbereich ist erforderlich.",
+				"invalidRange": "Ungültiger Zellbereich.",
+				"executionFailed": "Notebook-Ausführung fehlgeschlagen: {{error}}"
+			},
+			"success": "Zellen {{start}} bis {{end}} erfolgreich ausgeführt."
+		},
+		"notebookSummary": {
+			"description": "Fasse den Inhalt einer Jupyter-Notebook-Datei zusammen.",
+			"parameters": {
+				"path": "Pfad zur Notebook-Datei.",
+				"cellRange": "Zusammenzufassender Zellbereich (optional, z. B. 0-2).",
+				"detailLevel": "Detailgrad der Zusammenfassung: kurz oder ausführlich (optional)."
+			},
+			"errors": {
+				"pathRequired": "Pfad zur Notebook-Datei ist erforderlich.",
+				"invalidRange": "Ungültiger Zellbereich.",
+				"summaryFailed": "Zusammenfassung fehlgeschlagen: {{error}}"
+			}
+		},
+		"notebookView": {
+			"cellRange": "Zeige Zellbereich: {{range}}",
+			"fullNotebook": "Zeige gesamtes Notebook"
+		}
+	}
+}

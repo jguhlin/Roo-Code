@@ -65,6 +65,7 @@ export const toolParamNames = [
 	"query",
 	"args",
 	"todos",
+	"cell_range",
 ] as const
 
 export type ToolParamName = (typeof toolParamNames)[number]
@@ -75,6 +76,11 @@ export interface ToolUse {
 	// params is a partial record, allowing only some or none of the possible parameters to be used
 	params: Partial<Record<ToolParamName, string>>
 	partial: boolean
+}
+
+export interface NotebookViewToolUse extends ToolUse {
+	name: "notebook_view"
+	params: Partial<Pick<Record<ToolParamName, string>, "path" | "cell_range">>
 }
 
 export interface ExecuteCommandToolUse extends ToolUse {
@@ -190,6 +196,7 @@ export const TOOL_DISPLAY_NAMES: Record<ToolName, string> = {
 	search_and_replace: "search and replace",
 	codebase_search: "codebase search",
 	update_todo_list: "update todo list",
+	notebook_view: "view notebook cells",
 } as const
 
 // Define available tool groups.
@@ -202,6 +209,7 @@ export const TOOL_GROUPS: Record<ToolGroup, ToolGroupConfig> = {
 			"list_files",
 			"list_code_definition_names",
 			"codebase_search",
+			"notebook_view",
 		],
 	},
 	edit: {

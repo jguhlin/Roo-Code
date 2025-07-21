@@ -66,7 +66,11 @@ export class OpenRouterHandler extends BaseProvider implements SingleCompletionH
 		const baseURL = this.options.openRouterBaseUrl || "https://openrouter.ai/api/v1"
 		const apiKey = this.options.openRouterApiKey ?? "not-provided"
 
-		this.client = new OpenAI({ baseURL, apiKey, defaultHeaders: DEFAULT_HEADERS })
+		const headers = {
+			...DEFAULT_HEADERS,
+			...(this.options.sessionId ? { "X-Session-ID": this.options.sessionId } : {}),
+		}
+		this.client = new OpenAI({ baseURL, apiKey, defaultHeaders: headers })
 	}
 
 	override async *createMessage(

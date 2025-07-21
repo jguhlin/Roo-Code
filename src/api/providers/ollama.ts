@@ -23,9 +23,13 @@ export class OllamaHandler extends BaseProvider implements SingleCompletionHandl
 	constructor(options: ApiHandlerOptions) {
 		super()
 		this.options = options
+		const headers = {
+			...(this.options.sessionId ? { "X-Session-ID": this.options.sessionId } : {}),
+		}
 		this.client = new OpenAI({
 			baseURL: (this.options.ollamaBaseUrl || "http://localhost:11434") + "/v1",
 			apiKey: "ollama",
+			defaultHeaders: headers,
 		})
 	}
 

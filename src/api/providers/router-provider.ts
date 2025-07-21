@@ -45,13 +45,19 @@ export abstract class RouterProvider extends BaseProvider {
 		this.defaultModelId = defaultModelId
 		this.defaultModelInfo = defaultModelInfo
 
+		const headers: Record<string, string> = {
+			...DEFAULT_HEADERS,
+			...(options.openAiHeaders || {}),
+		}
+
+		if (options.sessionId) {
+			headers["X-Session-ID"] = options.sessionId
+		}
+
 		this.client = new OpenAI({
 			baseURL,
 			apiKey,
-			defaultHeaders: {
-				...DEFAULT_HEADERS,
-				...(options.openAiHeaders || {}),
-			},
+			defaultHeaders: headers,
 		})
 	}
 

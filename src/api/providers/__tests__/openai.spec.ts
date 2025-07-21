@@ -109,6 +109,42 @@ describe("OpenAiHandler", () => {
 				},
 			})
 		})
+
+		it("should include X-Session-ID header when sessionId is provided", () => {
+			const sessionId = "test-session-123"
+			const handlerWithSession = new OpenAiHandler({
+				...mockOptions,
+				sessionId,
+			})
+
+			expect(vi.mocked(OpenAI)).toHaveBeenCalledWith({
+				baseURL: expect.any(String),
+				apiKey: expect.any(String),
+				defaultHeaders: {
+					"HTTP-Referer": "https://github.com/RooVetGit/Roo-Cline",
+					"X-Title": "Roo Code",
+					"User-Agent": `RooCode/${Package.version}`,
+					"X-Session-ID": sessionId,
+				},
+			})
+		})
+
+		it("should not include X-Session-ID header when sessionId is not provided", () => {
+			const handlerWithoutSession = new OpenAiHandler({
+				...mockOptions,
+				sessionId: undefined,
+			})
+
+			expect(vi.mocked(OpenAI)).toHaveBeenCalledWith({
+				baseURL: expect.any(String),
+				apiKey: expect.any(String),
+				defaultHeaders: {
+					"HTTP-Referer": "https://github.com/RooVetGit/Roo-Cline",
+					"X-Title": "Roo Code",
+					"User-Agent": `RooCode/${Package.version}`,
+				},
+			})
+		})
 	})
 
 	describe("createMessage", () => {

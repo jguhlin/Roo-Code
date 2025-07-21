@@ -1,0 +1,109 @@
+# Build outputs
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# Dependencies
+node_modules/
+**/node_modules/
+packages/*/node_modules/
+
+# Source maps
+*.map
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+.nyc_output
+
+# Dependency directories
+.jspm/
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+.env.test
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Temporary files
+tmp/
+temp/
+
+# Test files
+**/*.test.ts
+**/*.test.js
+**/*.spec.ts
+**/*.spec.js
+test/
+tests/
+__tests__/
+
+# Development files
+.roo/
+.husky/
+.eslintcache
+.nyc_output/
+coverage/
+
+# Git
+.git/
+.gitignore
+.git-blame-ignore-revs
+.gitconfig
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Misc
+.dockerignore
+.env.sample
+.nvmrc
+.tool-versions
+knip.json
+turbo.json
+renovate.json
+pnpm-workspace.yaml
+changeset/
+.changeset/

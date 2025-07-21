@@ -55,10 +55,14 @@ export abstract class BaseOpenAiCompatibleProvider<ModelName extends string>
 			throw new Error("API key is required")
 		}
 
+		const headers = {
+			...DEFAULT_HEADERS,
+			...(this.options.sessionId ? { "X-Session-ID": this.options.sessionId } : {}),
+		}
 		this.client = new OpenAI({
 			baseURL,
 			apiKey: this.options.apiKey,
-			defaultHeaders: DEFAULT_HEADERS,
+			defaultHeaders: headers,
 		})
 	}
 
