@@ -24,11 +24,16 @@ export class OpenAiEmbedder extends OpenAiNativeHandler implements IEmbedder {
 	/**
 	 * Creates a new OpenAI embedder
 	 * @param options API handler options
+	 * @param sessionId Optional session ID for stateful backend sessions
 	 */
-	constructor(options: ApiHandlerOptions & { openAiEmbeddingModelId?: string }) {
+	constructor(options: ApiHandlerOptions & { openAiEmbeddingModelId?: string }, sessionId?: string) {
 		super(options)
 		const apiKey = this.options.openAiNativeApiKey ?? "not-provided"
-		this.embeddingsClient = new OpenAI({ apiKey })
+		const headers: Record<string, string> = {}
+		if (sessionId) {
+			headers["X-Session-ID"] = sessionId
+		}
+		this.embeddingsClient = new OpenAI({ apiKey, defaultHeaders: headers })
 		this.defaultModelId = options.openAiEmbeddingModelId || "text-embedding-3-small"
 	}
 

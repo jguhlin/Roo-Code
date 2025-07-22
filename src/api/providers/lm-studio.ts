@@ -21,9 +21,13 @@ export class LmStudioHandler extends BaseProvider implements SingleCompletionHan
 	constructor(options: ApiHandlerOptions) {
 		super()
 		this.options = options
+		const headers = {
+			...(this.options.sessionId ? { "X-Session-ID": this.options.sessionId } : {}),
+		}
 		this.client = new OpenAI({
 			baseURL: (this.options.lmStudioBaseUrl || "http://localhost:1234") + "/v1",
 			apiKey: "noop",
+			defaultHeaders: headers,
 		})
 	}
 

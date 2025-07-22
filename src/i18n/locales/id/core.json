@@ -1,0 +1,52 @@
+{
+	"tools": {
+		"notebookEdit": {
+			"description": "Edit sel di file notebook Jupyter.",
+			"parameters": {
+				"path": "Path ke file notebook.",
+				"cellRange": "Rentang sel yang akan diedit (misal 0-2).",
+				"content": "Konten sel baru dalam format JSON."
+			},
+			"errors": {
+				"pathRequired": "Path ke file notebook wajib diisi.",
+				"cellRangeRequired": "Rentang sel wajib diisi.",
+				"contentRequired": "Konten sel wajib diisi.",
+				"invalidRange": "Rentang sel tidak valid.",
+				"invalidContent": "Konten sel tidak valid.",
+				"jsonParseError": "Gagal mengurai konten sel sebagai JSON."
+			},
+			"success": "{{count}} sel berhasil diedit."
+		},
+		"notebookExecute": {
+			"description": "Jalankan sel kode di file notebook Jupyter.",
+			"parameters": {
+				"path": "Path ke file notebook.",
+				"cellRange": "Rentang sel yang akan dijalankan (misal 0-2)."
+			},
+			"errors": {
+				"pathRequired": "Path ke file notebook wajib diisi.",
+				"cellRangeRequired": "Rentang sel wajib diisi.",
+				"invalidRange": "Rentang sel tidak valid.",
+				"executionFailed": "Eksekusi notebook gagal: {{error}}"
+			},
+			"success": "Sel {{start}} sampai {{end}} berhasil dijalankan."
+		},
+		"notebookSummary": {
+			"description": "Ringkas isi file notebook Jupyter.",
+			"parameters": {
+				"path": "Path ke file notebook.",
+				"cellRange": "Rentang sel untuk diringkas (opsional, misal 0-2).",
+				"detailLevel": "Tingkat detail ringkasan: singkat atau detail (opsional)."
+			},
+			"errors": {
+				"pathRequired": "Path ke file notebook wajib diisi.",
+				"invalidRange": "Rentang sel tidak valid.",
+				"summaryFailed": "Gagal membuat ringkasan: {{error}}"
+			}
+		},
+		"notebookView": {
+			"cellRange": "Melihat rentang sel: {{range}}",
+			"fullNotebook": "Melihat seluruh notebook"
+		}
+	}
+}

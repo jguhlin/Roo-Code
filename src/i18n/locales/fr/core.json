@@ -1,0 +1,52 @@
+{
+	"tools": {
+		"notebookEdit": {
+			"description": "Modifie des cellules dans un fichier notebook Jupyter.",
+			"parameters": {
+				"path": "Chemin vers le fichier notebook.",
+				"cellRange": "Plage de cellules à modifier (ex : 0-2).",
+				"content": "Nouveau contenu de cellule au format JSON."
+			},
+			"errors": {
+				"pathRequired": "Le chemin du fichier notebook est requis.",
+				"cellRangeRequired": "La plage de cellules est requise.",
+				"contentRequired": "Le contenu de la cellule est requis.",
+				"invalidRange": "Plage de cellules invalide.",
+				"invalidContent": "Contenu de cellule invalide.",
+				"jsonParseError": "Impossible d'analyser le contenu de la cellule en JSON."
+			},
+			"success": "{{count}} cellule(s) modifiée(s) avec succès."
+		},
+		"notebookExecute": {
+			"description": "Exécute des cellules de code dans un fichier notebook Jupyter.",
+			"parameters": {
+				"path": "Chemin vers le fichier notebook.",
+				"cellRange": "Plage de cellules à exécuter (ex : 0-2)."
+			},
+			"errors": {
+				"pathRequired": "Le chemin du fichier notebook est requis.",
+				"cellRangeRequired": "La plage de cellules est requise.",
+				"invalidRange": "Plage de cellules invalide.",
+				"executionFailed": "Échec de l'exécution du notebook : {{error}}"
+			},
+			"success": "Cellules {{start}} à {{end}} exécutées avec succès."
+		},
+		"notebookSummary": {
+			"description": "Résume le contenu d'un fichier notebook Jupyter.",
+			"parameters": {
+				"path": "Chemin vers le fichier notebook.",
+				"cellRange": "Plage de cellules à résumer (optionnel, ex : 0-2).",
+				"detailLevel": "Niveau de détail du résumé : bref ou détaillé (optionnel)."
+			},
+			"errors": {
+				"pathRequired": "Le chemin du fichier notebook est requis.",
+				"invalidRange": "Plage de cellules invalide.",
+				"summaryFailed": "Échec de la génération du résumé : {{error}}"
+			}
+		},
+		"notebookView": {
+			"cellRange": "Affichage de la plage de cellules : {{range}}",
+			"fullNotebook": "Affichage du notebook complet"
+		}
+	}
+}

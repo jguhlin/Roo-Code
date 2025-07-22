@@ -1,0 +1,52 @@
+{
+	"tools": {
+		"notebookEdit": {
+			"description": "Jupyterノートブックファイルのセルを編集する。",
+			"parameters": {
+				"path": "ノートブックファイルのパス。",
+				"cellRange": "編集するセル範囲（例: 0-2）。",
+				"content": "新しいセル内容（JSON形式）。"
+			},
+			"errors": {
+				"pathRequired": "ノートブックファイルのパスは必須です。",
+				"cellRangeRequired": "セル範囲は必須です。",
+				"contentRequired": "セル内容は必須です。",
+				"invalidRange": "セル範囲が無効です。",
+				"invalidContent": "セル内容が無効です。",
+				"jsonParseError": "セル内容のJSON解析に失敗しました。"
+			},
+			"success": "{{count}}件のセルを編集しました。"
+		},
+		"notebookExecute": {
+			"description": "Jupyterノートブックファイルのコードセルを実行する。",
+			"parameters": {
+				"path": "ノートブックファイルのパス。",
+				"cellRange": "実行するセル範囲（例: 0-2）。"
+			},
+			"errors": {
+				"pathRequired": "ノートブックファイルのパスは必須です。",
+				"cellRangeRequired": "セル範囲は必須です。",
+				"invalidRange": "セル範囲が無効です。",
+				"executionFailed": "ノートブックの実行に失敗しました: {{error}}"
+			},
+			"success": "{{start}}から{{end}}までのセルを実行しました。"
+		},
+		"notebookSummary": {
+			"description": "Jupyterノートブックファイルの内容を要約する。",
+			"parameters": {
+				"path": "ノートブックファイルのパス。",
+				"cellRange": "要約するセル範囲（オプション、例: 0-2）。",
+				"detailLevel": "要約の詳細レベル：簡易または詳細（オプション）。"
+			},
+			"errors": {
+				"pathRequired": "ノートブックファイルのパスは必須です。",
+				"invalidRange": "セル範囲が無効です。",
+				"summaryFailed": "要約の生成に失敗しました: {{error}}"
+			}
+		},
+		"notebookView": {
+			"cellRange": "セル範囲を表示中: {{range}}",
+			"fullNotebook": "ノートブック全体を表示中"
+		}
+	}
+}

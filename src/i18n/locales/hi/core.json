@@ -1,0 +1,52 @@
+{
+	"tools": {
+		"notebookEdit": {
+			"description": "Jupyter notebook फ़ाइल में सेल्स को एडिट करो।",
+			"parameters": {
+				"path": "Notebook फ़ाइल का पथ।",
+				"cellRange": "एडिट करने के लिए सेल रेंज (जैसे 0-2)।",
+				"content": "नया सेल कंटेंट JSON में।"
+			},
+			"errors": {
+				"pathRequired": "Notebook फ़ाइल का पथ ज़रूरी है।",
+				"cellRangeRequired": "सेल रेंज ज़रूरी है।",
+				"contentRequired": "सेल कंटेंट ज़रूरी है।",
+				"invalidRange": "सेल रेंज सही नहीं है।",
+				"invalidContent": "सेल कंटेंट सही नहीं है।",
+				"jsonParseError": "सेल कंटेंट को JSON में बदलने में दिक्कत आई।"
+			},
+			"success": "{{count}} सेल्स सफलतापूर्वक एडिट किए।"
+		},
+		"notebookExecute": {
+			"description": "Jupyter notebook फ़ाइल में कोड सेल्स चलाओ।",
+			"parameters": {
+				"path": "Notebook फ़ाइल का पथ।",
+				"cellRange": "चलाने के लिए सेल रेंज (जैसे 0-2)।"
+			},
+			"errors": {
+				"pathRequired": "Notebook फ़ाइल का पथ ज़रूरी है।",
+				"cellRangeRequired": "सेल रेंज ज़रूरी है।",
+				"invalidRange": "सेल रेंज सही नहीं है।",
+				"executionFailed": "Notebook चलाने में दिक्कत आई: {{error}}"
+			},
+			"success": "सेल्स {{start}} से {{end}} तक सफलतापूर्वक चलाए।"
+		},
+		"notebookSummary": {
+			"description": "Jupyter notebook फ़ाइल का सारांश बनाओ।",
+			"parameters": {
+				"path": "Notebook फ़ाइल का पथ।",
+				"cellRange": "सारांश के लिए सेल रेंज (ऑप्शनल, जैसे 0-2)।",
+				"detailLevel": "सारांश का डिटेल लेवल: संक्षिप्त या विस्तार से (ऑप्शनल)।"
+			},
+			"errors": {
+				"pathRequired": "Notebook फ़ाइल का पथ ज़रूरी है।",
+				"invalidRange": "सेल रेंज सही नहीं है।",
+				"summaryFailed": "सारांश बनाने में दिक्कत आई: {{error}}"
+			}
+		},
+		"notebookView": {
+			"cellRange": "सेल रेंज देख रहे हो: {{range}}",
+			"fullNotebook": "पूरा notebook देख रहे हो"
+		}
+	}
+}
