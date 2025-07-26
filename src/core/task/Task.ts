@@ -132,6 +132,7 @@ export class Task extends EventEmitter<ClineEvents> {
 	todoList?: TodoItem[]
 	readonly taskId: string
 	readonly instanceId: string
+	readonly sessionId: string
 
 	readonly rootTask: Task | undefined = undefined
 	readonly parentTask: Task | undefined = undefined
@@ -236,6 +237,7 @@ export class Task extends EventEmitter<ClineEvents> {
 		}
 
 		this.taskId = historyItem ? historyItem.id : crypto.randomUUID()
+		this.sessionId = crypto.randomUUID()
 		// normal use-case is usually retry similar history task with new workspace
 		this.workspacePath = parentTask
 			? parentTask.workspacePath
@@ -252,7 +254,10 @@ export class Task extends EventEmitter<ClineEvents> {
 		})
 
 		this.apiConfiguration = apiConfiguration
-		this.api = buildApiHandler(apiConfiguration)
+		this.api = buildApiHandler({
+			...apiConfiguration,
+			sessionId: this.sessionId,
+		})
 
 		this.urlContentFetcher = new UrlContentFetcher(provider.context)
 		this.browserSession = new BrowserSession(provider.context)

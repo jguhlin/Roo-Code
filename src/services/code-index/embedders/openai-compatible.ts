@@ -38,6 +38,7 @@ export class OpenAICompatibleEmbedder implements IEmbedder {
 	private readonly apiKey: string
 	private readonly isFullUrl: boolean
 	private readonly maxItemTokens: number
+	private readonly sessionId?: string
 
 	// Global rate limiting state shared across all instances
 	private static globalRateLimitState = {
@@ -55,8 +56,9 @@ export class OpenAICompatibleEmbedder implements IEmbedder {
 	 * @param apiKey The API key for authentication
 	 * @param modelId Optional model identifier (defaults to "text-embedding-3-small")
 	 * @param maxItemTokens Optional maximum tokens per item (defaults to MAX_ITEM_TOKENS)
+	 * @param sessionId Optional session ID for stateful backend sessions
 	 */
-	constructor(baseUrl: string, apiKey: string, modelId?: string, maxItemTokens?: number) {
+	constructor(baseUrl: string, apiKey: string, modelId?: string, maxItemTokens?: number, sessionId?: string) {
 		if (!baseUrl) {
 			throw new Error(t("embeddings:validation.baseUrlRequired"))
 		}
@@ -66,9 +68,15 @@ export class OpenAICompatibleEmbedder implements IEmbedder {
 
 		this.baseUrl = baseUrl
 		this.apiKey = apiKey
+		this.sessionId = sessionId
+		const headers: Record<string, string> = {}
+		if (sessionId) {
+			headers["X-Session-ID"] = sessionId
+		}
 		this.embeddingsClient = new OpenAI({
 			baseURL: baseUrl,
 			apiKey: apiKey,
+			defaultHeaders: headers,
 		})
 		this.defaultModelId = modelId || getDefaultModelId("openai-compatible")
 		// Cache the URL type check for performance
@@ -193,15 +201,22 @@ export class OpenAICompatibleEmbedder implements IEmbedder {
 		batchTexts: string[],
 		model: string,
 	): Promise<OpenAIEmbeddingResponse> {
+		const headers: Record<string, string> = {
+			"Content-Type": "application/json",
+			// Azure OpenAI uses 'api-key' header, while OpenAI uses 'Authorization'
+			// We'll try 'api-key' first for Azure compatibility
+			"api-key": this.apiKey,
+			Authorization: `Bearer ${this.apiKey}`,
+		}
+
+		// Add session ID if provided during construction
+		if (this.sessionId) {
+			headers["X-Session-ID"] = this.sessionId
+		}
+
 		const response = await fetch(url, {
 			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				// Azure OpenAI uses 'api-key' header, while OpenAI uses 'Authorization'
-				// We'll try 'api-key' first for Azure compatibility
-				"api-key": this.apiKey,
-				Authorization: `Bearer ${this.apiKey}`,
-			},
+			headers,
 			body: JSON.stringify({
 				input: batchTexts,
 				model: model,

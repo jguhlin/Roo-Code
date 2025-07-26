@@ -1,0 +1,52 @@
+{
+	"tools": {
+		"notebookEdit": {
+			"description": "Edita celdas en un archivo de notebook Jupyter.",
+			"parameters": {
+				"path": "Ruta al archivo de notebook.",
+				"cellRange": "Rango de celdas a editar (ej. 0-2).",
+				"content": "Nuevo contenido de celda en formato JSON."
+			},
+			"errors": {
+				"pathRequired": "La ruta al archivo de notebook es obligatoria.",
+				"cellRangeRequired": "El rango de celdas es obligatorio.",
+				"contentRequired": "El contenido de la celda es obligatorio.",
+				"invalidRange": "Rango de celdas no válido.",
+				"invalidContent": "Contenido de celda no válido.",
+				"jsonParseError": "No se pudo analizar el contenido de la celda como JSON."
+			},
+			"success": "{{count}} celda(s) editadas correctamente."
+		},
+		"notebookExecute": {
+			"description": "Ejecuta celdas de código en un archivo de notebook Jupyter.",
+			"parameters": {
+				"path": "Ruta al archivo de notebook.",
+				"cellRange": "Rango de celdas a ejecutar (ej. 0-2)."
+			},
+			"errors": {
+				"pathRequired": "La ruta al archivo de notebook es obligatoria.",
+				"cellRangeRequired": "El rango de celdas es obligatorio.",
+				"invalidRange": "Rango de celdas no válido.",
+				"executionFailed": "La ejecución del notebook falló: {{error}}"
+			},
+			"success": "Celdas {{start}} a {{end}} ejecutadas correctamente."
+		},
+		"notebookSummary": {
+			"description": "Resume el contenido de un archivo de notebook Jupyter.",
+			"parameters": {
+				"path": "Ruta al archivo de notebook.",
+				"cellRange": "Rango de celdas a resumir (opcional, ej. 0-2).",
+				"detailLevel": "Nivel de detalle del resumen: breve o detallado (opcional)."
+			},
+			"errors": {
+				"pathRequired": "La ruta al archivo de notebook es obligatoria.",
+				"invalidRange": "Rango de celdas no válido.",
+				"summaryFailed": "No se pudo generar el resumen: {{error}}"
+			}
+		},
+		"notebookView": {
+			"cellRange": "Viendo rango de celdas: {{range}}",
+			"fullNotebook": "Viendo notebook completo"
+		}
+	}
+}

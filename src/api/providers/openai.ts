@@ -44,6 +44,7 @@ export class OpenAiHandler extends BaseProvider implements SingleCompletionHandl
 		const headers = {
 			...DEFAULT_HEADERS,
 			...(this.options.openAiHeaders || {}),
+			...(this.options.sessionId ? { "X-Session-ID": this.options.sessionId } : {}),
 		}
 
 		if (isAzureAiInference) {
@@ -410,7 +411,12 @@ export class OpenAiHandler extends BaseProvider implements SingleCompletionHandl
 	}
 }
 
-export async function getOpenAiModels(baseUrl?: string, apiKey?: string, openAiHeaders?: Record<string, string>) {
+export async function getOpenAiModels(
+	baseUrl?: string,
+	apiKey?: string,
+	openAiHeaders?: Record<string, string>,
+	sessionId?: string,
+) {
 	try {
 		if (!baseUrl) {
 			return []
@@ -424,6 +430,7 @@ export async function getOpenAiModels(baseUrl?: string, apiKey?: string, openAiH
 		const headers: Record<string, string> = {
 			...DEFAULT_HEADERS,
 			...(openAiHeaders || {}),
+			...(sessionId ? { "X-Session-ID": sessionId } : {}),
 		}
 
 		if (apiKey) {

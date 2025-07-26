@@ -30,7 +30,10 @@ export class OpenAiNativeHandler extends BaseProvider implements SingleCompletio
 		super()
 		this.options = options
 		const apiKey = this.options.openAiNativeApiKey ?? "not-provided"
-		this.client = new OpenAI({ baseURL: this.options.openAiNativeBaseUrl, apiKey })
+		const headers = {
+			...(this.options.sessionId ? { "X-Session-ID": this.options.sessionId } : {}),
+		}
+		this.client = new OpenAI({ baseURL: this.options.openAiNativeBaseUrl, apiKey, defaultHeaders: headers })
 	}
 
 	override async *createMessage(

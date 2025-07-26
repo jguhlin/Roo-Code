@@ -61,62 +61,62 @@ export interface ApiHandler {
 	countTokens(content: Array<Anthropic.Messages.ContentBlockParam>): Promise<number>
 }
 
-export function buildApiHandler(configuration: ProviderSettings): ApiHandler {
-	const { apiProvider, ...options } = configuration
+export function buildApiHandler(configuration: ProviderSettings & { sessionId?: string }): ApiHandler {
+	const { apiProvider, sessionId, ...options } = configuration
 
 	switch (apiProvider) {
 		case "anthropic":
-			return new AnthropicHandler(options)
+			return new AnthropicHandler({ ...options, sessionId })
 		case "claude-code":
-			return new ClaudeCodeHandler(options)
+			return new ClaudeCodeHandler({ ...options, sessionId })
 		case "glama":
-			return new GlamaHandler(options)
+			return new GlamaHandler({ ...options, sessionId })
 		case "openrouter":
-			return new OpenRouterHandler(options)
+			return new OpenRouterHandler({ ...options, sessionId })
 		case "bedrock":
-			return new AwsBedrockHandler(options)
+			return new AwsBedrockHandler({ ...options, sessionId })
 		case "vertex":
 			return options.apiModelId?.startsWith("claude")
-				? new AnthropicVertexHandler(options)
-				: new VertexHandler(options)
+				? new AnthropicVertexHandler({ ...options, sessionId })
+				: new VertexHandler({ ...options, sessionId })
 		case "openai":
-			return new OpenAiHandler(options)
+			return new OpenAiHandler({ ...options, sessionId })
 		case "ollama":
-			return new OllamaHandler(options)
+			return new OllamaHandler({ ...options, sessionId })
 		case "lmstudio":
-			return new LmStudioHandler(options)
+			return new LmStudioHandler({ ...options, sessionId })
 		case "gemini":
-			return new GeminiHandler(options)
+			return new GeminiHandler({ ...options, sessionId })
 		case "openai-native":
-			return new OpenAiNativeHandler(options)
+			return new OpenAiNativeHandler({ ...options, sessionId })
 		case "deepseek":
-			return new DeepSeekHandler(options)
+			return new DeepSeekHandler({ ...options, sessionId })
 		case "moonshot":
-			return new MoonshotHandler(options)
+			return new MoonshotHandler({ ...options, sessionId })
 		case "vscode-lm":
-			return new VsCodeLmHandler(options)
+			return new VsCodeLmHandler({ ...options, sessionId })
 		case "mistral":
-			return new MistralHandler(options)
+			return new MistralHandler({ ...options, sessionId })
 		case "unbound":
-			return new UnboundHandler(options)
+			return new UnboundHandler({ ...options, sessionId })
 		case "requesty":
-			return new RequestyHandler(options)
+			return new RequestyHandler({ ...options, sessionId })
 		case "human-relay":
 			return new HumanRelayHandler()
 		case "fake-ai":
-			return new FakeAIHandler(options)
+			return new FakeAIHandler({ ...options, sessionId })
 		case "xai":
-			return new XAIHandler(options)
+			return new XAIHandler({ ...options, sessionId })
 		case "groq":
 			return new GroqHandler(options)
 		case "huggingface":
 			return new HuggingFaceHandler(options)
 		case "chutes":
-			return new ChutesHandler(options)
+			return new ChutesHandler({ ...options, sessionId })
 		case "litellm":
-			return new LiteLLMHandler(options)
+			return new LiteLLMHandler({ ...options, sessionId })
 		default:
 			apiProvider satisfies "gemini-cli" | undefined
-			return new AnthropicHandler(options)
+			return new AnthropicHandler({ ...options, sessionId })
 	}
 }

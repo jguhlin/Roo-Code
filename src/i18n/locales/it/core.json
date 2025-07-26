@@ -1,0 +1,52 @@
+{
+	"tools": {
+		"notebookEdit": {
+			"description": "Modifica le celle in un file notebook Jupyter.",
+			"parameters": {
+				"path": "Percorso del file notebook.",
+				"cellRange": "Intervallo di celle da modificare (es. 0-2).",
+				"content": "Nuovo contenuto della cella in formato JSON."
+			},
+			"errors": {
+				"pathRequired": "Il percorso del file notebook è obbligatorio.",
+				"cellRangeRequired": "L'intervallo di celle è obbligatorio.",
+				"contentRequired": "Il contenuto della cella è obbligatorio.",
+				"invalidRange": "Intervallo di celle non valido.",
+				"invalidContent": "Contenuto della cella non valido.",
+				"jsonParseError": "Impossibile analizzare il contenuto della cella come JSON."
+			},
+			"success": "{{count}} celle modificate con successo."
+		},
+		"notebookExecute": {
+			"description": "Esegui celle di codice in un file notebook Jupyter.",
+			"parameters": {
+				"path": "Percorso del file notebook.",
+				"cellRange": "Intervallo di celle da eseguire (es. 0-2)."
+			},
+			"errors": {
+				"pathRequired": "Il percorso del file notebook è obbligatorio.",
+				"cellRangeRequired": "L'intervallo di celle è obbligatorio.",
+				"invalidRange": "Intervallo di celle non valido.",
+				"executionFailed": "Esecuzione del notebook non riuscita: {{error}}"
+			},
+			"success": "Celle da {{start}} a {{end}} eseguite con successo."
+		},
+		"notebookSummary": {
+			"description": "Riepiloga il contenuto di un file notebook Jupyter.",
+			"parameters": {
+				"path": "Percorso del file notebook.",
+				"cellRange": "Intervallo di celle da riepilogare (opzionale, es. 0-2).",
+				"detailLevel": "Livello di dettaglio del riepilogo: breve o dettagliato (opzionale)."
+			},
+			"errors": {
+				"pathRequired": "Il percorso del file notebook è obbligatorio.",
+				"invalidRange": "Intervallo di celle non valido.",
+				"summaryFailed": "Impossibile generare il riepilogo: {{error}}"
+			}
+		},
+		"notebookView": {
+			"cellRange": "Visualizzazione intervallo celle: {{range}}",
+			"fullNotebook": "Visualizzazione notebook completo"
+		}
+	}
+}

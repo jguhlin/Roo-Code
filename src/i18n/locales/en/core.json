@@ -1,0 +1,52 @@
+{
+	"tools": {
+		"notebookEdit": {
+			"description": "Edit cells in a Jupyter notebook file.",
+			"parameters": {
+				"path": "Path to the notebook file.",
+				"cellRange": "Cell range to edit (e.g. 0-2).",
+				"content": "New cell content as JSON."
+			},
+			"errors": {
+				"pathRequired": "Notebook file path is required.",
+				"cellRangeRequired": "Cell range is required.",
+				"contentRequired": "Cell content is required.",
+				"invalidRange": "Invalid cell range.",
+				"invalidContent": "Invalid cell content.",
+				"jsonParseError": "Failed to parse cell content as JSON."
+			},
+			"success": "Edited {{count}} cell(s) successfully."
+		},
+		"notebookExecute": {
+			"description": "Execute code cells in a Jupyter notebook file.",
+			"parameters": {
+				"path": "Path to the notebook file.",
+				"cellRange": "Cell range to execute (e.g. 0-2)."
+			},
+			"errors": {
+				"pathRequired": "Notebook file path is required.",
+				"cellRangeRequired": "Cell range is required.",
+				"invalidRange": "Invalid cell range.",
+				"executionFailed": "Notebook execution failed: {{error}}"
+			},
+			"success": "Executed cells {{start}} to {{end}} successfully."
+		},
+		"notebookSummary": {
+			"description": "Summarize the contents of a Jupyter notebook file.",
+			"parameters": {
+				"path": "Path to the notebook file.",
+				"cellRange": "Cell range to summarize (optional, e.g. 0-2).",
+				"detailLevel": "Summary detail level: brief or detailed (optional)."
+			},
+			"errors": {
+				"pathRequired": "Notebook file path is required.",
+				"invalidRange": "Invalid cell range.",
+				"summaryFailed": "Failed to generate summary: {{error}}"
+			}
+		},
+		"notebookView": {
+			"cellRange": "Viewing cell range: {{range}}",
+			"fullNotebook": "Viewing full notebook"
+		}
+	}
+}

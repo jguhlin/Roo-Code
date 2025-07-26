@@ -323,6 +323,7 @@ export interface ClineSayTool {
 		| "finishTask"
 		| "searchAndReplace"
 		| "insertContent"
+		| "notebookView"
 	path?: string
 	diff?: string
 	content?: string
