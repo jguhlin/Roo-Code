@@ -26,6 +26,7 @@ import {
 	FakeAIHandler,
 	XAIHandler,
 	GroqHandler,
+	HuggingFaceHandler,
 	ChutesHandler,
 	LiteLLMHandler,
 	ClaudeCodeHandler,
@@ -107,7 +108,9 @@ export function buildApiHandler(configuration: ProviderSettings & { sessionId?: 
 		case "xai":
 			return new XAIHandler({ ...options, sessionId })
 		case "groq":
-			return new GroqHandler({ ...options, sessionId })
+			return new GroqHandler(options)
+		case "huggingface":
+			return new HuggingFaceHandler(options)
 		case "chutes":
 			return new ChutesHandler({ ...options, sessionId })
 		case "litellm":

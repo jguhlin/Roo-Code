@@ -192,6 +192,22 @@
 		"didViewDefinitionsOutsideWorkspace": "Roo zobaczył nazwy definicji kodu źródłowego używane w tym katalogu (poza obszarem roboczym):"
 	},
 	"commandOutput": "Wyjście polecenia",
+	"commandExecution": {
+		"running": "Wykonywanie",
+		"pid": "PID: {{pid}}",
+		"exited": "Zakończono ({{exitCode}})",
+		"manageCommands": "Zarządzaj uprawnieniami poleceń",
+		"commandManagementDescription": "Zarządzaj uprawnieniami poleceń: Kliknij ✓, aby zezwolić na automatyczne wykonanie, ✗, aby odmówić wykonania. Wzorce można włączać/wyłączać lub usuwać z listy. <settingsLink>Zobacz wszystkie ustawienia</settingsLink>",
+		"addToAllowed": "Dodaj do listy dozwolonych",
+		"removeFromAllowed": "Usuń z listy dozwolonych",
+		"addToDenied": "Dodaj do listy odrzuconych",
+		"removeFromDenied": "Usuń z listy odrzuconych",
+		"abortCommand": "Przerwij wykonywanie polecenia",
+		"expandOutput": "Rozwiń wyjście",
+		"collapseOutput": "Zwiń wyjście",
+		"expandManagement": "Rozwiń sekcję zarządzania poleceniami",
+		"collapseManagement": "Zwiń sekcję zarządzania poleceniami"
+	},
 	"response": "Odpowiedź",
 	"arguments": "Argumenty",
 	"mcp": {
@@ -322,6 +338,11 @@
 	},
 	"versionIndicator": {
 		"ariaLabel": "Wersja {{version}} - Kliknij, aby wyświetlić informacje o wydaniu"
+	},
+	"rooCloudCTA": {
+		"title": "Roo Code Cloud już wkrótce!",
+		"description": "Uruchamiaj zdalne agenty w chmurze, uzyskuj dostęp do swoich zadań z dowolnego miejsca, współpracuj z innymi i wiele więcej.",
+		"joinWaitlist": "Dołącz do listy oczekujących, aby uzyskać wczesny dostęp."
 	},
 	"editMessage": {
 		"placeholder": "Edytuj swoją wiadomość..."
